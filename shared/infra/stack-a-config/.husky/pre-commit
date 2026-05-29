@@ -1,0 +1,6 @@
+#!/bin/sh
+# Pre-commit hook de Lumba — Stack A.
+# Corre formato + lint sobre archivos staged y typecheck del proyecto.
+# Si algo falla, el commit se bloquea. El código sucio nunca llega al PR.
+
+npx lint-staged && npm run typecheck

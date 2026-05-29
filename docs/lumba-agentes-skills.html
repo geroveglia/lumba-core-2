@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumba Core — Sistema Completo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+.container { max-width: 1400px; margin: 0 auto; padding: 16px 24px 40px; }
+
+/* Nav */
+nav { display: flex; justify-content: center; gap: 4px; margin: 16px 0 24px; background: #111118; border-radius: 14px; padding: 4px; }
+nav button { background: none; border: none; color: #666; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.82rem; font-weight: 600; transition: all 0.2s; font-family: inherit; }
+nav button:hover { color: #aaa; background: #1a1a28; }
+nav button.active { background: #1a1a28; color: #00D9A5; }
+
+h1 { text-align: center; font-size: 2rem; margin: 20px 0 4px; background: linear-gradient(135deg, #00D9A5, #00B4D8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { text-align: center; color: #555; margin-bottom: 8px; font-size: 0.9rem; }
+
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* ===== TAB 1: HOW IT WORKS ===== */
+.how-section { margin-bottom: 32px; }
+.how-section h2 { font-size: 1.1rem; color: #00D9A5; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+/* Pipeline */
+.pipeline { display: flex; justify-content: space-between; margin-bottom: 8px; position: relative; }
+.pipeline::before { content: ''; position: absolute; top: 32px; left: 60px; right: 60px; height: 2px; background: #1a1a28; z-index: 0; }
+.pipe-step { text-align: center; z-index: 1; flex: 1; }
+.pipe-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 22px; background: #111118; border: 2px solid #1e1e2e; position: relative; z-index: 1; }
+.pipe-label { font-size: 0.68rem; font-weight: 600; color: #666; margin-bottom: 2px; }
+.pipe-sub { font-size: 0.6rem; color: #444; max-width: 100px; margin: 0 auto; }
+.pipe-active .pipe-icon { border-color: #00D9A5; background: #0a1a15; }
+.pipe-active .pipe-label { color: #00D9A5; }
+
+/* Project complexity selector */
+.complexity-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.complex-card { background: #111118; border: 1px solid #1e1e2e; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+.complex-card:hover { border-color: #333; }
+.complex-card.selected { border-color: #00D9A5; background: #0a1a15; }
+.complex-card h3 { font-size: 0.85rem; margin-bottom: 4px; }
+.complex-card .emoji { font-size: 1.4rem; margin-bottom: 6px; }
+.complex-card .agents-count { font-size: 0.7rem; color: #666; margin-bottom: 8px; }
+.complex-card .cost-est { font-size: 1.1rem; font-weight: 700; }
+.complex-card .cost-est span { font-size: 0.7rem; color: #666; font-weight: 400; }
+
+/* Agent activation table */
+.activation-table { width: 100%; border-collapse: collapse; font-size: 0.72rem; }
+.activation-table th { text-align: left; padding: 8px 12px; color: #555; font-weight: 600; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #1e1e28; }
+.activation-table td { padding: 6px 12px; border-bottom: 1px solid #111118; }
+.activation-table tr:hover td { background: #111118; }
+.activation-table .check { color: #4ade80; }
+.activation-table .empty { color: #222; }
+
+/* Model decision flow */
+.model-flow { display: flex; justify-content: center; gap: 8px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
+.model-node { background: #111118; border: 1px solid #1e1e2e; border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 100px; }
+.model-node.q { border-color: #333; font-size: 0.7rem; color: #888; font-style: italic; }
+.model-node.model { border-color: #00D9A5; }
+.model-node.model .model-name { font-weight: 700; font-size: 0.85rem; }
+.model-node.model .model-desc { font-size: 0.6rem; color: #666; }
+.model-arrow { color: #333; font-size: 1.2rem; }
+
+/* Cost formula */
+.cost-formula { background: #111118; border-radius: 12px; padding: 16px 20px; font-size: 0.78rem; line-height: 1.7; color: #888; margin: 16px 0; }
+.cost-formula strong { color: #00D9A5; }
+.cost-formula .var { color: #60a5fa; }
+
+/* ===== TAB 2: AGENTS ===== */
+.layer { margin-bottom: 20px; }
+.layer-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #444; margin-bottom: 8px; padding-left: 4px; }
+.founder-row { display: flex; justify-content: center; margin-bottom: 4px; }
+.founder { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 2px solid #FFD700; border-radius: 14px; padding: 12px 24px; display: flex; align-items: center; gap: 10px; }
+.founder-icon { font-size: 24px; }
+.founder-name { font-weight: 700; font-size: 1rem; color: #FFD700; }
+.founder-role { color: #777; font-size: 0.75rem; }
+.orch-row { display: flex; justify-content: center; margin: 8px 0 16px; }
+.orch { background: linear-gradient(135deg, #1e1e2e, #252540); border: 2px solid #00D9A5; border-radius: 14px; padding: 10px 20px; display: flex; align-items: center; gap: 8px; position: relative; cursor: pointer; }
+.orch-icon { font-size: 20px; }
+.orch-name { font-weight: 700; color: #00D9A5; font-size: 0.9rem; }
+
+.teams { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+.team { background: #111118; border-radius: 14px; padding: 14px; border: 1px solid #1e1e2e; display: flex; flex-direction: column; }
+.team-core { border-color: #00B4D8; }
+.team-brand { border-color: #E91E63; }
+.team-marketing { border-color: #FF9800; }
+.team-universal { border-color: #9C27B0; }
+.team h3 { font-size: 0.82rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.team h3 .dot { width: 7px; height: 7px; border-radius: 50%; }
+.team-core h3 .dot { background: #00B4D8; }
+.team-brand h3 .dot { background: #E91E63; }
+.team-marketing h3 .dot { background: #FF9800; }
+.team-universal h3 .dot { background: #9C27B0; }
+
+.agent { background: #16161f; border-radius: 8px; padding: 7px 10px; margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; gap: 6px; border: 1px solid transparent; transition: all 0.2s; cursor: pointer; position: relative; }
+.agent:hover { border-color: #444; background: #1c1c28; transform: translateX(2px); }
+.agent-left { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.agent-icon { font-size: 15px; flex-shrink: 0; }
+.agent-name { font-size: 0.72rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.badge { font-size: 0.55rem; font-weight: 700; padding: 2px 6px; border-radius: 5px; text-transform: uppercase; flex-shrink: 0; }
+.badge-flash { background: #1a3a1a; color: #4ade80; border: 1px solid #22c55e44; }
+.badge-pro { background: #1a2a3a; color: #60a5fa; border: 1px solid #3b82f644; }
+.badge-opus { background: #2a1a2a; color: #c084fc; border: 1px solid #a855f744; }
+
+.tooltip { position: fixed; z-index: 9999; pointer-events: none; background: #1a1a28; border: 1px solid #333; border-radius: 10px; padding: 14px 18px; max-width: 340px; opacity: 0; transform: translateY(4px); transition: opacity 0.15s, transform 0.15s; box-shadow: 0 8px 32px rgba(0,0,0,0.6); }
+.tooltip.visible { opacity: 1; transform: translateY(0); }
+.tooltip-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.tooltip-desc { font-size: 0.72rem; color: #999; line-height: 1.5; margin-bottom: 10px; }
+.tooltip-skills { display: flex; flex-wrap: wrap; gap: 4px; }
+.tooltip-skill { font-size: 0.58rem; padding: 2px 7px; border-radius: 4px; background: #0d0d14; color: #666; border: 1px solid #1e1e28; }
+.tooltip-model { font-size: 0.55rem; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: inline-block; }
+
+.divider { border: none; border-top: 1px solid #1a1a25; margin: 10px 0 8px; }
+.skills-title { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1.5px; color: #444; margin-bottom: 6px; }
+.skills-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.skill { font-size: 0.58rem; padding: 2px 7px; border-radius: 4px; white-space: nowrap; background: #0d0d14; color: #666; border: 1px solid #1e1e28; }
+.team-core .skill { color: #67c8e0; border-color: #00B4D833; }
+.team-brand .skill { color: #e978a0; border-color: #E91E6333; }
+.team-marketing .skill { color: #e0a850; border-color: #FF980033; }
+.team-universal .skill { color: #b080c0; border-color: #9C27B033; }
+
+.legend { display: flex; justify-content: center; gap: 16px; margin-top: 28px; padding: 14px; background: #111118; border-radius: 10px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: #777; }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+.stats { text-align: center; margin-top: 16px; color: #333; font-size: 0.65rem; }
+
+/* ===== TAB 3: COST ===== */
+.cost-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.cost-card { background: #111118; border-radius: 14px; padding: 18px; border: 1px solid #1e1e2e; }
+.cost-card h3 { font-size: 0.9rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.cost-table { width: 100%; font-size: 0.7rem; border-collapse: collapse; }
+.cost-table th { text-align: left; padding: 5px 8px; color: #555; font-weight: 600; font-size: 0.6rem; text-transform: uppercase; border-bottom: 1px solid #1a1a25; }
+.cost-table td { padding: 4px 8px; }
+.cost-total { font-size: 1.2rem; font-weight: 700; color: #00D9A5; margin-top: 10px; text-align: right; }
+
+/* Tab 4: Workflows */
+.wf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.wf-card { background: #111118; border-radius: 12px; padding: 16px; border: 1px solid #1e1e2e; }
+.wf-card h3 { font-size: 0.85rem; margin-bottom: 8px; }
+.wf-steps { list-style: none; }
+.wf-steps li { font-size: 0.7rem; color: #888; padding: 3px 0; padding-left: 16px; position: relative; }
+.wf-steps li::before { content: '→'; position: absolute; left: 0; color: #444; }
+
+@media (max-width: 1100px) { .teams,.cost-grid { grid-template-columns: 1fr 1fr; } .wf-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .teams,.cost-grid { grid-template-columns: 1fr; } .pipeline { flex-wrap: wrap; gap: 8px; } }
+</style>
+</head>
+<body>
+<div id="tooltip" class="tooltip"></div>
+
+<div class="container">
+  <h1>⚡ Lumba Core</h1>
+  <p class="subtitle">Sistema de Agentes AI — Documentación Visual Completa</p>
+
+  <nav>
+    <button onclick="switchTab('how')" class="active">🔄 Cómo Funciona</button>
+    <button onclick="switchTab('agents')">🤖 Red de Agentes</button>
+    <button onclick="switchTab('cost')">💰 Costos</button>
+    <button onclick="switchTab('workflows')">📋 Workflows</button>
+    <button onclick="switchTab('usage')">⚙️ Guía de Uso</button>
+  </nav>
+
+  <!-- ==================== TAB 1: HOW IT WORKS ==================== -->
+  <div id="tab-how" class="tab active">
+
+    <!-- Pipeline 8 Pasos -->
+    <div class="how-section">
+      <h2>🔄 Proceso de 8 Pasos (desde prompt hasta entrega)</h2>
+      <div class="pipeline">
+        <div class="pipe-step pipe-active"><div class="pipe-icon">🔍</div><div class="pipe-label">1. Investigar</div><div class="pipe-sub">Research Agent<br>Business Strategist</div></div>
+        <div class="pipe-step pipe-active"><div class="pipe-icon">🧠</div><div class="pipe-label">2. Pensar</div><div class="pipe-sub">Product Owner<br>Analyst · UX Designer</div></div>
+        <div class="pipe-step pipe-active"><div class="pipe-icon">😈</div><div class="pipe-label">3. Cuestionar</div><div class="pipe-sub">Scope Agent<br>Devil's Advocate</div></div>
+        <div class="pipe-step pipe-active"><div class="pipe-icon">✅</div><div class="pipe-label">4. Validar</div><div class="pipe-sub">Client Translator<br>→ Cliente aprueba</div></div>
+        <div class="pipe-step"><div class="pipe-icon">🏗️</div><div class="pipe-label">5. Construir</div><div class="pipe-sub">UI + Frontend + Backend<br>+ Data Architects</div></div>
+        <div class="pipe-step"><div class="pipe-icon">🧪</div><div class="pipe-label">6. Testear</div><div class="pipe-sub">QA Engineer<br>Code Reviewer</div></div>
+        <div class="pipe-step"><div class="pipe-icon">🔧</div><div class="pipe-label">7. Mejorar</div><div class="pipe-sub">Code Reviewer<br>Security Agent</div></div>
+        <div class="pipe-step"><div class="pipe-icon">🚀</div><div class="pipe-label">8. Lanzar</div><div class="pipe-sub">DevOps Engineer<br>Product Auditor</div></div>
+      </div>
+    </div>
+
+    <!-- Project complexity → agent selection -->
+    <div class="how-section">
+      <h2>📊 Selección de Agentes por Tipo de Proyecto</h2>
+      <p style="font-size:0.72rem;color:#555;margin-bottom:14px;">Click en un tipo para ver qué agentes se activan y el costo estimado</p>
+      <div class="complexity-grid" id="complexitySelector">
+        <div class="complex-card selected" onclick="selectComplexity(this, 'simple')">
+          <div class="emoji">🟢</div>
+          <h3>Proyecto Simple</h3>
+          <div class="agents-count">Landing page · One-pager · Demo interna</div>
+          <div class="cost-est">~$2-5<span> USD</span></div>
+        </div>
+        <div class="complex-card" onclick="selectComplexity(this, 'medium')">
+          <div class="emoji">🟡</div>
+          <h3>Proyecto Mediano</h3>
+          <div class="agents-count">Web app con backend · SaaS básico</div>
+          <div class="cost-est">~$10-25<span> USD</span></div>
+        </div>
+        <div class="complex-card" onclick="selectComplexity(this, 'complex')">
+          <div class="emoji">🔴</div>
+          <h3>Proyecto Complejo</h3>
+          <div class="agents-count">Plataforma multi-tenant · App mobile · Ecommerce</div>
+          <div class="cost-est">~$30-80<span> USD</span></div>
+        </div>
+      </div>
+
+      <table class="activation-table" id="activationTable">
+        <thead><tr><th>Agente</th><th>Modelo</th><th>Simple</th><th>Mediano</th><th>Complejo</th><th>Invocaciones</th></tr></thead>
+        <tbody id="activationBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Model Decision Flow -->
+    <div class="how-section">
+      <h2>🧠 Cómo Se Elige el Modelo de IA para Cada Agente</h2>
+      <div class="model-flow">
+        <div class="model-node q">¿Es tarea<br>repetitiva /<br>estructurada?</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node q">¿Requiere<br>razonamiento<br>profundo?</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node q">¿Es crítica<br>de seguridad /<br>auditoría?</div>
+      </div>
+      <div class="model-flow">
+        <div class="model-node model" style="border-color:#4ade80"><div class="model-name" style="color:#4ade80">Flash</div><div class="model-desc">Diseño UI, tests,<br>scaffolding, docs</div></div>
+        <div class="model-arrow" style="opacity:0.3">←</div>
+        <div class="model-node model" style="border-color:#60a5fa"><div class="model-name" style="color:#60a5fa">Pro</div><div class="model-desc">Arquitectura,<br>debugging, análisis</div></div>
+        <div class="model-arrow" style="opacity:0.3">←</div>
+        <div class="model-node model" style="border-color:#c084fc"><div class="model-name" style="color:#c084fc">Opus</div><div class="model-desc">Auditoría, seguridad,<br>Devil's Advocate</div></div>
+      </div>
+    </div>
+
+    <!-- Cost Formula -->
+    <div class="how-section">
+      <h2>📐 Fórmula de Cálculo de Costo</h2>
+      <div class="cost-formula">
+        <strong>Costo Total</strong> = Σ ( <span class="var">invocaciones</span> × <span class="var">costo por tarea</span> ) para cada agente<br><br>
+        Donde:<br>
+        &nbsp;&nbsp;<span class="var">costo por tarea</span> = tokens_input × precio_input + tokens_output × precio_output<br>
+        &nbsp;&nbsp;<span class="var">invocaciones</span> = depende del tipo de proyecto (40-800 tareas)<br><br>
+        <strong>Ejemplo (Proyecto Complejo como Looped):</strong><br>
+        &nbsp;&nbsp;12 agentes × 40-60 tareas c/u = ~500 tareas<br>
+        &nbsp;&nbsp;70% Flash (~$0.03/tarea) + 25% Pro (~$0.15/tarea) + 5% Opus (~$1.50/tarea)<br>
+        &nbsp;&nbsp;= 350×$0.03 + 125×$0.15 + 25×$1.50 = $10.50 + $18.75 + $37.50 = <strong>~$67</strong><br><br>
+        <span style="color:#555;font-size:0.7rem;">⚠️ Los precios varían según provider (DeepSeek vs Claude vs ChatGPT).<br>
+        DeepSeek es 5-15× más barato que Claude para el mismo output. Lumba usa DeepSeek para volumen, Claude/Opus solo para criterio crítico.</span>
+      </div>
+    </div>
+
+    <!-- Model Pricing Table -->
+    <div class="how-section">
+      <h2>💵 Precios por Modelo (por 1M tokens)</h2>
+      <table class="activation-table">
+        <thead><tr><th>Modelo</th><th>Input</th><th>Output</th><th>Tarea chica</th><th>Tarea grande</th><th>Ideal para</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-flash">Flash</span> DeepSeek v4</td><td>$0.12</td><td>$0.36</td><td>~$0.02</td><td>~$0.10</td><td>Boilerplate, UI, tests, CRUD</td></tr>
+          <tr><td><span class="badge badge-pro">Pro</span> DeepSeek v4</td><td>$0.46</td><td>$1.39</td><td>~$0.05</td><td>~$0.25</td><td>Arquitectura, debugging, análisis</td></tr>
+          <tr><td style="color:#2dd4bf">Claude Sonnet 4.5</td><td>$3.00</td><td>$15.00</td><td>~$0.20</td><td>~$1.00</td><td>Estrategia, producto, criterio</td></tr>
+          <tr><td style="color:#c084fc">Claude Opus 4.5</td><td>$15.00</td><td>$75.00</td><td>~$0.50</td><td>~$2.50</td><td>Auditoría, seguridad, DA</td></tr>
+          <tr><td style="color:#fbbf24">ChatGPT 4o</td><td>$2.50</td><td>$10.00</td><td>~$0.15</td><td>~$0.80</td><td>Creatividad, research, UX</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Rule Summary -->
+    <div class="how-section">
+      <h2>📏 Reglas Clave del Sistema</h2>
+      <div class="cost-formula">
+        <strong>1. Auditoría antes de entrega.</strong> Nada sale al cliente sin auditor. Sin excepciones.<br>
+        <strong>2. Brief obsesivo.</strong> Sin objetivo, audiencia y criterios de éxito claros → NO se arranca.<br>
+        <strong>3. Humano decide, agente prepara.</strong> Los agentes nunca aprueban entregables al cliente.<br>
+        <strong>4. Devil's Advocate obligatorio.</strong> Antes de cerrar cualquier fase, el DA cuestiona TODO.<br>
+        <strong>5. Memoria persistente.</strong> Cada cliente y proyecto tiene su memoria. Nunca se empieza de cero.<br>
+        <strong>6. Modelos correctos.</strong> Flash para volumen (70%), Pro para arquitectura (25%), Opus para auditoría (5%).<br>
+        <strong>7. Corte automático de costos.</strong> USD 10 por sesión → requiere aprobación. USD 50/día → alerta crítica.
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 5: USAGE GUIDE ==================== -->
+  <div id="tab-usage" class="tab">
+
+    <!-- How to Run OpenClaw -->
+    <div class="how-section">
+      <h2>🚀 Cómo Correr OpenClaw</h2>
+      <div class="cost-formula" style="margin-bottom:20px;">
+        <strong style="color:#60a5fa;">Paso 1 — Prerrequisitos</strong><br>
+        &nbsp;&nbsp;• Node.js ≥ 18 (recomendado 20+) &nbsp;|&nbsp; • npm ≥ 9<br>
+        &nbsp;&nbsp;• Una API key de DeepSeek (o Claude/GPT)<br>
+        &nbsp;&nbsp;• Windows / macOS / Linux<br><br>
+
+        <strong style="color:#60a5fa;">Paso 2 — Instalación</strong><br>
+        <code style="background:#0d0d14;padding:3px 8px;border-radius:5px;color:#4ade80;">npm install -g openclaw</code><br><br>
+
+        <strong style="color:#60a5fa;">Paso 3 — Arrancar</strong><br>
+        <code style="background:#0d0d14;padding:3px 8px;border-radius:5px;color:#4ade80;">openclaw gateway start</code><br>
+        &nbsp;&nbsp;→ El gateway arranca en <code>localhost:18789</code><br><br>
+
+        <strong style="color:#60a5fa;">Paso 4 — Estado</strong><br>
+        <code style="background:#0d0d14;padding:3px 8px;border-radius:5px;color:#4ade80;">openclaw status</code> &nbsp;— verificá que esté <span style="color:#4ade80;">running</span><br><br>
+
+        <strong style="color:#60a5fa;">Paso 5 — Agregar canales</strong><br>
+        &nbsp;&nbsp;• Telegram: configurá el bot token y chat ID en la config<br>
+        &nbsp;&nbsp;• WhatsApp / Discord / Signal: mismo proceso<br><br>
+
+        <strong style="color:#60a5fa;">Paso 6 — Agregar skills</strong><br>
+        &nbsp;&nbsp;• Las skills son plugins. Creálas en <code>~/.openclaw/skills/</code><br>
+        &nbsp;&nbsp;• Cada skill es una carpeta con <code>SKILL.md</code> + herramientas<br>
+        &nbsp;&nbsp;• Lumba Core = 25 agentes, cada uno apunta a sus skills
+      </div>
+
+      <h2>🧠 Cómo Toma Decisiones Lumba Core</h2>
+      <div class="model-flow" style="margin-bottom:16px;">
+        <div class="model-node q">Recibe tu<br>prompt</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node q">¿Es una<br>pregunta<br>rápida?</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node model" style="border-color:#4ade80;"><div class="model-name" style="color:#4ade80;">Responde<br>directo</div><div class="model-desc">sin pipeline</div></div>
+      </div>
+      <div class="model-flow" style="margin-bottom:16px;">
+        <div class="model-node q">¿Es una<br>tarea de<br>proyecto?</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node q">¿Requiere<br>confirmación<br>previa?</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node q">Orchestrator<br>elige agentes</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node q">Pipeline<br>8 pasos</div>
+        <div class="model-arrow">→</div>
+        <div class="model-node model" style="border-color:#00D9A5;"><div class="model-name" style="color:#00D9A5;">Entrega</div><div class="model-desc">auditada</div></div>
+      </div>
+
+      <h2>🗣️ ¿Me Pregunta o Ejecuta Todo de Una?</h2>
+      <table class="activation-table" style="margin-bottom:24px;">
+        <thead><tr><th>Situación</th><th>Comportamiento</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>💬 <strong>Pregunta simple</strong><br><span style="color:#555;font-size:0.65rem;">Info, consulta, explicación</span></td><td style="color:#4ade80;">✅ Responde al instante</td><td>"¿Qué modelo usan para UI?" → Respuesta directa</td></tr>
+          <tr><td>📝 <strong>Tarea de análisis</strong><br><span style="color:#555;font-size:0.65rem;">Research, discovery, specs</span></td><td style="color:#60a5fa;">📋 Ejecuta y te muestra resultados</td><td>"Investigá competidores de Looped" → Research Agent trabaja solo</td></tr>
+          <tr><td>🔧 <strong>Tarea con side effects</strong><br><span style="color:#555;font-size:0.65rem;">Generar código, crear archivos</span></td><td style="color:#fbbf24;">⚠️ Pregunta antes de modificar</td><td>"Creá el scaffolding" → "Veo que esto va a crear 20 archivos. ¿Confirmás?"</td></tr>
+          <tr><td>🚀 <strong>Deploy / producción</strong><br><span style="color:#555;font-size:0.65rem;">Deploy, cambios en prod</span></td><td style="color:#ef4444;">🛑 Bloquea hasta aprobación explícita</td><td>"Deployá a producción" → "Esto va a prod. Necesito tu OK explícito."</td></tr>
+          <tr><td>💰 <strong>Exceso de presupuesto</strong><br><span style="color:#555;font-size:0.65rem;">Supera límite de costo</span></td><td style="color:#ef4444;">🚨 Alerta y pausa</td><td>"Costo acumulado $12 esta sesión → ¿Sigo?"</td></tr>
+          <tr><td>📊 <strong>Selección de agentes</strong><br><span style="color:#555;font-size:0.65rem;">Antes de arrancar proyecto</span></td><td style="color:#60a5fa;">📋 Te muestra el plan y pide OK</td><td>"Para este proyecto voy a usar 8 agentes. Plan: ... ¿Arranco?"</td></tr>
+        </tbody>
+      </table>
+
+      <h2>🔀 Flujo de Decisión Completo</h2>
+      <div class="cost-formula" style="line-height:2;">
+        <strong style="color:#00D9A5;">1.</strong> Vos escribís un prompt en Telegram (o cualquier canal)<br>
+        <strong style="color:#00D9A5;">2.</strong> El <strong>Orchestrator</strong> lo recibe y clasifica:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;→ <span style="color:#4ade80;">Pregunta</span>: responde directo, sin pipeline<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;→ <span style="color:#60a5fa;">Tarea de proyecto</span>: arma plan de agentes<br>
+        <strong style="color:#00D9A5;">3.</strong> Si es proyecto, te dice: <em>"Para 'X' necesito los agentes A, B, C. Costo est. $Y. ¿Arranco?"</em><br>
+        <strong style="color:#00D9A5;">4.</strong> Vos respondés <strong>SÍ</strong> → pipeline de 8 pasos se ejecuta<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;→ <strong>Investigación → Pensar → Cuestionar → Validar → Construir → Testear → Mejorar → Lanzar</strong><br>
+        <strong style="color:#00D9A5;">5.</strong> Entre cada paso, el <strong>Devil's Advocate</strong> audita<br>
+        <strong style="color:#00D9A5;">6.</strong> Antes de entregar, <strong>validación humana obligatoria</strong><br>
+        <strong style="color:#00D9A5;">7.</strong> Si en cualquier momento detecta algo riesgoso → <strong>te frena y pregunta</strong>
+      </div>
+    </div>
+
+    <!-- Interactive Project Simulator -->
+    <div class="how-section">
+      <h2>🧪 Simulador: Proponé Tu Proyecto y Ve Qué Agentes Se Activan</h2>
+      <p style="font-size:0.75rem;color:#666;margin-bottom:16px;">Describí brevemente tu proyecto. El sistema analiza el texto y te muestra qué agentes se activarían, con qué modelo, costo estimado y tiempo.</p>
+
+      <div style="display:flex;gap:8px;margin-bottom:20px;">
+        <input id="projectInput" type="text" placeholder="Ej: App mobile de fitness con tracking de ejercicios y plan de nutrición" style="flex:1;background:#111118;border:1px solid #1e1e2e;border-radius:10px;padding:12px 16px;color:#e0e0e0;font-size:0.82rem;font-family:inherit;outline:none;" onkeydown="if(event.key==='Enter')analyzeProject()">
+        <button onclick="analyzeProject()" style="background:#00D9A5;color:#0a0a0f;border:none;border-radius:10px;padding:12px 24px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.82rem;">Analizar</button>
+      </div>
+
+      <div id="projectResult" style="display:none;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;">
+          <div style="background:#111118;border-radius:10px;padding:14px;text-align:center;border:1px solid #1e1e2e;">
+            <div style="font-size:1.8rem;" id="resultComplexityEmoji">🟡</div>
+            <div style="font-weight:700;margin-top:4px;" id="resultComplexity">Mediano</div>
+            <div style="font-size:0.65rem;color:#555;">Complejidad detectada</div>
+          </div>
+          <div style="background:#111118;border-radius:10px;padding:14px;text-align:center;border:1px solid #1e1e2e;">
+            <div style="font-size:1.8rem;">🤖</div>
+            <div style="font-weight:700;margin-top:4px;" id="resultAgentCount">8-10</div>
+            <div style="font-size:0.65rem;color:#555;">Agentes activados</div>
+          </div>
+          <div style="background:#111118;border-radius:10px;padding:14px;text-align:center;border:1px solid #1e1e2e;">
+            <div style="font-size:1.8rem;">💰</div>
+            <div style="font-weight:700;margin-top:4px;color:#00D9A5;" id="resultCost">$10-25</div>
+            <div style="font-size:0.65rem;color:#555;">Costo estimado</div>
+          </div>
+        </div>
+
+        <div style="background:#111118;border-radius:12px;padding:16px;margin-bottom:16px;border:1px solid #1e1e2e;">
+          <div style="font-size:0.7rem;color:#444;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Agentes que se activarían</div>
+          <table class="activation-table">
+            <thead><tr><th>Agente</th><th>Equipo</th><th>Modelo</th><th>Rol en tu proyecto</th><th>Inv.</th></tr></thead>
+            <tbody id="resultAgents"></tbody>
+          </table>
+        </div>
+
+        <div id="resultPlan" style="background:#0a1a15;border:1px solid #00D9A533;border-radius:10px;padding:14px;font-size:0.78rem;color:#888;line-height:1.7;"></div>
+      </div>
+    </div>
+
+    <!-- Quick Examples -->
+    <div class="how-section">
+      <h2>📝 Ejemplos Rápidos (click para probar)</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span onclick="tryExample('Landing page para un gym local con formulario de contacto y precios')" style="background:#111118;border:1px solid #1e1e2e;border-radius:8px;padding:6px 12px;font-size:0.7rem;cursor:pointer;color:#888;transition:all 0.2s;" onmouseover="this.style.borderColor='#555'" onmouseout="this.style.borderColor='#1e1e2e'">🟢 Landing page gym</span>
+        <span onclick="tryExample('Web app SaaS de gestión de inventario con dashboard, roles de usuario y reportes')" style="background:#111118;border:1px solid #1e1e2e;border-radius:8px;padding:6px 12px;font-size:0.7rem;cursor:pointer;color:#888;transition:all 0.2s;" onmouseover="this.style.borderColor='#555'" onmouseout="this.style.borderColor='#1e1e2e'">🟡 SaaS inventario</span>
+        <span onclick="tryExample('App mobile de fitness con motion tracking AI, plan de nutrición, social feed y pagos integrados')" style="background:#111118;border:1px solid #1e1e2e;border-radius:8px;padding:6px 12px;font-size:0.7rem;cursor:pointer;color:#888;transition:all 0.2s;" onmouseover="this.style.borderColor='#555'" onmouseout="this.style.borderColor='#1e1e2e'">🔴 App fitness completa</span>
+        <span onclick="tryExample('Ecommerce multi-vendor con pagos, envíos, reviews y panel de vendedor')" style="background:#111118;border:1px solid #1e1e2e;border-radius:8px;padding:6px 12px;font-size:0.7rem;cursor:pointer;color:#888;transition:all 0.2s;" onmouseover="this.style.borderColor='#555'" onmouseout="this.style.borderColor='#1e1e2e'">🔴 Ecommerce marketplace</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 2: AGENTS ==================== -->
+  <div id="tab-agents" class="tab">
+    <div class="layer"><div class="layer-title">Decisor Final</div>
+      <div class="founder-row"><div class="founder"><span class="founder-icon">👤</span><div><div class="founder-name">Founder · Gero</div><div class="founder-role">Aprueba estrategia, naming, deploy · Modifica MEMORIA</div></div></div></div>
+    </div>
+    <div class="layer"><div class="layer-title">Orquestación</div>
+      <div class="orch-row"><div class="orch" data-title="🎯 Orchestrator" data-desc="Director de tráfico del sistema. Recibe el prompt y decide qué agente especializado debe ejecutar. NO toma decisiones — solo enruta." data-model="DeepSeek Pro" data-model-class="badge-pro" data-skills='["enrutamiento","coordinación","handoff-json"]'><span class="orch-icon">🎯</span><span class="orch-name">Orchestrator</span><span class="badge badge-pro">Pro</span></div></div>
+    </div>
+
+    <div class="teams">
+      <!-- Core-Brand -->
+      <div class="team team-brand"><h3><span class="dot"></span>🎨 Core-Brand</h3>
+        <div class="agent" data-title="🧠 Brand Strategist" data-desc="Define estrategia de marca: posicionamiento, naming, identidad visual, territorio de marca." data-model="Pro" data-model-class="badge-pro" data-skills='["naming-method","positioning-canvas","tone-of-voice","visual-system"]'><div class="agent-left"><span class="agent-icon">🧠</span><span class="agent-name">Brand Strategist</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="📋 Brandbook Builder" data-desc="Construye brandbooks y guías de marca. Alta frecuencia → Flash." data-model="Flash" data-model-class="badge-flash" data-skills='["brandbook-template","visual-system","tone-of-voice"]'><div class="agent-left"><span class="agent-icon">📋</span><span class="agent-name">Brandbook Builder</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="🎯 Brand Auditor" data-desc="Auditor obligatorio. Revisa entregables de branding ANTES del cliente. Opus." data-model="Opus" data-model-class="badge-opus" data-skills='["brand-audit-checklist","brand-diagnostic","benchmark"]'><div class="agent-left"><span class="agent-icon">🎯</span><span class="agent-name">Brand Auditor</span></div><span class="badge badge-opus">Opus</span></div>
+        <hr class="divider"><div class="skills-title">🛠️ 9 Skills</div><div class="skills-wrap"><span class="skill">benchmark</span><span class="skill">brand-audit</span><span class="skill">brand-diagnostic</span><span class="skill">brandbook</span><span class="skill">naming</span><span class="skill">positioning</span><span class="skill">tone-of-voice</span><span class="skill">visual-system</span><span class="skill">workshop</span></div>
+      </div>
+
+      <!-- Core-Marketing -->
+      <div class="team team-marketing"><h3><span class="dot"></span>📣 Core-Marketing</h3>
+        <div class="agent" data-title="📊 Marketing Strategist" data-desc="Estrategia de marketing: canales, audiencias, funnel y métricas de éxito." data-model="Pro" data-model-class="badge-pro" data-skills='["attribution","audience-builder","growth-analysis","content-pillars"]'><div class="agent-left"><span class="agent-icon">📊</span><span class="agent-name">Marketing Strategist</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="✍️ Copywriter" data-desc="Redacción publicitaria: ads, landing pages, emails. Flash por alta frecuencia." data-model="Flash" data-model-class="badge-flash" data-skills='["tone-of-voice","content-pillars","reporting"]'><div class="agent-left"><span class="agent-icon">✍️</span><span class="agent-name">Copywriter</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="📈 Campaign Orchestrator" data-desc="Coordina campañas multi-canal sincronizadas: Google Ads + Meta + email." data-model="Flash" data-model-class="badge-flash" data-skills='["email-arch","google-ads","meta-ads","creative-testing"]'><div class="agent-left"><span class="agent-icon">📈</span><span class="agent-name">Campaign Orchestrator</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="🎯 Marketing Auditor" data-desc="Auditor obligatorio. Revisa campañas y copy ANTES de publicación. Opus." data-model="Opus" data-model-class="badge-opus" data-skills='["marketing-audit","ads-audit","attribution","diagnostic"]'><div class="agent-left"><span class="agent-icon">🎯</span><span class="agent-name">Marketing Auditor</span></div><span class="badge badge-opus">Opus</span></div>
+        <hr class="divider"><div class="skills-title">🛠️ 14 Skills</div><div class="skills-wrap"><span class="skill">attribution</span><span class="skill">audience</span><span class="skill">content-pillars</span><span class="skill">creative-testing</span><span class="skill">email-arch</span><span class="skill">google-ads</span><span class="skill">growth</span><span class="skill">mkt-audit</span><span class="skill">mkt-diagnostic</span><span class="skill">mkt-reporting</span><span class="skill">meta-ads</span><span class="skill">report-insights</span></div>
+      </div>
+
+      <!-- Core-Product -->
+      <div class="team team-core"><h3><span class="dot"></span>💻 Core-Product</h3>
+        <div class="agent" data-title="📋 Product Owner" data-desc="Define el producto: roadmap, priorización, criterios de éxito, features. Dueño del backlog." data-model="Pro" data-model-class="badge-pro" data-skills='["discovery","functional-spec","user-stories"]'><div class="agent-left"><span class="agent-icon">📋</span><span class="agent-name">Product Owner</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="📝 Analyst Functional" data-desc="Especificaciones funcionales, criterios de aceptación, casos de uso, reglas de negocio." data-model="Pro" data-model-class="badge-pro" data-skills='["functional-spec","user-stories","discovery","ux-flow"]'><div class="agent-left"><span class="agent-icon">📝</span><span class="agent-name">Analyst Functional</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="🎨 UX Designer" data-desc="Flows, wireframes, prototipos. Usabilidad y resolución del problema del usuario." data-model="Flash" data-model-class="badge-flash" data-skills='["ux-flow","discovery","functional-spec"]'><div class="agent-left"><span class="agent-icon">🎨</span><span class="agent-name">UX Designer</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="🖌️ UI Designer" data-desc="Componentes, sistema de diseño, estados (loading/empty/error), responsive." data-model="Flash" data-model-class="badge-flash" data-skills='["ux-flow","functional-spec","code-review"]'><div class="agent-left"><span class="agent-icon">🖌️</span><span class="agent-name">UI Designer</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="🏗️ Frontend Architect" data-desc="Componentes, state mgmt, performance, accesibilidad. Stack: Vite + React + TS + Tailwind." data-model="Pro" data-model-class="badge-pro" data-skills='["adr-generator","code-review","deploy-checklist"]'><div class="agent-left"><span class="agent-icon">🏗️</span><span class="agent-name">Frontend Architect</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="⚙️ Backend Architect" data-desc="APIs REST, auth JWT/OAuth, integraciones, lógica de negocio. Stack: Supabase/Node." data-model="Pro" data-model-class="badge-pro" data-skills='["adr-generator","data-modeling","deploy-checklist"]'><div class="agent-left"><span class="agent-icon">⚙️</span><span class="agent-name">Backend Architect</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="🗄️ Data Architect" data-desc="Modelo de datos: esquemas, relaciones, índices, migraciones. Multi-tenant." data-model="Pro" data-model-class="badge-pro" data-skills='["data-modeling","adr-generator","deploy-checklist"]'><div class="agent-left"><span class="agent-icon">🗄️</span><span class="agent-name">Data Architect</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="🔍 Code Reviewer" data-desc="Guardián de calidad pre-merge. Nadie mergea código que no entiende. Revisa PRs." data-model="Pro" data-model-class="badge-pro" data-skills='["code-review-checklist","adr-generator"]'><div class="agent-left"><span class="agent-icon">🔍</span><span class="agent-name">Code Reviewer</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="🧪 QA Engineer" data-desc="Planes de testing, casos de prueba. Detecta bugs y edge cases antes del cliente." data-model="Flash" data-model-class="badge-flash" data-skills='["qa-test-plan","code-review","functional-spec"]'><div class="agent-left"><span class="agent-icon">🧪</span><span class="agent-name">QA Engineer</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="🚀 DevOps Engineer" data-desc="Deploy, CI/CD, monitoring. Configura staging/production. Flash por operativo." data-model="Flash" data-model-class="badge-flash" data-skills='["deployment-checklist","adr-generator"]'><div class="agent-left"><span class="agent-icon">🚀</span><span class="agent-name">DevOps Engineer</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="🔒 Security Agent" data-desc="Revisa código pre-merge. Detecta vulnerabilidades, secretos expuestos, endpoints sin auth. OWASP." data-model="Pro" data-model-class="badge-pro" data-skills='["code-review","deploy-checklist","adr-generator"]'><div class="agent-left"><span class="agent-icon">🔒</span><span class="agent-name">Security Agent</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="🎯 Product Auditor" data-desc="Auditor obligatorio. Audita specs, UX/UI y entregables ANTES de desarrollo. Opus." data-model="Opus" data-model-class="badge-opus" data-skills='["product-audit","functional-spec","qa-test-plan"]'><div class="agent-left"><span class="agent-icon">🎯</span><span class="agent-name">Product Auditor</span></div><span class="badge badge-opus">Opus</span></div>
+        <hr class="divider"><div class="skills-title">🛠️ 10 Skills</div><div class="skills-wrap"><span class="skill">adr-generator</span><span class="skill">code-review</span><span class="skill">data-modeling</span><span class="skill">deploy-checklist</span><span class="skill">discovery</span><span class="skill">functional-spec</span><span class="skill">product-audit</span><span class="skill">qa-test-plan</span><span class="skill">user-stories</span><span class="skill">ux-flow</span></div>
+      </div>
+
+      <!-- Universales -->
+      <div class="team team-universal"><h3><span class="dot"></span>🌐 Universales</h3>
+        <div class="agent" data-title="😈 Devil's Advocate" data-desc="El agente MÁS importante. Cuestiona TODO. Poder de veto. Read-only. Checklist obligatorio de 10 puntos." data-model="Opus" data-model-class="badge-opus" data-skills='["antiproducto","assumptions","failure-modes","scalability","security","memory-consistency"]'><div class="agent-left"><span class="agent-icon">😈</span><span class="agent-name">Devil's Advocate</span></div><span class="badge badge-opus">Opus</span></div>
+        <div class="agent" data-title="📅 Project Manager" data-desc="Sprints (máx 2 sem), dependencias, bloqueos. Definition of Done explícita. No escribe código." data-model="Flash" data-model-class="badge-flash" data-skills='["sprints","burndown","dependencies","reportes"]'><div class="agent-left"><span class="agent-icon">📅</span><span class="agent-name">Project Manager</span></div><span class="badge badge-flash">Flash</span></div>
+        <div class="agent" data-title="🔬 Research Agent" data-desc="Inteligencia de mercado, competencia, tendencias. Cita fuentes. Evidencia alta/media/baja." data-model="Pro" data-model-class="badge-pro" data-skills='["web-search","competitive-analysis","trends"]'><div class="agent-left"><span class="agent-icon">🔬</span><span class="agent-name">Research Agent</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="📐 Scope Agent" data-desc="Vigila alcance. Detecta scope creep. Protege rentabilidad. Compara vs contrato." data-model="Pro" data-model-class="badge-pro" data-skills='["scope-vs-contract","effort-estimate","profitability"]'><div class="agent-left"><span class="agent-icon">📐</span><span class="agent-name">Scope Agent</span></div><span class="badge badge-pro">Pro</span></div>
+        <div class="agent" data-title="🗣️ Client Translator" data-desc="Traduce cliente↔equipo. Detecta ambigüedades. NO inventa información del cliente." data-model="Pro" data-model-class="badge-pro" data-skills='["cliente→equipo","equipo→cliente","ambigüedades"]'><div class="agent-left"><span class="agent-icon">🗣️</span><span class="agent-name">Client Translator</span></div><span class="badge badge-pro">Pro</span></div>
+        <hr class="divider"><div class="skills-title">🛠️ Procesos</div><div class="skills-wrap"><span class="skill">workflow-auditoria</span><span class="skill">brief-obsesivo</span><span class="skill">proceso-8-pasos</span><span class="skill">quality-gates</span><span class="skill">memoria-compartida</span><span class="skill">validacion-humana</span><span class="skill">comunicacion</span><span class="skill">seguridad</span></div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#4ade80"></span> Flash — Boilerplate, tests, diseño</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#60a5fa"></span> Pro — Arquitectura, debugging, estrategia</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#c084fc"></span> Opus — Auditoría, seguridad, DA</div>
+    </div>
+    <div class="stats">🏗️ 3 Redes · 18 agentes especializados · 5 universales · 33 skills · 1 Orquestador · 1 Humano</div>
+  </div>
+
+  <!-- ==================== TAB 3: COST ==================== -->
+  <div id="tab-cost" class="tab">
+    <div class="how-section"><h2>💰 Costo Estimado por Proyecto</h2></div>
+    <div class="cost-grid">
+      <div class="cost-card"><h3>🟢 Simple (Landing demo)</h3>
+        <table class="cost-table">
+          <thead><tr><th>Agente</th><th>Modelo</th><th>Inv.</th><th>USD</th></tr></thead>
+          <tbody>
+            <tr><td>Product Owner</td><td>Pro</td><td>5</td><td>$0.75</td></tr>
+            <tr><td>UX Designer</td><td>Flash</td><td>10</td><td>$0.20</td></tr>
+            <tr><td>Frontend Architect</td><td>Pro</td><td>12</td><td>$1.80</td></tr>
+            <tr><td>Code Reviewer</td><td>Pro</td><td>6</td><td>$0.90</td></tr>
+            <tr><td>Devil's Advocate</td><td>Pro</td><td>3</td><td>$0.75</td></tr>
+          </tbody>
+        </table>
+        <div class="cost-total">~$2-5</div>
+      </div>
+      <div class="cost-card"><h3>🟡 Mediano (Web App)</h3>
+        <table class="cost-table">
+          <thead><tr><th>Agente</th><th>Modelo</th><th>Inv.</th><th>USD</th></tr></thead>
+          <tbody>
+            <tr><td>Product Owner</td><td>Pro</td><td>10</td><td>$1.50</td></tr>
+            <tr><td>Analyst Functional</td><td>Pro</td><td>12</td><td>$1.80</td></tr>
+            <tr><td>UX + UI Designer</td><td>Flash</td><td>25</td><td>$0.50</td></tr>
+            <tr><td>Frontend Architect</td><td>Pro</td><td>20</td><td>$3.00</td></tr>
+            <tr><td>Backend Architect</td><td>Pro</td><td>20</td><td>$3.00</td></tr>
+            <tr><td>Data Architect</td><td>Pro</td><td>10</td><td>$1.50</td></tr>
+            <tr><td>Code Reviewer</td><td>Pro</td><td>15</td><td>$2.25</td></tr>
+            <tr><td>QA Engineer</td><td>Flash</td><td>20</td><td>$0.40</td></tr>
+            <tr><td>DevOps</td><td>Flash</td><td>10</td><td>$0.30</td></tr>
+            <tr><td>Devil's Advocate</td><td>Pro</td><td>5</td><td>$1.25</td></tr>
+          </tbody>
+        </table>
+        <div class="cost-total">~$10-25</div>
+      </div>
+      <div class="cost-card"><h3>🔴 Complejo (Looped MVP)</h3>
+        <table class="cost-table">
+          <thead><tr><th>Agente</th><th>Modelo</th><th>Inv.</th><th>USD</th></tr></thead>
+          <tbody>
+            <tr><td>Product Owner</td><td>Pro</td><td>15</td><td>$2.25</td></tr>
+            <tr><td>Analyst Functional</td><td>Pro</td><td>20</td><td>$3.00</td></tr>
+            <tr><td>UX + UI Designer</td><td>Flash</td><td>35</td><td>$0.70</td></tr>
+            <tr><td>Frontend Architect</td><td>Pro</td><td>35</td><td>$5.25</td></tr>
+            <tr><td>Backend Architect</td><td>Pro</td><td>35</td><td>$5.25</td></tr>
+            <tr><td>Data Architect</td><td>Pro</td><td>15</td><td>$2.25</td></tr>
+            <tr><td>Code Reviewer</td><td>Pro</td><td>30</td><td>$4.50</td></tr>
+            <tr><td>QA Engineer</td><td>Flash</td><td>40</td><td>$1.20</td></tr>
+            <tr><td>DevOps Engineer</td><td>Flash</td><td>20</td><td>$0.60</td></tr>
+            <tr><td>Security Agent</td><td>Pro</td><td>15</td><td>$3.75</td></tr>
+            <tr><td>Product Auditor</td><td>Opus</td><td>8</td><td>$4.00</td></tr>
+            <tr><td>Devil's Advocate</td><td>Pro</td><td>8</td><td>$2.00</td></tr>
+          </tbody>
+        </table>
+        <div class="cost-total">~$30-80</div>
+      </div>
+    </div>
+    <div class="how-section"><h2>💸 Budget Mensual Recomendado (operación continua)</h2>
+    <table class="activation-table">
+      <thead><tr><th>Fase</th><th>Proyectos activos</th><th>Budget/mes</th></tr></thead>
+      <tbody>
+        <tr><td>Mes 1 (piloto)</td><td>1 proyecto</td><td>USD 50-100</td></tr>
+        <tr><td>Mes 2-3</td><td>1-2 proyectos</td><td>USD 100-200</td></tr>
+        <tr><td>Mes 4-6</td><td>2-3 proyectos + marketing</td><td>USD 200-400</td></tr>
+        <tr><td>Mes 7-12</td><td>3 redes activas</td><td>USD 400-600</td></tr>
+      </tbody></table></div>
+  </div>
+
+  <!-- ==================== TAB 4: WORKFLOWS ==================== -->
+  <div id="tab-workflows" class="tab">
+    <div class="how-section"><h2>📋 Workflows Operativos</h2></div>
+    <div class="wf-grid">
+      <div class="wf-card" style="border-color:#00B4D8"><h3>💻 1. Discovery + Definición Funcional</h3><ul class="wf-steps"><li>Research Agent investiga mercado y competencia</li><li>Business Strategist analiza viabilidad</li><li>Product Owner define roadmap y features</li><li>Analyst Functional escribe especificación</li><li>UX Designer crea wireframes y flujos</li><li>Scope Agent verifica alcance vs contrato</li><li>Devil's Advocate audita antes de avanzar</li></ul></div>
+      <div class="wf-card" style="border-color:#E91E63"><h3>🎨 2. Diseño UX/UI Completo</h3><ul class="wf-steps"><li>UX Designer → arquitectura de información</li><li>Wireframes → prototipos interactivos</li><li>UI Designer → sistema de diseño + componentes</li><li>Estados: loading, empty, error, success</li><li>Responsive y accesibilidad WCAG AA</li><li>Brand Auditor verifica consistencia de marca</li></ul></div>
+      <div class="wf-card" style="border-color:#00D9A5"><h3>🏗️ 3. Desarrollo de Feature</h3><ul class="wf-steps"><li>Frontend/Backend/Data Architects diseñan</li><li>ADR Generator documenta decisiones técnicas</li><li>UI Designer implementa componentes</li><li>Code Reviewer revisa cada PR</li><li>Security Agent escanea vulnerabilidades</li><li>QA Engineer testea happy path + edge cases</li><li>Product Auditor audita antes de deploy</li></ul></div>
+      <div class="wf-card" style="border-color:#FF3333"><h3>🐛 4. Bug Crítico en Producción</h3><ul class="wf-steps"><li>QA Engineer reproduce y documenta el bug</li><li>Backend/Frontend Architect diagnostica causa raíz</li><li>Fix + test de regresión</li><li>Code Reviewer aprueba hotfix</li><li>DevOps Engineer deploya con rollback plan</li><li>Post-mortem: ¿por qué no lo detectamos antes?</li></ul></div>
+      <div class="wf-card" style="border-color:#FF9800"><h3>🔄 5. Soporte Evolutivo</h3><ul class="wf-steps"><li>Project Manager prioriza backlog mensual</li><li>Sprint de 2 semanas con Definition of Done</li><li>Code Reviewer mantiene deuda técnica visible</li><li>Research Agent actualiza análisis competitivo</li><li>Métricas de calidad monitoreadas</li></ul></div>
+      <div class="wf-card" style="border-color:#9C27B0"><h3>🎯 6. Auditoría Pre-Entrega</h3><ul class="wf-steps"><li>Product Auditor: specs vs implementación real</li><li>Security Agent: scan final de seguridad</li><li>QA Engineer: test de regresión completo</li><li>Devil's Advocate: checklist de 10 puntos</li><li>Client Translator: prepara comunicación al cliente</li><li>Validación humana obligatoria antes de enviar</li></ul></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Tab switching
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Complexity selector
+const activationData = {
+  simple: [
+    ['Product Owner','Pro','✅','✅','✅','5-8'],
+    ['UX Designer','Flash','✅','✅','✅','8-12'],
+    ['Frontend Architect','Pro','✅','✅','✅','10-15'],
+    ['Code Reviewer','Pro','✅','✅','✅','5-8'],
+    ['DevOps Engineer','Flash','','','✅','3-5'],
+    ['QA Engineer','Flash','','','✅','8-15'],
+    ['Security Agent','Pro','','','✅','5-10'],
+  ],
+  medium: [
+    ['Product Owner','Pro','','✅','✅','8-12'],
+    ['Analyst Functional','Pro','','✅','✅','10-15'],
+    ['UX Designer','Flash','','✅','✅','12-18'],
+    ['UI Designer','Flash','','✅','✅','10-15'],
+    ['Frontend Architect','Pro','','✅','✅','15-25'],
+    ['Backend Architect','Pro','','✅','✅','15-25'],
+    ['Data Architect','Pro','','✅','✅','8-12'],
+    ['Code Reviewer','Pro','','✅','✅','12-18'],
+    ['QA Engineer','Flash','','✅','✅','15-25'],
+    ['DevOps Engineer','Flash','','✅','✅','8-12'],
+    ['Security Agent','Pro','','','✅','5-10'],
+    ['Devil\'s Advocate','Pro','','','✅','3-5'],
+  ],
+  complex: [
+    ['Product Owner','Pro','','','✅','12-18'],
+    ['Analyst Functional','Pro','','','✅','18-25'],
+    ['UX Designer','Flash','','','✅','18-25'],
+    ['UI Designer','Flash','','','✅','15-20'],
+    ['Frontend Architect','Pro','','','✅','30-40'],
+    ['Backend Architect','Pro','','','✅','30-40'],
+    ['Data Architect','Pro','','','✅','12-18'],
+    ['Code Reviewer','Pro','','','✅','25-35'],
+    ['QA Engineer','Flash','','','✅','30-45'],
+    ['DevOps Engineer','Flash','','','✅','15-25'],
+    ['Security Agent','Pro','','','✅','12-18'],
+    ['Product Auditor','Opus','','','✅','6-10'],
+    ['Devil\'s Advocate','Pro','','','✅','6-10'],
+  ]
+};
+
+function selectComplexity(card, type) {
+  document.querySelectorAll('.complex-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const data = activationData[type];
+  document.getElementById('activationBody').innerHTML = data.map(row => 
+    `<tr><td>${row[0]}</td><td><span class="badge badge-${row[1].toLowerCase()}">${row[1]}</span></td><td class="${row[2]==='✅'?'check':'empty'}">${row[2]}</td><td class="${row[3]==='✅'?'check':'empty'}">${row[3]}</td><td class="${row[4]==='✅'?'check':'empty'}">${row[4]}</td><td>${row[5]}</td></tr>`
+  ).join('');
+}
+
+// Initialize
+selectComplexity(document.querySelector('.complex-card'), 'simple');
+
+// ===== PROJECT ANALYZER =====
+function analyzeProject() {
+  const input = document.getElementById('projectInput').value.trim();
+  if (!input) return;
+  const lower = input.toLowerCase();
+
+  // Keywords for complexity detection
+  const complexKeywords = ['mobile','ios','android','flutter','payment','pago','social','ai','machine learning','tracking','realtime','streaming','multi-tenant','marketplace','multi-vendor','video','chat','notification','ecommerce','e-commerce','tienda online','motion','nutrición','nutrition','fitness','completa','plataforma'];
+  const mediumKeywords = ['saas','dashboard','backend','api','auth','login','roles','admin','database','crud','reporte','report','inventario','gestión','gestion','web app','app web','panel'];
+  
+  let complexityScore = 0;
+  complexKeywords.forEach(k => { if (lower.includes(k)) complexityScore += 2; });
+  mediumKeywords.forEach(k => { if (lower.includes(k)) complexityScore += 1; });
+  
+  let complexity, emoji, costRange, planText, agents;
+  if (complexityScore >= 4) {
+    complexity = 'Complejo'; emoji = '🔴'; costRange = '$30-80';
+    planText = '<strong style="color:#00D9A5;">📋 Plan de ejecución sugerido:</strong><br><br>El Orchestrator detectó un proyecto complejo. Vas a ver este mensaje:<br><br><em style="color:#60a5fa;">"Gero, para este proyecto necesito activar 12 agentes de la red Core-Product + universales. Costo estimado: $30-80 USD. El pipeline de 8 pasos va a tomar varias iteraciones. ¿Arranco con el discovery?"</em><br><br>Al confirmar, se ejecuta paso a paso con auditoría en cada fase. Vas a recibir actualizaciones en cada etapa.';
+    agents = [
+      ['Product Owner','💻 Product','Pro','Define roadmap, features y backlog','15-20'],
+      ['Analyst Functional','💻 Product','Pro','Especificación funcional completa','18-25'],
+      ['UX Designer','💻 Product','Flash','Flujos de usuario y wireframes','18-25'],
+      ['UI Designer','💻 Product','Flash','Sistema de diseño + componentes','15-20'],
+      ['Frontend Architect','💻 Product','Pro','Arquitectura frontend completa','30-40'],
+      ['Backend Architect','💻 Product','Pro','APIs, auth, integraciones','30-40'],
+      ['Data Architect','💻 Product','Pro','Modelo de datos multi-tenant','12-18'],
+      ['Code Reviewer','💻 Product','Pro','Audita cada PR antes del merge','25-35'],
+      ['QA Engineer','💻 Product','Flash','Testing exhaustivo','30-45'],
+      ['DevOps Engineer','💻 Product','Flash','CI/CD + deploy staging/prod','15-25'],
+      ['Security Agent','💻 Product','Pro','OWASP scan + vulnerabilidades','12-18'],
+      ['Product Auditor','💻 Product','Opus','Auditoría pre-entrega obligatoria','8-12'],
+      ['Devil\'s Advocate','🌐 Universal','Pro','Cuestiona TODO antes de cada fase','8-12'],
+    ];
+  } else if (complexityScore >= 1) {
+    complexity = 'Mediano'; emoji = '🟡'; costRange = '$10-25';
+    planText = '<strong style="color:#00D9A5;">📋 Plan de ejecución sugerido:</strong><br><br><em style="color:#60a5fa;">"Gero, para esto necesito 8-9 agentes. Costo estimado: $10-25 USD. Pipeline de 8 pasos, 2-3 iteraciones. ¿Arranco?"</em><br><br>Al confirmar, los agentes trabajan en secuencia. El Devil\'s Advocate audita entre fases. Recibís updates al completar cada paso.';
+    agents = [
+      ['Product Owner','💻 Product','Pro','Define alcance y prioridades','10-15'],
+      ['Analyst Functional','💻 Product','Pro','Especificación funcional','10-15'],
+      ['UX Designer','💻 Product','Flash','Wireframes y flujos','12-18'],
+      ['UI Designer','💻 Product','Flash','Componentes y diseño','10-15'],
+      ['Frontend Architect','💻 Product','Pro','Arquitectura + implementación','15-25'],
+      ['Backend Architect','💻 Product','Pro','APIs y lógica de negocio','15-25'],
+      ['Code Reviewer','💻 Product','Pro','Code review PRs','12-18'],
+      ['QA Engineer','💻 Product','Flash','Plan de testing','15-25'],
+      ['DevOps Engineer','💻 Product','Flash','Deploy staging','8-12'],
+      ['Product Auditor','💻 Product','Opus','Auditoría pre-entrega','5-8'],
+    ];
+  } else {
+    complexity = 'Simple'; emoji = '🟢'; costRange = '$2-5';
+    planText = '<strong style="color:#00D9A5;">📋 Plan de ejecución sugerido:</strong><br><br><em style="color:#60a5fa;">"Gero, esto es un proyecto simple. Voy a usar 5 agentes, costo $2-5 USD. Pipeline directo, 1 iteración. ¿Arranco?"</em><br><br>Al confirmar, ejecuta rápido. Menos agentes, menos iteraciones, entrega ágil.';
+    agents = [
+      ['Product Owner','💻 Product','Pro','Define el MVP','5-8'],
+      ['UX Designer','💻 Product','Flash','Wireframes básicos','5-8'],
+      ['Frontend Architect','💻 Product','Pro','Implementación completa','10-15'],
+      ['Code Reviewer','💻 Product','Pro','Revisión de código','5-8'],
+      ['DevOps Engineer','💻 Product','Flash','Deploy','3-5'],
+    ];
+  }
+
+  document.getElementById('resultComplexityEmoji').textContent = emoji;
+  document.getElementById('resultComplexity').textContent = complexity;
+  document.getElementById('resultAgentCount').textContent = agents.length;
+  document.getElementById('resultCost').textContent = costRange;
+  document.getElementById('resultPlan').innerHTML = planText;
+  document.getElementById('resultAgents').innerHTML = agents.map(r =>
+    `<tr><td>${r[0]}</td><td style="font-size:0.65rem;">${r[1]}</td><td><span class="badge badge-${r[2].toLowerCase()}">${r[2]}</span></td><td style="font-size:0.68rem;color:#888;">${r[3]}</td><td>${r[4]}</td></tr>`
+  ).join('');
+  document.getElementById('projectResult').style.display = 'block';
+}
+
+function tryExample(text) {
+  document.getElementById('projectInput').value = text;
+  analyzeProject();
+  document.getElementById('tab-usage').scrollIntoView({behavior:'smooth'});
+}
+
+// Tooltips
+const tooltip = document.getElementById('tooltip');
+document.querySelectorAll('[data-title]').forEach(el => {
+  el.addEventListener('mouseenter', (e) => {
+    const title = el.dataset.title, desc = el.dataset.desc, model = el.dataset.model, modelClass = el.dataset.modelClass;
+    const skills = JSON.parse(el.dataset.skills || '[]');
+    tooltip.innerHTML = `<span class="badge ${modelClass} tooltip-model">${model}</span><div class="tooltip-title">${title}</div><div class="tooltip-desc">${desc}</div>${skills.length ? '<div class="tooltip-skills">' + skills.map(s => `<span class="tooltip-skill">${s}</span>`).join('') + '</div>' : ''}`;
+    tooltip.classList.add('visible'); positionTooltip(e);
+  });
+  el.addEventListener('mousemove', (e) => positionTooltip(e));
+  el.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+});
+function positionTooltip(e) {
+  let x = e.clientX + 16, y = e.clientY - 10;
+  const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+  if (x + tw > window.innerWidth - 10) x = e.clientX - tw - 16;
+  if (y + th > window.innerHeight - 10) y = e.clientY - th - 10;
+  if (y < 10) y = 10;
+  tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+}
+</script>
+</body>
+</html>

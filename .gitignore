@@ -1,0 +1,26 @@
+# Secrets
+.openclaw/
+credentials/
+*.token
+*.key
+.env
+openclaw.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Outputs
+outputs/*
+!outputs/.gitkeep
+
+# Client data (keep structure, strip data)
+clientes/*/memory/*
+!clientes/*/memory/.gitkeep
