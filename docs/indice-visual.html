@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumba Core — Índice Visual</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+.container { max-width: 1400px; margin: 0 auto; padding: 16px 24px 40px; }
+
+h1 { text-align: center; font-size: 2rem; margin: 20px 0 4px; background: linear-gradient(135deg, #00D9A5, #00B4D8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { text-align: center; color: #555; margin-bottom: 24px; font-size: 0.9rem; }
+
+/* Summary Cards */
+.summary-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 24px; }
+.summary-card { background: #111118; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #1e1e2e; }
+.summary-card .num { font-size: 2.2rem; font-weight: 700; }
+.summary-card .lbl { font-size: 0.68rem; color: #555; margin-top: 2px; }
+.summary-card.documents .num { color: #60a5fa; }
+.summary-card.agents .num { color: #4ade80; }
+.summary-card.skills .num { color: #fbbf24; }
+.summary-card.workflows .num { color: #c084fc; }
+
+/* Section */
+.section { margin-bottom: 20px; background: #111118; border-radius: 14px; border: 1px solid #1e1e2e; overflow: hidden; }
+.section-header { padding: 14px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: background 0.2s; }
+.section-header:hover { background: #16161f; }
+.section-header .icon { font-size: 1.4rem; }
+.section-header .title { font-size: 0.95rem; font-weight: 700; flex: 1; }
+.section-header .count { font-size: 0.7rem; color: #555; background: #0d0d14; padding: 3px 10px; border-radius: 20px; }
+.section-header .arrow { color: #444; transition: transform 0.2s; }
+.section.open .section-header .arrow { transform: rotate(90deg); }
+.section-body { display: none; padding: 0 20px 16px; }
+.section.open .section-body { display: block; }
+.section-body p.desc { font-size: 0.72rem; color: #666; margin-bottom: 10px; padding-left: 32px; }
+
+/* File tree */
+.file-list { list-style: none; }
+.file-list li { font-size: 0.73rem; padding: 5px 8px 5px 32px; border-radius: 6px; display: flex; gap: 8px; color: #999; transition: background 0.15s; }
+.file-list li:hover { background: #16161f; color: #e0e0e0; }
+.file-list li .fi { flex-shrink: 0; width: 18px; text-align: center; font-size: 0.8rem; }
+.file-list li .fn { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.file-list li .fd { flex: 1; min-width: 0; font-size: 0.67rem; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-list li .badge { flex-shrink: 0; }
+
+.folder-label { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 1.5px; padding: 10px 0 4px 32px; font-weight: 600; }
+.folder-label:first-child { padding-top: 0; }
+
+.dots { display: flex; flex-direction: column; gap: 0; margin-left: 4px; }
+.dots span { color: #333; font-size: 0.5rem; line-height: 1; }
+
+/* Colors per category */
+.c-doc { color: #fff !important; }
+.c-agente { color: #4ade80 !important; }
+.c-skill { color: #fbbf24 !important; }
+.c-workflow { color: #c084fc !important; }
+.c-template { color: #60a5fa !important; }
+.c-config { color: #f472b6 !important; }
+.c-metodo { color: #fb923c !important; }
+
+/* Badges */
+.badge { font-size: 0.55rem; font-weight: 700; padding: 2px 6px; border-radius: 5px; text-transform: uppercase; flex-shrink: 0; }
+.badge-doc { background: #1a1a28; color: #fff; border: 1px solid #333; }
+.badge-agent { background: #1a3a1a; color: #4ade80; border: 1px solid #22c55e44; }
+.badge-skill { background: #2a2a1a; color: #fbbf24; border: 1px solid #fbbf2444; }
+.badge-wf { background: #2a1a2a; color: #c084fc; border: 1px solid #a855f744; }
+.badge-tpl { background: #1a2a3a; color: #60a5fa; border: 1px solid #3b82f644; }
+.badge-cfg { background: #2a1a24; color: #f472b6; border: 1px solid #f472b644; }
+
+/* Team colors */
+.team-brand { border-left: 3px solid #E91E63; }
+.team-marketing { border-left: 3px solid #FF9800; }
+.team-product { border-left: 3px solid #00B4D8; }
+.team-universal { border-left: 3px solid #9C27B0; }
+.team-shared { border-left: 3px solid #00D9A5; }
+
+/* Search */
+.search-wrap { margin-bottom: 20px; display: flex; gap: 8px; }
+.search-wrap input { flex: 1; background: #111118; border: 1px solid #1e1e2e; border-radius: 10px; padding: 10px 16px; color: #e0e0e0; font-size: 0.82rem; font-family: inherit; outline: none; }
+.search-wrap input:focus { border-color: #00D9A5; }
+.search-wrap .search-clear { background: #1a1a28; border: 1px solid #333; color: #666; border-radius: 10px; padding: 10px 16px; cursor: pointer; font-family: inherit; font-size: 0.78rem; display: none; }
+
+.highlight { background: #fbbf2444; border-radius: 2px; }
+
+.nav-links { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.nav-links button { background: #111118; border: 1px solid #1e1e2e; border-radius: 8px; padding: 6px 14px; color: #777; cursor: pointer; font-family: inherit; font-size: 0.72rem; transition: all 0.2s; }
+.nav-links button:hover { border-color: #444; color: #aaa; }
+
+@media (max-width: 900px) { .summary-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .summary-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📑 Lumba Core</h1>
+  <p class="subtitle">Índice Completo de Contenidos · 150 archivos · 3 redes de agentes</p>
+
+  <div class="search-wrap">
+    <input id="searchBox" type="text" placeholder="🔍 Buscar archivo, agente, skill, workflow..." oninput="filterItems()">
+    <button id="searchClear" class="search-clear" onclick="clearSearch()">✕ Limpiar</button>
+  </div>
+
+  <div class="nav-links">
+    <button onclick="openAll()">📂 Expandir todo</button>
+    <button onclick="closeAll()">📁 Colapsar todo</button>
+    <button onclick="scrollToTeam('brand')">🎨 Core-Brand</button>
+    <button onclick="scrollToTeam('marketing')">📣 Core-Marketing</button>
+    <button onclick="scrollToTeam('product')">💻 Core-Product</button>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-grid">
+    <div class="summary-card documents"><div class="num">13+11</div><div class="lbl">Documentos + Templates</div></div>
+    <div class="summary-card agents"><div class="num">41</div><div class="lbl">Agentes definidos</div></div>
+    <div class="summary-card skills"><div class="num">33</div><div class="lbl">Skills</div></div>
+    <div class="summary-card workflows"><div class="num">19</div><div class="lbl">Workflows</div></div>
+  </div>
+
+  <!-- ============= RAÍZ ============= -->
+  <div class="section open">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">🏠</span><span class="title">Documentos Raíz</span><span class="count">13 archivos</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <p class="desc">Documentos fundamentales que definen la identidad, principios y operación de Lumba Core.</p>
+      <ul class="file-list">
+        <li><span class="fi">📘</span><span class="fn c-doc">README.md</span><span class="badge badge-doc">doc</span><span class="fd">Puerta de entrada: instalación, arquitectura, estructura del repo</span></li>
+        <li><span class="fi">📜</span><span class="fn c-doc">MANIFIESTO.md</span><span class="badge badge-doc">doc</span><span class="fd">Identidad de Lumba: qué es, por qué existe, qué cree, cómo trabaja, visión 3 años</span></li>
+        <li><span class="fi">⚖️</span><span class="fn c-doc">PRINCIPIOS.md</span><span class="badge badge-doc">doc</span><span class="fd">15 principios operativos + checklist NUNCA/SIEMPRE + Principio 0 (auditoría)</span></li>
+        <li><span class="fi">🤖</span><span class="fn c-doc">AGENTS.md</span><span class="badge badge-doc">doc</span><span class="fd">Reglas globales de agentes, validación humana obligatoria, flujo universal</span></li>
+        <li><span class="fi">⚡</span><span class="fn c-doc">SOUL.md</span><span class="badge badge-doc">doc</span><span class="fd">Personalidad del Orchestrator (Jarvis): modelos, modo de operación, reglas</span></li>
+        <li><span class="fi">🧠</span><span class="fn c-doc">MODEL-STRATEGY.md</span><span class="badge badge-doc">doc</span><span class="fd">Estrategia Flash 70% / Pro 25% / Opus 5% — qué modelo para cada tarea</span></li>
+        <li><span class="fi">📊</span><span class="fn c-doc">METRICAS.md</span><span class="badge badge-doc">doc</span><span class="fd">KPI north: % entregas sin corrección posterior. Métricas por red</span></li>
+        <li><span class="fi">📍</span><span class="fn c-doc">INDICE.md</span><span class="badge badge-doc">doc</span><span class="fd">Mapa de navegación completo del repositorio (versión texto)</span></li>
+        <li><span class="fi">🪪</span><span class="fn c-doc">IDENTITY.md</span><span class="badge badge-doc">doc</span><span class="fd">Identidad puntual: nombre, avatar, emoji, vibe</span></li>
+        <li><span class="fi">👤</span><span class="fn c-doc">USER.md</span><span class="badge badge-doc">doc</span><span class="fd">Perfil del humano (Founder)</span></li>
+        <li><span class="fi">🔧</span><span class="fn c-doc">TOOLS.md</span><span class="badge badge-doc">doc</span><span class="fd">Notas locales de herramientas y configuración</span></li>
+        <li><span class="fi">💓</span><span class="fn c-doc">HEARTBEAT.md</span><span class="badge badge-doc">doc</span><span class="fd">Chequeos periódicos del sistema</span></li>
+        <li><span class="fi">🔒</span><span class="fn c-doc">.gitignore</span><span class="badge badge-cfg">config</span><span class="fd">Protege secrets, outputs, datos de clientes</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= SETUP ============= -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">💿</span><span class="title">Scripts de Instalación</span><span class="count">2 scripts</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <ul class="file-list">
+        <li><span class="fi">🪟</span><span class="fn c-config">setup.bat</span><span class="badge badge-cfg">config</span><span class="fd">Instalador 1-click para Windows: Node.js check, npm install, config, start</span></li>
+        <li><span class="fi">🍎</span><span class="fn c-config">setup.sh</span><span class="badge badge-cfg">config</span><span class="fd">Instalador 1-click para macOS/Linux</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= DOCS ============= -->
+  <div class="section open">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">🌐</span><span class="title">docs/ — Documentación Visual Interactiva</span><span class="count">1 archivo</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <p class="desc">Abrir en navegador: doble click en el .html</p>
+      <ul class="file-list">
+        <li><span class="fi">🎨</span><span class="fn c-doc">lumba-agentes-skills.html</span><span class="badge badge-doc">html</span><span class="fd">Doc interactiva 5 pestañas: Pipeline, Agentes, Costos, Workflows, Guía de Uso + Simulador</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= SHARED ============= -->
+  <div class="section team-shared">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">🔗</span><span class="title">shared/ — Compartido entre Equipos</span><span class="count">20 archivos</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <p class="desc">Metodología, infraestructura, schemas y agentes universales que usan las 3 redes.</p>
+
+      <div class="folder-label">📂 metodologia/ — Procesos Transversales</div>
+      <ul class="file-list">
+        <li><span class="fi">📋</span><span class="fn c-metodo">PROCESO-8-PASOS.md</span><span class="badge badge-doc">doc</span><span class="fd">Pipeline: Investigar → Pensar → Cuestionar → Validar → Construir → Testear → Mejorar → Lanzar</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-metodo">WORKFLOW-AUDITORIA.md</span><span class="badge badge-wf">wf</span><span class="fd">Proceso de auditoría obligatoria pre-entrega</span></li>
+        <li><span class="fi">📝</span><span class="fn c-metodo">WORKFLOW-BRIEF-OBSESIVO.md</span><span class="badge badge-wf">wf</span><span class="fd">Metodología de brief completo antes de producir</span></li>
+        <li><span class="fi">🔗</span><span class="fn c-metodo">COMUNICACION-AGENTES.md</span><span class="badge badge-doc">doc</span><span class="fd">Protocolo de handoff entre agentes (JSON Schema)</span></li>
+        <li><span class="fi">💰</span><span class="fn c-metodo">COSTOS.md</span><span class="badge badge-doc">doc</span><span class="fd">Modelo de costos, límites, presupuesto por proyecto</span></li>
+        <li><span class="fi">🧠</span><span class="fn c-metodo">MEMORIA-COMPARTIDA.md</span><span class="badge badge-doc">doc</span><span class="fd">Sistema de memoria por cliente y proyecto</span></li>
+        <li><span class="fi">✅</span><span class="fn c-metodo">QUALITY-GATES.md</span><span class="badge badge-doc">doc</span><span class="fd">Puntos de control de calidad en el pipeline</span></li>
+        <li><span class="fi">🔒</span><span class="fn c-metodo">SEGURIDAD.md</span><span class="badge badge-doc">doc</span><span class="fd">Políticas de seguridad, NDA, datos sensibles</span></li>
+        <li><span class="fi">👤</span><span class="fn c-metodo">VALIDACION-HUMANA.md</span><span class="badge badge-doc">doc</span><span class="fd">Checklist de cuándo se requiere aprobación humana</span></li>
+        <li><span class="fi">🗺️</span><span class="fn c-metodo">ROADMAP-IMPLEMENTACION.md</span><span class="badge badge-doc">doc</span><span class="fd">Plan de implementación futura del sistema</span></li>
+      </ul>
+
+      <div class="folder-label">📂 agentes-universales/</div>
+      <ul class="file-list">
+        <li><span class="fi">🌐</span><span class="fn c-agente">AGENTES-UNIVERSALES.md</span><span class="badge badge-agent">agentes</span><span class="fd">5 agentes: Orchestrator, Devil's Advocate, PM, Research, Scope, Client Translator</span></li>
+      </ul>
+
+      <div class="folder-label">📂 infra/ — Infraestructura Técnica</div>
+      <ul class="file-list">
+        <li><span class="fi">📦</span><span class="fn c-config">STACKS.md</span><span class="badge badge-cfg">config</span><span class="fd">Definición de stacks tecnológicos</span></li>
+        <li><span class="fi">📏</span><span class="fn c-config">CODING-STANDARDS.md</span><span class="badge badge-cfg">config</span><span class="fd">Estándares de código para toda la agencia</span></li>
+      </ul>
+      <div class="folder-label" style="padding-left:48px;font-size:0.6rem;">📂 stack-a-config/ — Config base Stack A</div>
+      <ul class="file-list">
+        <li><span class="fi">⚙️</span><span class="fn c-config">.editorconfig</span><span class="badge badge-cfg">config</span><span class="fd"></span></li>
+        <li><span class="fi">🎨</span><span class="fn c-config">.prettierrc.json</span><span class="badge badge-cfg">config</span><span class="fd"></span></li>
+        <li><span class="fi">🔍</span><span class="fn c-config">eslint.config.js</span><span class="badge badge-cfg">config</span><span class="fd"></span></li>
+        <li><span class="fi">📘</span><span class="fn c-config">tsconfig.json</span><span class="badge badge-cfg">config</span><span class="fd"></span></li>
+        <li><span class="fi">📋</span><span class="fn c-config">CONVENTIONS.md</span><span class="badge badge-doc">doc</span><span class="fd"></span></li>
+        <li><span class="fi">🪝</span><span class="fn c-config">.husky/pre-commit</span><span class="badge badge-cfg">config</span><span class="fd"></span></li>
+      </ul>
+
+      <div class="folder-label">📂 schemas/</div>
+      <ul class="file-list">
+        <li><span class="fi">📐</span><span class="fn c-config">README.md</span><span class="badge badge-doc">doc</span><span class="fd">JSON Schemas para handoff entre agentes</span></li>
+      </ul>
+
+      <div class="folder-label">📂 Otros</div>
+      <ul class="file-list">
+        <li><span class="fi">📂</span><span class="fn c-doc">ESTRUCTURA-CARPETAS.md</span><span class="badge badge-doc">doc</span><span class="fd">Explicación de la estructura de directorios</span></li>
+        <li><span class="fi">🚫</span><span class="fn c-doc">FORBIDDEN-REQUIRED-BEHAVIOR.md</span><span class="badge badge-doc">doc</span><span class="fd">Reglas NUNCA/SIEMPRE para agentes</span></li>
+        <li><span class="fi">📊</span><span class="fn c-doc">RACI-OPERATIVO.md</span><span class="badge badge-doc">doc</span><span class="fd">Matriz RACI: Responsable, Aprueba, Consultado, Informado</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= CORE-BRAND ============= -->
+  <div class="section team-brand" id="team-brand">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">🎨</span><span class="title">equipos/core-brand/ — Red de Branding</span><span class="count">24 archivos</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <div class="folder-label">📂 Agentes (8)</div>
+      <ul class="file-list">
+        <li><span class="fi">🧠</span><span class="fn c-agente">brand-strategist.md</span><span class="badge badge-agent">agente</span><span class="fd">Estrategia de marca, posicionamiento, naming</span></li>
+        <li><span class="fi">🎯</span><span class="fn c-agente">brand-auditor.md</span><span class="badge badge-agent">agente</span><span class="fd">Auditoría obligatoria de entregables de branding</span></li>
+        <li><span class="fi">📋</span><span class="fn c-agente">brandbook-builder.md</span><span class="badge badge-agent">agente</span><span class="fd">Construcción de brandbooks y guías</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-agente">brand-differentiator.md</span><span class="badge badge-agent">agente</span><span class="fd">Diferenciación competitiva de marca</span></li>
+        <li><span class="fi">🔬</span><span class="fn c-agente">brand-researcher.md</span><span class="badge badge-agent">agente</span><span class="fd">Investigación de mercado y competencia</span></li>
+        <li><span class="fi">✍️</span><span class="fn c-agente">brand-voice-writer.md</span><span class="badge badge-agent">agente</span><span class="fd">Redacción de tono de voz</span></li>
+        <li><span class="fi">🎨</span><span class="fn c-agente">identity-designer.md</span><span class="badge badge-agent">agente</span><span class="fd">Diseño de identidad visual</span></li>
+        <li><span class="fi">👁️</span><span class="fn c-agente">visual-director.md</span><span class="badge badge-agent">agente</span><span class="fd">Dirección de arte y sistema visual</span></li>
+      </ul>
+      <div class="folder-label">📂 Skills (9)</div>
+      <ul class="file-list">
+        <li><span class="fi">📊</span><span class="fn c-skill">benchmark-framework.md</span><span class="badge badge-skill">skill</span><span class="fd">Framework de benchmarking competitivo</span></li>
+        <li><span class="fi">✅</span><span class="fn c-skill">brand-audit-checklist.md</span><span class="badge badge-skill">skill</span><span class="fd">Checklist de auditoría de marca</span></li>
+        <li><span class="fi">🔬</span><span class="fn c-skill">brand-diagnostic.md</span><span class="badge badge-skill">skill</span><span class="fd">Diagnóstico de marca</span></li>
+        <li><span class="fi">📘</span><span class="fn c-skill">brandbook-template.md</span><span class="badge badge-skill">skill</span><span class="fd">Template de brandbook</span></li>
+        <li><span class="fi">🏷️</span><span class="fn c-skill">naming-method.md</span><span class="badge badge-skill">skill</span><span class="fd">Metodología de naming</span></li>
+        <li><span class="fi">🗺️</span><span class="fn c-skill">positioning-canvas.md</span><span class="badge badge-skill">skill</span><span class="fd">Canvas de posicionamiento</span></li>
+        <li><span class="fi">🗣️</span><span class="fn c-skill">tone-of-voice-builder.md</span><span class="badge badge-skill">skill</span><span class="fd">Constructor de tono de voz</span></li>
+        <li><span class="fi">🎨</span><span class="fn c-skill">visual-system-design.md</span><span class="badge badge-skill">skill</span><span class="fd">Diseño de sistema visual</span></li>
+        <li><span class="fi">🤝</span><span class="fn c-skill">workshop-facilitator.md</span><span class="badge badge-skill">skill</span><span class="fd">Facilitación de workshops</span></li>
+      </ul>
+      <div class="folder-label">📂 Workflows (6)</div>
+      <ul class="file-list">
+        <li><span class="fi">1️⃣</span><span class="fn c-workflow">01-diagnostico-marca.md</span><span class="badge badge-wf">wf</span><span class="fd">Diagnóstico inicial de marca</span></li>
+        <li><span class="fi">2️⃣</span><span class="fn c-workflow">02-workshop-estrategico.md</span><span class="badge badge-wf">wf</span><span class="fd">Workshop estratégico de marca</span></li>
+        <li><span class="fi">3️⃣</span><span class="fn c-workflow">03-identidad-visual.md</span><span class="badge badge-wf">wf</span><span class="fd">Creación de identidad visual</span></li>
+        <li><span class="fi">4️⃣</span><span class="fn c-workflow">04-manual-marca.md</span><span class="badge badge-wf">wf</span><span class="fd">Manual de marca completo</span></li>
+        <li><span class="fi">5️⃣</span><span class="fn c-workflow">05-brand-differentiation-audit.md</span><span class="badge badge-wf">wf</span><span class="fd">Auditoría de diferenciación</span></li>
+        <li><span class="fi">6️⃣</span><span class="fn c-workflow">06-visual-identity-review.md</span><span class="badge badge-wf">wf</span><span class="fd">Revisión de identidad visual</span></li>
+      </ul>
+      <div class="folder-label">📂 Otros</div>
+      <ul class="file-list">
+        <li><span class="fi">📋</span><span class="fn c-metodo">METODO.md</span><span class="badge badge-doc">doc</span><span class="fd">Método de trabajo del equipo Core-Brand</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= CORE-MARKETING ============= -->
+  <div class="section team-marketing" id="team-marketing">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">📣</span><span class="title">equipos/core-marketing/ — Red de Marketing</span><span class="count">38 archivos</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <div class="folder-label">📂 Agentes (12)</div>
+      <ul class="file-list">
+        <li><span class="fi">📊</span><span class="fn c-agente">marketing-strategist.md</span><span class="badge badge-agent">agente</span><span class="fd">Estrategia de marketing, canales, funnel</span></li>
+        <li><span class="fi">🎯</span><span class="fn c-agente">marketing-auditor.md</span><span class="badge badge-agent">agente</span><span class="fd">Auditoría de campañas y copy</span></li>
+        <li><span class="fi">📈</span><span class="fn c-agente">campaign-orchestrator.md</span><span class="badge badge-agent">agente</span><span class="fd">Coordinación de campañas multi-canal</span></li>
+        <li><span class="fi">📝</span><span class="fn c-agente">content-strategist.md</span><span class="badge badge-agent">agente</span><span class="fd">Estrategia de contenido</span></li>
+        <li><span class="fi">✍️</span><span class="fn c-agente">copywriter.md</span><span class="badge badge-agent">agente</span><span class="fd">Redacción publicitaria</span></li>
+        <li><span class="fi">📊</span><span class="fn c-agente">data-analyst.md</span><span class="badge badge-agent">agente</span><span class="fd">Análisis de datos de campaña</span></li>
+        <li><span class="fi">🛒</span><span class="fn c-agente">ecommerce-manager.md</span><span class="badge badge-agent">agente</span><span class="fd">Gestión de ecommerce</span></li>
+        <li><span class="fi">📧</span><span class="fn c-agente">email-specialist.md</span><span class="badge badge-agent">agente</span><span class="fd">Email marketing</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-agente">google-ads-analyst.md</span><span class="badge badge-agent">agente</span><span class="fd">Análisis y optimización de Google Ads</span></li>
+        <li><span class="fi">📈</span><span class="fn c-agente">growth-marketing-specialist.md</span><span class="badge badge-agent">agente</span><span class="fd">Growth marketing</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-agente">meta-ads-analyst.md</span><span class="badge badge-agent">agente</span><span class="fd">Análisis y optimización de Meta Ads</span></li>
+        <li><span class="fi">🎬</span><span class="fn c-agente">scriptwriter.md</span><span class="badge badge-agent">agente</span><span class="fd">Guiones para contenido/ads</span></li>
+      </ul>
+      <div class="folder-label">📂 Skills (14)</div>
+      <ul class="file-list">
+        <li><span class="fi">🔗</span><span class="fn c-skill">attribution-model.md</span><span class="badge badge-skill">skill</span><span class="fd">Modelo de atribución de conversiones</span></li>
+        <li><span class="fi">👥</span><span class="fn c-skill">audience-builder.md</span><span class="badge badge-skill">skill</span><span class="fd">Constructor de audiencias</span></li>
+        <li><span class="fi">📌</span><span class="fn c-skill">content-pillars.md</span><span class="badge badge-skill">skill</span><span class="fd">Definición de pilares de contenido</span></li>
+        <li><span class="fi">🧪</span><span class="fn c-skill">creative-testing-framework.md</span><span class="badge badge-skill">skill</span><span class="fd">Framework de testing creativo</span></li>
+        <li><span class="fi">📧</span><span class="fn c-skill">email-architecture.md</span><span class="badge badge-skill">skill</span><span class="fd">Arquitectura de email marketing</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-skill">google-ads-audit.md</span><span class="badge badge-skill">skill</span><span class="fd">Auditoría de Google Ads</span></li>
+        <li><span class="fi">🏗️</span><span class="fn c-skill">google-ads-structure.md</span><span class="badge badge-skill">skill</span><span class="fd">Estructura de campañas Google Ads</span></li>
+        <li><span class="fi">📈</span><span class="fn c-skill">growth-marketing-analysis.md</span><span class="badge badge-skill">skill</span><span class="fd">Análisis de growth marketing</span></li>
+        <li><span class="fi">✅</span><span class="fn c-skill">marketing-audit-checklist.md</span><span class="badge badge-skill">skill</span><span class="fd">Checklist de auditoría de marketing</span></li>
+        <li><span class="fi">🔬</span><span class="fn c-skill">marketing-diagnostic.md</span><span class="badge badge-skill">skill</span><span class="fd">Diagnóstico de marketing</span></li>
+        <li><span class="fi">📊</span><span class="fn c-skill">marketing-reporting.md</span><span class="badge badge-skill">skill</span><span class="fd">Reporting de marketing</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-skill">meta-ads-audit.md</span><span class="badge badge-skill">skill</span><span class="fd">Auditoría de Meta Ads</span></li>
+        <li><span class="fi">🏗️</span><span class="fn c-skill">meta-ads-structure.md</span><span class="badge badge-skill">skill</span><span class="fd">Estructura de campañas Meta Ads</span></li>
+        <li><span class="fi">💡</span><span class="fn c-skill">report-with-insights.md</span><span class="badge badge-skill">skill</span><span class="fd">Reportes con insights accionables</span></li>
+      </ul>
+      <div class="folder-label">📂 Workflows (8)</div>
+      <ul class="file-list">
+        <li><span class="fi">1️⃣</span><span class="fn c-workflow">01-plan-marketing-inicial.md</span><span class="badge badge-wf">wf</span><span class="fd">Plan de marketing inicial</span></li>
+        <li><span class="fi">2️⃣</span><span class="fn c-workflow">02-campania-meta-ads.md</span><span class="badge badge-wf">wf</span><span class="fd">Campaña de Meta Ads</span></li>
+        <li><span class="fi">3️⃣</span><span class="fn c-workflow">03-campania-google-ads.md</span><span class="badge badge-wf">wf</span><span class="fd">Campaña de Google Ads</span></li>
+        <li><span class="fi">4️⃣</span><span class="fn c-workflow">04-email-marketing-comercial.md</span><span class="badge badge-wf">wf</span><span class="fd">Email marketing comercial</span></li>
+        <li><span class="fi">5️⃣</span><span class="fn c-workflow">05-calendario-contenido-mensual.md</span><span class="badge badge-wf">wf</span><span class="fd">Calendario de contenido mensual</span></li>
+        <li><span class="fi">6️⃣</span><span class="fn c-workflow">06-reporte-mensual-insights.md</span><span class="badge badge-wf">wf</span><span class="fd">Reporte mensual con insights</span></li>
+        <li><span class="fi">7️⃣</span><span class="fn c-workflow">07-growth-reporting-sprint.md</span><span class="badge badge-wf">wf</span><span class="fd">Sprint de growth reporting</span></li>
+        <li><span class="fi">8️⃣</span><span class="fn c-workflow">08-meta-google-ads-audit.md</span><span class="badge badge-wf">wf</span><span class="fd">Auditoría combinada Meta + Google Ads</span></li>
+      </ul>
+      <div class="folder-label">📂 Playbooks (3)</div>
+      <ul class="file-list">
+        <li><span class="fi">📘</span><span class="fn c-skill">google-ads-playbook.md</span><span class="badge badge-skill">playbook</span><span class="fd">Playbook operativo Google Ads</span></li>
+        <li><span class="fi">📘</span><span class="fn c-skill">growth-marketing-playbook.md</span><span class="badge badge-skill">playbook</span><span class="fd">Playbook de growth marketing</span></li>
+        <li><span class="fi">📘</span><span class="fn c-skill">meta-ads-playbook.md</span><span class="badge badge-skill">playbook</span><span class="fd">Playbook operativo Meta Ads</span></li>
+      </ul>
+      <div class="folder-label">📂 Otros</div>
+      <ul class="file-list">
+        <li><span class="fi">📋</span><span class="fn c-metodo">METODO.md</span><span class="badge badge-doc">doc</span><span class="fd">Método de trabajo del equipo Core-Marketing</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= CORE-PRODUCT ============= -->
+  <div class="section team-product" id="team-product">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">💻</span><span class="title">equipos/core-product/ — Red de Producto Digital</span><span class="count">34 archivos</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <div class="folder-label">📂 Agentes (18)</div>
+      <ul class="file-list">
+        <li><span class="fi">📋</span><span class="fn c-agente">product-owner.md</span><span class="badge badge-agent">agente</span><span class="fd">Roadmap, backlog, priorización</span></li>
+        <li><span class="fi">📝</span><span class="fn c-agente">analyst-functional.md</span><span class="badge badge-agent">agente</span><span class="fd">Especificación funcional, criterios de aceptación</span></li>
+        <li><span class="fi">🎨</span><span class="fn c-agente">ux-designer.md</span><span class="badge badge-agent">agente</span><span class="fd">Flujos de usuario, wireframes, prototipos</span></li>
+        <li><span class="fi">🖌️</span><span class="fn c-agente">ui-designer.md</span><span class="badge badge-agent">agente</span><span class="fd">Sistema de diseño, componentes, responsive</span></li>
+        <li><span class="fi">🏗️</span><span class="fn c-agente">frontend-architect.md</span><span class="badge badge-agent">agente</span><span class="fd">Arquitectura frontend (Vite + React + TS + Tailwind)</span></li>
+        <li><span class="fi">⚙️</span><span class="fn c-agente">backend-architect.md</span><span class="badge badge-agent">agente</span><span class="fd">APIs REST, auth, integraciones</span></li>
+        <li><span class="fi">🗄️</span><span class="fn c-agente">data-architect.md</span><span class="badge badge-agent">agente</span><span class="fd">Modelo de datos, esquemas, migraciones</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-agente">code-reviewer.md</span><span class="badge badge-agent">agente</span><span class="fd">Guardián de calidad pre-merge</span></li>
+        <li><span class="fi">✅</span><span class="fn c-agente">code-quality-agent.md</span><span class="badge badge-agent">agente</span><span class="fd">Métricas de calidad de código</span></li>
+        <li><span class="fi">🧪</span><span class="fn c-agente">qa-engineer.md</span><span class="badge badge-agent">agente</span><span class="fd">Planes de testing, edge cases</span></li>
+        <li><span class="fi">🚀</span><span class="fn c-agente">devops-engineer.md</span><span class="badge badge-agent">agente</span><span class="fd">Deploy, CI/CD, monitoring</span></li>
+        <li><span class="fi">🔒</span><span class="fn c-agente">security-agent.md</span><span class="badge badge-agent">agente</span><span class="fd">OWASP, vulnerabilidades, secretos</span></li>
+        <li><span class="fi">🎯</span><span class="fn c-agente">product-auditor.md</span><span class="badge badge-agent">agente</span><span class="fd">Auditoría pre-entrega de specs y UX/UI</span></li>
+        <li><span class="fi">💼</span><span class="fn c-agente">business-strategist.md</span><span class="badge badge-agent">agente</span><span class="fd">Viabilidad y estrategia de negocio</span></li>
+        <li><span class="fi">🗣️</span><span class="fn c-agente">client-onboarding-agent.md</span><span class="badge badge-agent">agente</span><span class="fd">Onboarding de clientes nuevos</span></li>
+        <li><span class="fi">🔧</span><span class="fn c-agente">prompt-engineer.md</span><span class="badge badge-agent">agente</span><span class="fd">Optimización de prompts de agentes</span></li>
+        <li><span class="fi">🔄</span><span class="fn c-agente">retrospective-agent.md</span><span class="badge badge-agent">agente</span><span class="fd">Retrospectivas post-proyecto</span></li>
+      </ul>
+      <div class="folder-label">📂 Skills (10)</div>
+      <ul class="file-list">
+        <li><span class="fi">📐</span><span class="fn c-skill">adr-generator.md</span><span class="badge badge-skill">skill</span><span class="fd">Architecture Decision Records</span></li>
+        <li><span class="fi">✅</span><span class="fn c-skill">code-review-checklist.md</span><span class="badge badge-skill">skill</span><span class="fd">Checklist de code review</span></li>
+        <li><span class="fi">🗄️</span><span class="fn c-skill">data-modeling.md</span><span class="badge badge-skill">skill</span><span class="fd">Modelado de datos</span></li>
+        <li><span class="fi">🚀</span><span class="fn c-skill">deployment-checklist.md</span><span class="badge badge-skill">skill</span><span class="fd">Checklist de deploy</span></li>
+        <li><span class="fi">🔍</span><span class="fn c-skill">discovery-framework.md</span><span class="badge badge-skill">skill</span><span class="fd">Framework de discovery</span></li>
+        <li><span class="fi">📝</span><span class="fn c-skill">functional-specification.md</span><span class="badge badge-skill">skill</span><span class="fd">Especificación funcional</span></li>
+        <li><span class="fi">🎯</span><span class="fn c-skill">product-audit-checklist.md</span><span class="badge badge-skill">skill</span><span class="fd">Checklist de auditoría de producto</span></li>
+        <li><span class="fi">🧪</span><span class="fn c-skill">qa-test-plan.md</span><span class="badge badge-skill">skill</span><span class="fd">Plan de testing QA</span></li>
+        <li><span class="fi">📋</span><span class="fn c-skill">user-story-format.md</span><span class="badge badge-skill">skill</span><span class="fd">Formato de user stories</span></li>
+        <li><span class="fi">🎨</span><span class="fn c-skill">ux-flow-design.md</span><span class="badge badge-skill">skill</span><span class="fd">Diseño de flujos UX</span></li>
+      </ul>
+      <div class="folder-label">📂 Workflows (5)</div>
+      <ul class="file-list">
+        <li><span class="fi">1️⃣</span><span class="fn c-workflow">01-discovery-y-funcional.md</span><span class="badge badge-wf">wf</span><span class="fd">Discovery + definición funcional</span></li>
+        <li><span class="fi">2️⃣</span><span class="fn c-workflow">02-diseno-ux-ui.md</span><span class="badge badge-wf">wf</span><span class="fd">Diseño UX/UI completo</span></li>
+        <li><span class="fi">3️⃣</span><span class="fn c-workflow">03-desarrollo-feature.md</span><span class="badge badge-wf">wf</span><span class="fd">Desarrollo de feature</span></li>
+        <li><span class="fi">4️⃣</span><span class="fn c-workflow">04-bug-critico.md</span><span class="badge badge-wf">wf</span><span class="fd">Bug crítico en producción</span></li>
+        <li><span class="fi">5️⃣</span><span class="fn c-workflow">05-soporte-evolutivo.md</span><span class="badge badge-wf">wf</span><span class="fd">Soporte evolutivo</span></li>
+      </ul>
+      <div class="folder-label">📂 Otros</div>
+      <ul class="file-list">
+        <li><span class="fi">📋</span><span class="fn c-metodo">METODO.md</span><span class="badge badge-doc">doc</span><span class="fd">Método de trabajo del equipo Core-Product</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= KNOWLEDGE ============= -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection(this)"><span class="icon">📚</span><span class="title">knowledge/ — Base de Conocimiento</span><span class="count">13 archivos</span><span class="arrow">▶</span></div>
+    <div class="section-body">
+      <div class="folder-label">📂 Templates (11)</div>
+      <ul class="file-list">
+        <li><span class="fi">📝</span><span class="fn c-template">brief-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Brief genérico</span></li>
+        <li><span class="fi">🎨</span><span class="fn c-template">brief-branding.md</span><span class="badge badge-tpl">template</span><span class="fd">Brief de branding</span></li>
+        <li><span class="fi">📣</span><span class="fn c-template">brief-marketing.md</span><span class="badge badge-tpl">template</span><span class="fd">Brief de marketing</span></li>
+        <li><span class="fi">💻</span><span class="fn c-template">brief-producto.md</span><span class="badge badge-tpl">template</span><span class="fd">Brief de producto</span></li>
+        <li><span class="fi">👤</span><span class="fn c-template">client-memory-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Memoria de cliente</span></li>
+        <li><span class="fi">📁</span><span class="fn c-template">project-memory-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Memoria de proyecto</span></li>
+        <li><span class="fi">📐</span><span class="fn c-template">adr-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Architecture Decision Record</span></li>
+        <li><span class="fi">📋</span><span class="fn c-template">audit-report-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Reporte de auditoría</span></li>
+        <li><span class="fi">🏃</span><span class="fn c-template">sprint-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Sprint template</span></li>
+        <li><span class="fi">📈</span><span class="fn c-template">growth-experiment-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Experimento de growth</span></li>
+        <li><span class="fi">📊</span><span class="fn c-template">marketing-report-template.md</span><span class="badge badge-tpl">template</span><span class="fd">Reporte de marketing</span></li>
+      </ul>
+      <div class="folder-label">📂 Checklists (2)</div>
+      <ul class="file-list">
+        <li><span class="fi">✅</span><span class="fn c-template">sistema-completo.md</span><span class="badge badge-tpl">checklist</span><span class="fd">Checklist del sistema completo</span></li>
+        <li><span class="fi">🖥️</span><span class="fn c-template">frontend-borrador.md</span><span class="badge badge-tpl">checklist</span><span class="fd">Checklist de frontend en borrador</span></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleSection(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+function openAll() {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('open'));
+}
+
+function closeAll() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('open'));
+}
+
+function scrollToTeam(id) {
+  const el = document.getElementById('team-' + id);
+  if (el) { el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+
+function filterItems() {
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  const clearBtn = document.getElementById('searchClear');
+  clearBtn.style.display = q ? 'inline-block' : 'none';
+
+  document.querySelectorAll('.file-list li').forEach(li => {
+    const text = li.textContent.toLowerCase();
+    if (!q) {
+      li.style.display = '';
+      li.querySelectorAll('.highlight').forEach(h => h.outerHTML = h.textContent);
+      return;
+    }
+    if (text.includes(q)) {
+      li.style.display = '';
+      // highlight match
+      const fn = li.querySelector('.fn');
+      if (fn && q.length > 1) {
+        const txt = fn.textContent;
+        const idx = txt.toLowerCase().indexOf(q);
+        if (idx >= 0) {
+          fn.innerHTML = txt.substring(0, idx) + '<span class="highlight">' + txt.substring(idx, idx + q.length) + '</span>' + txt.substring(idx + q.length);
+        }
+      }
+      li.closest('.section').classList.add('open');
+    } else {
+      li.style.display = 'none';
+    }
+  });
+
+  // hide empty sections during search
+  document.querySelectorAll('.section').forEach(s => {
+    const visible = s.querySelectorAll('.file-list li[style*="display:"]').length < s.querySelectorAll('.file-list li').length;
+    if (q && !visible) {
+      s.style.opacity = '0.3';
+    } else {
+      s.style.opacity = '1';
+    }
+  });
+}
+
+function clearSearch() {
+  document.getElementById('searchBox').value = '';
+  document.getElementById('searchClear').style.display = 'none';
+  filterItems();
+}
+</script>
+</body>
+</html>
