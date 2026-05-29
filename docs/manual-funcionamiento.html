@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumba Core — Manual de Funcionamiento</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+.container { max-width: 1100px; margin: 0 auto; padding: 20px 24px 60px; }
+
+h1 { text-align: center; font-size: 2.2rem; margin: 24px 0 6px; background: linear-gradient(135deg, #00D9A5, #00B4D8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { text-align: center; color: #555; margin-bottom: 8px; font-size: 0.9rem; }
+
+/* Steps */
+.step { background: #111118; border-radius: 16px; margin-bottom: 24px; border: 1px solid #1e1e2e; overflow: hidden; }
+.step-header { padding: 18px 24px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #1a1a25; }
+.step-num { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; flex-shrink: 0; }
+.step-title { font-size: 1.05rem; font-weight: 700; }
+.step-sub { font-size: 0.72rem; color: #555; }
+.step-body { padding: 20px 24px; }
+.step-body p { font-size: 0.82rem; color: #999; line-height: 1.7; margin-bottom: 12px; }
+.step-body strong { color: #e0e0e0; }
+.step-body ul { padding-left: 20px; margin-bottom: 12px; }
+.step-body li { font-size: 0.78rem; color: #888; padding: 3px 0; line-height: 1.6; }
+.step-body .code { background: #0d0d14; border: 1px solid #1e1e28; border-radius: 8px; padding: 12px 16px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.72rem; color: #4ade80; margin: 10px 0; white-space: pre-wrap; line-height: 1.6; }
+.step-body .code .c { color: #555; }
+.step-body .code .k { color: #60a5fa; }
+.step-body .code .v { color: #fbbf24; }
+
+/* Colors per step */
+.s1 .step-num { background: #0a1a15; color: #00D9A5; }
+.s2 .step-num { background: #1a2a3a; color: #60a5fa; }
+.s3 .step-num { background: #2a1a2a; color: #c084fc; }
+.s4 .step-num { background: #2a2a1a; color: #fbbf24; }
+.s5 .step-num { background: #1a3a1a; color: #4ade80; }
+.s6 .step-num { background: #2a1a24; color: #f472b6; }
+
+/* Diagram */
+.diagram { background: #0d0d14; border-radius: 12px; padding: 24px; margin: 16px 0; overflow-x: auto; }
+.diagram svg { display: block; margin: 0 auto; max-width: 100%; }
+
+/* Architecture boxes */
+.arch-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin: 16px 0; }
+.arch-box { background: #0d0d14; border: 1px solid #1e1e2e; border-radius: 12px; padding: 16px 20px; text-align: center; min-width: 160px; }
+.arch-box .icon { font-size: 1.6rem; margin-bottom: 6px; }
+.arch-box .name { font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; }
+.arch-box .desc { font-size: 0.65rem; color: #555; line-height: 1.4; }
+.arch-box.human { border-color: #FFD70044; }
+.arch-box.server { border-color: #00D9A544; }
+.arch-box.github { border-color: #60a5fa44; }
+.arch-box.telegram { border-color: #4ade8044; }
+
+/* Arrow */
+.arch-arrow { display: flex; align-items: center; color: #333; font-size: 1.5rem; flex-shrink: 0; }
+
+/* Comparison */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.compare div { padding: 14px; border-radius: 10px; font-size: 0.76rem; line-height: 1.6; }
+.compare .no { background: #1a1010; border: 1px solid #ef444433; color: #f87171; }
+.compare .si { background: #0a1a15; border: 1px solid #22c55e33; color: #4ade80; }
+.compare .no strong { color: #ef4444; }
+.compare .si strong { color: #4ade80; }
+
+/* Table */
+.info-table { width: 100%; border-collapse: collapse; font-size: 0.74rem; margin: 15px 0; }
+.info-table th { text-align: left; padding: 8px 14px; color: #555; font-weight: 600; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #1a1a25; }
+.info-table td { padding: 7px 14px; border-bottom: 1px solid #111118; }
+.info-table tr:hover td { background: #111118; }
+.info-table .check { color: #4ade80; font-weight: 700; }
+.info-table .no { color: #f87171; }
+
+/* Callouts */
+.callout { border-radius: 10px; padding: 14px 18px; margin: 14px 0; display: flex; gap: 10px; align-items: flex-start; font-size: 0.78rem; line-height: 1.6; }
+.callout-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+.callout-info { background: #0d1a2a; border: 1px solid #3b82f622; color: #93c5fd; }
+.callout-warn { background: #1a1a0d; border: 1px solid #fbbf2422; color: #fcd34d; }
+.callout-ok { background: #0a1a15; border: 1px solid #22c55e22; color: #6ee7b7; }
+
+/* Nav */
+.toc { background: #111118; border-radius: 14px; padding: 20px 24px; margin-bottom: 28px; border: 1px solid #1e1e2e; }
+.toc h3 { font-size: 0.85rem; margin-bottom: 12px; color: #00D9A5; }
+.toc ol { padding-left: 20px; }
+.toc li { font-size: 0.78rem; color: #999; padding: 4px 0; line-height: 1.5; }
+.toc li a { color: #60a5fa; text-decoration: none; }
+.toc li a:hover { text-decoration: underline; }
+
+/* Pipeline flow */
+.pipe-flow { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 16px 0; align-items: center; }
+.pf-step { background: #111118; border: 1px solid #1e1e2e; border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 80px; }
+.pf-num { font-size: 0.6rem; color: #444; font-weight: 700; }
+.pf-name { font-size: 0.7rem; font-weight: 600; color: #e0e0e0; }
+.pf-arrow { color: #333; font-size: 1rem; }
+
+/* Flow chart in text */
+.flow-chart { font-family: 'Cascadia Code', monospace; font-size: 0.7rem; color: #666; background: #0d0d14; border-radius: 10px; padding: 16px; line-height: 1.8; white-space: pre; margin: 12px 0; overflow-x: auto; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #1a1a25; }
+.tl-item { position: relative; margin-bottom: 16px; }
+.tl-dot { position: absolute; left: -20px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: #00D9A5; }
+.tl-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 2px; }
+.tl-desc { font-size: 0.72rem; color: #777; line-height: 1.5; }
+
+@media (max-width: 700px) { .arch-row { flex-direction: column; align-items: center; } .arch-arrow { transform: rotate(90deg); } .compare { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>⚡ Lumba Core</h1>
+<p class="subtitle">Manual de Funcionamiento · Sistema de Agentes AI para Lumba</p>
+<p style="text-align:center;color:#444;font-size:0.7rem;margin-bottom:28px;">Documento interno · Confidencial · v1.0 — Mayo 2026</p>
+
+<!-- TOC -->
+<div class="toc">
+<h3>📑 Índice</h3>
+<ol>
+  <li><a href="#s1">🏗️ Arquitectura General</a> — Componentes del sistema y cómo se conectan</li>
+  <li><a href="#s2">⚙️ Infraestructura</a> — La Mac Mini, instalación, setup</li>
+  <li><a href="#s3">🤖 Los Agentes</a> — Quiénes son, qué hacen, cómo trabajan</li>
+  <li><a href="#s4">🔄 El Pipeline de 8 Pasos</a> — De prompt a entrega, sin saltos</li>
+  <li><a href="#s5">👥 Cómo Interactúa el Equipo</a> — Día a día con Lumba Core</li>
+  <li><a href="#s6">💻 Código y GitHub</a> — Del agente al repo, revisión, merge</li>
+  <li><a href="#s7">📋 Resumen Operativo</a> — Tabla rápida de consulta</li>
+</ol>
+</div>
+
+<!-- ========== SECTION 1 ========== -->
+<div class="step s1" id="s1">
+  <div class="step-header"><div class="step-num">1</div><div><div class="step-title">🏗️ Arquitectura General</div><div class="step-sub">Cómo se conectan las piezas del sistema</div></div></div>
+  <div class="step-body">
+    <p>Lumba Core tiene <strong>3 piezas</strong> que trabajan juntas:</p>
+
+    <div class="arch-row">
+      <div class="arch-box human">
+        <div class="icon">👥</div>
+        <div class="name">Equipo Humano</div>
+        <div class="desc">Gero, Hernán, Martín<br>y colaboradores</div>
+      </div>
+      <div class="arch-arrow">━━━→</div>
+      <div class="arch-box telegram">
+        <div class="icon">💬</div>
+        <div class="name">Telegram</div>
+        <div class="desc">Canal de comunicación<br>Chat directo con el bot</div>
+      </div>
+      <div class="arch-arrow">━━━→</div>
+      <div class="arch-box server">
+        <div class="icon">🖥️</div>
+        <div class="name">Mac Mini</div>
+        <div class="desc">openclaw gateway<br>Agentes AI<br>Workspace Lumba Core</div>
+      </div>
+      <div class="arch-arrow">━━━→</div>
+      <div class="arch-box github">
+        <div class="icon">🐙</div>
+        <div class="name">GitHub</div>
+        <div class="desc">Código versionado<br>PRs para revisión<br>Repos por proyecto</div>
+      </div>
+    </div>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">💡</div>
+      <div><strong>Nadie se conecta directamente a la Mac Mini.</strong> Todo pasa por Telegram. La Mac Mini solo necesita internet y estar prendida. El equipo usa sus propias computadoras normalmente.</div>
+    </div>
+
+    <div class="diagram">
+      <svg viewBox="0 0 850 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00D9A5" stop-opacity="0.15"/><stop offset="100%" stop-color="#00B4D8" stop-opacity="0.05"/></linearGradient>
+        </defs>
+        <!-- Desktop -->
+        <rect x="30" y="100" width="200" height="140" rx="12" fill="#111118" stroke="#FFD700" stroke-width="1.5" stroke-opacity="0.5"/>
+        <text x="130" y="140" text-anchor="middle" fill="#FFD700" font-size="13" font-weight="700">👥 Equipo</text>
+        <text x="130" y="165" text-anchor="middle" fill="#555" font-size="10">Gero · Hernán · Martín</text>
+        <text x="130" y="185" text-anchor="middle" fill="#444" font-size="9">Cada uno en su PC</text>
+        <rect x="50" y="200" width="160" height="25" rx="6" fill="#0d0d14" stroke="#1a1a25" stroke-width="1"/>
+        <text x="130" y="217" text-anchor="middle" fill="#666" font-size="9">💬 Telegram</text>
+
+        <!-- Arrow 1 -->
+        <text x="255" y="175" text-anchor="middle" fill="#333" font-size="20">━━━━→</text>
+        <text x="255" y="195" text-anchor="middle" fill="#444" font-size="8">prompt</text>
+
+        <!-- Mac Mini -->
+        <rect x="320" y="60" width="250" height="210" rx="14" fill="#0a1a15" stroke="#00D9A5" stroke-width="2" stroke-opacity="0.6"/>
+        <text x="445" y="100" text-anchor="middle" fill="#00D9A5" font-size="14" font-weight="700">🖥️ Mac Mini</text>
+        <text x="445" y="120" text-anchor="middle" fill="#666" font-size="10">Siempre prendida</text>
+        <rect x="345" y="135" width="200" height="22" rx="5" fill="#0d0d14" stroke="#1a1a25" stroke-width="1"/>
+        <text x="445" y="151" text-anchor="middle" fill="#60a5fa" font-size="9">openclaw gateway :18789</text>
+        <rect x="345" y="165" width="200" height="22" rx="5" fill="#0d0d14" stroke="#1a1a25" stroke-width="1"/>
+        <text x="445" y="181" text-anchor="middle" fill="#4ade80" font-size="9">Agentes AI (25 especializados)</text>
+        <rect x="345" y="195" width="200" height="22" rx="5" fill="#0d0d14" stroke="#1a1a25" stroke-width="1"/>
+        <text x="445" y="211" text-anchor="middle" fill="#fbbf24" font-size="9">Workspace Lumba Core</text>
+        <rect x="345" y="225" width="200" height="22" rx="5" fill="#0d0d14" stroke="#1a1a25" stroke-width="1"/>
+        <text x="445" y="241" text-anchor="middle" fill="#c084fc" font-size="9">~/proyectos/* (git repos)</text>
+
+        <!-- Arrow 2 -->
+        <text x="595" y="170" text-anchor="middle" fill="#333" font-size="20">━━━━→</text>
+        <text x="595" y="190" text-anchor="middle" fill="#444" font-size="8">push</text>
+
+        <!-- GitHub -->
+        <rect x="650" y="100" width="170" height="140" rx="12" fill="#111118" stroke="#60a5fa" stroke-width="1.5" stroke-opacity="0.5"/>
+        <text x="735" y="140" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="700">🐙 GitHub</text>
+        <text x="735" y="165" text-anchor="middle" fill="#555" font-size="10">Repos por proyecto</text>
+        <rect x="665" y="180" width="140" height="20" rx="5" fill="#0d0d14" stroke="#1a1a25" stroke-width="1"/>
+        <text x="735" y="194" text-anchor="middle" fill="#666" font-size="8">lumba/looped</text>
+        <rect x="665" y="205" width="140" height="20" rx="5" fill="#0d0d14" stroke="#1a1a25" stroke-width="1"/>
+        <text x="735" y="219" text-anchor="middle" fill="#666" font-size="8">lumba/multidiagnostico</text>
+
+        <!-- Feedback arrow -->
+        <text x="735" y="275" text-anchor="middle" fill="#444" font-size="7">← El equipo revisa PRs desde GitHub ←</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 2 ========== -->
+<div class="step s2" id="s2">
+  <div class="step-header"><div class="step-num">2</div><div><div class="step-title">⚙️ Infraestructura</div><div class="step-sub">Setup de la Mac Mini — se hace una sola vez</div></div></div>
+  <div class="step-body">
+
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">1. Preparar la Mac Mini</div><div class="tl-desc">macOS actualizado, internet estable. No necesita monitor, teclado ni mouse después del setup inicial. Puede estar en un rincón conectada solo a corriente y ethernet/wifi.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">2. Instalar Node.js + Git</div><div class="tl-desc">Desde <code>nodejs.org</code> o con Homebrew: <code>brew install node git</code></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">3. Instalar OpenClaw</div><div class="tl-desc"><code>npm install -g openclaw</code></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">4. Clonar Lumba Core</div><div class="tl-desc"><code>git clone &lt;url-del-repo&gt; ~/lumba-core</code></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">5. Configurar Telegram Bot</div><div class="tl-desc">Crear bot con @BotFather → guardar token. Configurar <code>~/.openclaw/openclaw.json</code>.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">6. Arrancar el Gateway</div><div class="tl-desc"><code>openclaw gateway start</code> — queda corriendo para siempre. Se puede configurar como servicio del sistema para que arranque solo al prender la Mac.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">7. Crear workspaces por proyecto</div><div class="tl-desc">Para cada proyecto: copiar lumba-core → <code>~/proyectos/&lt;nombre&gt;</code> → <code>git init</code> → configurar remote de GitHub.</div></div>
+    </div>
+
+    <div class="code"><span class="c"># ~/.openclaw/openclaw.json — Ejemplo de configuración multi-proyecto</span>
+{
+  <span class="k">"channels"</span>: {
+    <span class="k">"telegram"</span>: {
+      <span class="k">"botToken"</span>: <span class="v">"TU_BOT_TOKEN"</span>,
+      <span class="k">"allowFrom"</span>: [<span class="v">"754306815"</span>, <span class="v">"111111111"</span>, <span class="v">"222222222"</span>]
+    }
+  },
+  <span class="k">"agents"</span>: {
+    <span class="k">"defaults"</span>: {
+      <span class="k">"workspace"</span>: <span class="v">"/Users/lumba/lumba-core"</span>,
+      <span class="k">"model"</span>: <span class="v">"deepseek/deepseek-v4-pro"</span>,
+      <span class="k">"maxConcurrent"</span>: <span class="v">4</span>
+    },
+    <span class="k">"list"</span>: [
+      { <span class="k">"id"</span>: <span class="v">"looped"</span>, <span class="k">"workspace"</span>: <span class="v">"/Users/lumba/proyectos/looped"</span> },
+      { <span class="k">"id"</span>: <span class="v">"multidiagnostico"</span>, <span class="k">"workspace"</span>: <span class="v">"/Users/lumba/proyectos/multidiagnostico"</span> },
+      { <span class="k">"id"</span>: <span class="v">"general"</span>, <span class="k">"default"</span>: <span class="v">true</span>, <span class="k">"workspace"</span>: <span class="v">"/Users/lumba/lumba-core"</span> }
+    ]
+  },
+  <span class="k">"bindings"</span>: [
+    { <span class="k">"agentId"</span>: <span class="v">"looped"</span>, <span class="k">"match"</span>: { <span class="k">"channel"</span>: <span class="v">"telegram"</span>, <span class="k">"peer"</span>: { <span class="k">"kind"</span>: <span class="v">"direct"</span>, <span class="k">"id"</span>: <span class="v">"754306815"</span> } } }
+  ]
+}</div>
+
+  </div>
+</div>
+
+<!-- ========== SECTION 3 ========== -->
+<div class="step s3" id="s3">
+  <div class="step-header"><div class="step-num">3</div><div><div class="step-title">🤖 Los Agentes</div><div class="step-sub">Quiénes son, cómo se organizan, cómo trabajan</div></div></div>
+  <div class="step-body">
+
+    <p>Lumba Core tiene <strong>25 agentes especializados</strong> organizados en 3 redes + agentes universales. Cada uno tiene skills específicas (metodologías, checklists, templates) que usa para trabajar.</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg">
+        <!-- Orchestrator -->
+        <rect x="340" y="10" width="120" height="36" rx="12" fill="#0a1a15" stroke="#00D9A5" stroke-width="1.5"/>
+        <text x="400" y="34" text-anchor="middle" fill="#00D9A5" font-size="11" font-weight="700">🎯 Orchestrator</text>
+
+        <!-- Arrows from Orchestrator -->
+        <line x1="370" y1="46" x2="160" y2="80" stroke="#1a1a25" stroke-width="1.5"/>
+        <line x1="400" y1="46" x2="400" y2="80" stroke="#1a1a25" stroke-width="1.5"/>
+        <line x1="430" y1="46" x2="640" y2="80" stroke="#1a1a25" stroke-width="1.5"/>
+
+        <!-- Core-Brand -->
+        <rect x="20" y="80" width="240" height="130" rx="12" fill="#111118" stroke="#E91E63" stroke-width="1.5" stroke-opacity="0.6"/>
+        <text x="140" y="110" text-anchor="middle" fill="#E91E63" font-size="12" font-weight="700">🎨 Core-Brand</text>
+        <text x="140" y="130" text-anchor="middle" fill="#555" font-size="9">8 agentes · 9 skills · 6 workflows</text>
+        <text x="140" y="150" text-anchor="middle" fill="#777" font-size="9">Brand Strategist · Auditor · Brandbook</text>
+        <text x="140" y="166" text-anchor="middle" fill="#777" font-size="9">Differentiator · Researcher · Voice Writer</text>
+        <text x="140" y="182" text-anchor="middle" fill="#777" font-size="9">Identity Designer · Visual Director</text>
+
+        <!-- Core-Product -->
+        <rect x="280" y="80" width="240" height="130" rx="12" fill="#111118" stroke="#00B4D8" stroke-width="1.5" stroke-opacity="0.6"/>
+        <text x="400" y="110" text-anchor="middle" fill="#00B4D8" font-size="12" font-weight="700">💻 Core-Product</text>
+        <text x="400" y="130" text-anchor="middle" fill="#555" font-size="9">18 agentes · 10 skills · 5 workflows</text>
+        <text x="400" y="150" text-anchor="middle" fill="#777" font-size="9">Product Owner · Analyst · UX · UI</text>
+        <text x="400" y="166" text-anchor="middle" fill="#777" font-size="9">Frontend · Backend · Data Architects</text>
+        <text x="400" y="182" text-anchor="middle" fill="#777" font-size="9">Code Reviewer · QA · DevOps · Security</text>
+
+        <!-- Core-Marketing -->
+        <rect x="540" y="80" width="240" height="130" rx="12" fill="#111118" stroke="#FF9800" stroke-width="1.5" stroke-opacity="0.6"/>
+        <text x="660" y="110" text-anchor="middle" fill="#FF9800" font-size="12" font-weight="700">📣 Core-Marketing</text>
+        <text x="660" y="130" text-anchor="middle" fill="#555" font-size="9">12 agentes · 14 skills · 8 workflows</text>
+        <text x="660" y="150" text-anchor="middle" fill="#777" font-size="9">Strategist · Auditor · Campaign</text>
+        <text x="660" y="166" text-anchor="middle" fill="#777" font-size="9">Copywriter · Content · Data Analyst</text>
+        <text x="660" y="182" text-anchor="middle" fill="#777" font-size="9">Google Ads · Meta Ads · Email · Script</text>
+
+        <!-- Universales -->
+        <rect x="200" y="235" width="400" height="50" rx="12" fill="#111118" stroke="#9C27B0" stroke-width="1.5" stroke-opacity="0.6"/>
+        <text x="400" y="258" text-anchor="middle" fill="#9C27B0" font-size="11" font-weight="700">🌐 Universales</text>
+        <text x="400" y="275" text-anchor="middle" fill="#555" font-size="9">Devil's Advocate · Project Manager · Research Agent · Scope Agent · Client Translator</text>
+
+        <!-- Human -->
+        <rect x="340" y="300" width="120" height="30" rx="10" fill="#0d0d14" stroke="#FFD700" stroke-width="1.5"/>
+        <text x="400" y="320" text-anchor="middle" fill="#FFD700" font-size="10" font-weight="700">👤 Founder · Gero</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">🚨</div>
+      <div><strong>Los agentes nunca aprueban entregables al cliente.</strong> Preparan, auditan, documentan. Pero siempre hay una validación humana antes de que algo salga. El criterio final es humano.</div>
+    </div>
+
+    <h3 style="font-size:0.85rem;margin-top:20px;margin-bottom:10px;color:#888;">🧠 Modelos por tipo de tarea</h3>
+    <table class="info-table">
+      <thead><tr><th>Tipo de tarea</th><th>Modelo</th><th>% de uso</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td>Boilerplate, UI, tests, CRUD, scaffolding</td><td><span style="color:#4ade80;">Flash</span></td><td>70%</td><td>"Creá los componentes UI del dashboard"</td></tr>
+        <tr><td>Arquitectura, debugging, análisis, estrategia</td><td><span style="color:#60a5fa;">Pro</span></td><td>25%</td><td>"Diseñá el modelo de datos multi-tenant"</td></tr>
+        <tr><td>Auditoría, seguridad, Devil's Advocate</td><td><span style="color:#c084fc;">Opus</span></td><td>5%</td><td>"Auditá el código antes del merge"</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- ========== SECTION 4 ========== -->
+<div class="step s4" id="s4">
+  <div class="step-header"><div class="step-num">4</div><div><div class="step-title">🔄 El Pipeline de 8 Pasos</div><div class="step-sub">De tu prompt a la entrega final — inviolable</div></div></div>
+  <div class="step-body">
+
+    <p>Cada tarea de proyecto sigue este proceso. <strong>No se saltean pasos.</strong> Si alguien (humano o agente) intenta saltear, el sistema bloquea.</p>
+
+    <div class="pipe-flow">
+      <div class="pf-step"><div class="pf-num">PASO 1</div><div class="pf-name">🔍 Investigar</div></div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-step"><div class="pf-num">PASO 2</div><div class="pf-name">🧠 Pensar</div></div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-step"><div class="pf-num">PASO 3</div><div class="pf-name">😈 Cuestionar</div></div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-step"><div class="pf-num">PASO 4</div><div class="pf-name">✅ Validar</div></div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-step"><div class="pf-num">PASO 5</div><div class="pf-name">🏗️ Construir</div></div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-step"><div class="pf-num">PASO 6</div><div class="pf-name">🧪 Testear</div></div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-step"><div class="pf-num">PASO 7</div><div class="pf-name">🔧 Mejorar</div></div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-step"><div class="pf-num">PASO 8</div><div class="pf-name">🚀 Lanzar</div></div>
+    </div>
+
+    <h3 style="font-size:0.85rem;margin:20px 0 12px;color:#888;">Detalle de cada paso</h3>
+
+    <div class="flow-chart">
+🏗️ PASO 1 — <strong>INVESTIGAR</strong>
+   Research Agent analiza mercado, competencia, contexto.
+   Business Strategist evalúa viabilidad.
+   → Output: documento de investigación con fuentes.
+
+🧠 PASO 2 — <strong>PENSAR</strong>
+   Product Owner define roadmap, features, backlog.
+   Analyst Functional escribe especificación.
+   UX Designer crea wireframes y flujos.
+   → Output: especificación funcional + roadmap.
+
+😈 PASO 3 — <strong>CUESTIONAR</strong>
+   Devil's Advocate revisa TODO.
+   Scope Agent verifica alcance vs contrato.
+   → Output: reporte de riesgos + ajustes al plan.
+
+✅ PASO 4 — <strong>VALIDAR</strong>
+   Client Translator prepara comunicación para el cliente.
+   → <strong>ACÁ EL HUMANO REVISA Y APRUEBA.</strong>
+   Sin aprobación explícita, no se avanza.
+
+🏗️ PASO 5 — <strong>CONSTRUIR</strong>
+   Frontend + Backend + Data Architects desarrollan.
+   UI Designer implementa componentes.
+   ADR Generator documenta decisiones técnicas.
+   → Output: código funcional.
+
+🧪 PASO 6 — <strong>TESTEAR</strong>
+   QA Engineer ejecuta plan de testing.
+   Code Reviewer audita cada PR.
+   Security Agent escanea vulnerabilidades.
+   → Output: reporte de bugs + fix.
+
+🔧 PASO 7 — <strong>MEJORAR</strong>
+   Refactor, ajustes, deuda técnica.
+   Code Reviewer verifica métricas de calidad.
+   → Output: código limpio listo para producción.
+
+🚀 PASO 8 — <strong>LANZAR</strong>
+   DevOps Engineer prepara deploy + rollback plan.
+   Product Auditor audita specs vs implementación real.
+   → <strong>Validación humana final.</strong> Se hace deploy.</div>
+
+    <div class="callout callout-ok">
+      <div class="callout-icon">🔒</div>
+      <div><strong>Entre los pasos 4 y 8 siempre hay intervención humana.</strong> Los agentes trabajan autónomamente en los pasos 1-3 y 5-7, pero el OK para seguir es humano.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 5 ========== -->
+<div class="step s5" id="s5">
+  <div class="step-header"><div class="step-num">5</div><div><div class="step-title">👥 Cómo Interactúa el Equipo</div><div class="step-sub">El día a día trabajando con Lumba Core</div></div></div>
+  <div class="step-body">
+
+    <h3 style="font-size:0.85rem;margin-bottom:12px;color:#888;">📱 Flujo típico de un día</h3>
+
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Gero abre Telegram</div><div class="tl-desc">En su PC, su celular, donde sea. No necesita abrir nada más.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Escribe un prompt</div><div class="tl-desc">"Necesito el sistema de autenticación para Looped. JWT con refresh tokens, roles admin/user, y endpoints de registro/login/logout."</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Orchestrator clasifica</div><div class="tl-desc">Determina que es una tarea de Core-Product, complejidad media. Arma el squad: Backend Architect + Data Architect + Code Reviewer + Security Agent.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Orchestrator te responde</div><div class="tl-desc">"Gero, para esto necesito 4 agentes. Pipeline estimado: 4 pasos (construir→testear→mejorar→lanzar). Costo ~$3-5 USD. ¿Arranco?"</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Vos decís "Sí"</div><div class="tl-desc">Los agentes trabajan. Vas recibiendo updates en Telegram: "Ya hice el modelo de datos" → "Endpoints listos" → "Code review aprobado"</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Código en GitHub</div><div class="tl-desc">"Listo Gero. Commit abc123. PR #12 en github.com/lumba/looped. 8 archivos, 340 líneas. Revisá cuando puedas."</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Revisás desde tu PC</div><div class="tl-desc">Abrís GitHub, ves el diff, dejás comentarios. Si está bien → merge. Si no → le pedís cambios por Telegram.</div></div>
+    </div>
+
+    <h3 style="font-size:0.85rem;margin:24px 0 12px;color:#888;">🗣️ ¿Cuándo te pregunta vs cuándo ejecuta de una?</h3>
+    <table class="info-table">
+      <thead><tr><th>Situación</th><th>Comportamiento</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td>💬 Pregunta simple</td><td class="check">Responde al instante</td><td>"¿Qué modelo usa el UI Designer?"</td></tr>
+        <tr><td>📝 Análisis / Research</td><td class="check">Ejecuta y muestra</td><td>"Investigá competidores de Looped"</td></tr>
+        <tr><td>📊 Plan de agentes</td><td class="check">Propone y pide OK</td><td>"Para tu proyecto necesito 6 agentes. ¿Arranco?"</td></tr>
+        <tr><td>🔧 Código / archivos</td><td class="check">Pregunta antes de crear</td><td>"Esto va a generar 15 archivos. ¿OK?"</td></tr>
+        <tr><td>🚀 Deploy</td><td><span style="color:#ef4444;">🛑 Bloquea</span></td><td>"Vas a producción. Necesito tu OK explícito."</td></tr>
+        <tr><td>💰 Exceso de costo</td><td><span style="color:#ef4444;">🚨 Alerta</span></td><td>"Costo acumulado $12. ¿Sigo o pausamos?"</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">🔑</div>
+      <div><strong>Múltiples personas pueden usar el sistema al mismo tiempo.</strong> Cada chat de Telegram es una sesión independiente. Gero puede estar trabajando en Looped mientras Hernán pide contenido de marketing para otro cliente. No se mezclan.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== SECTION 6 ========== -->
+<div class="step s6" id="s6">
+  <div class="step-header"><div class="step-num">6</div><div><div class="step-title">💻 Código y GitHub</div><div class="step-sub">Cómo el código que generan los agentes llega a tus manos</div></div></div>
+  <div class="step-body">
+
+    <h3 style="font-size:0.85rem;margin-bottom:12px;color:#888;">🔄 Ciclo completo de desarrollo</h3>
+
+    <div class="flow-chart">
+  ┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────┐
+  │ 1. PEDIR │ ──→ │ 2. CODIFICAR │ ──→ │ 3. PUSHEAR │ ──→ │ 4. REVISAR │
+  │ Telegram │     │ Mac Mini    │     │ GitHub     │     │ Tu PC      │
+  └──────────┘     └──────────┘     └──────────┘     └──────────┘
+                                                          │
+                                                          ▼
+                                                    ┌──────────┐
+                                                    │ 5. MERGE │
+                                                    │ O CAMBIOS│
+                                                    └──────────┘
+                                                          │
+                                     ┌────────────────────┘
+                                     ▼
+                               ┌──────────┐
+                               │ 6. CLONAR │
+                               │ git pull  │
+                               │ en tu PC  │
+                               └──────────┘</div>
+
+    <h3 style="font-size:0.85rem;margin:20px 0 12px;color:#888;">🔐 3 niveles de seguridad</h3>
+    <table class="info-table">
+      <thead><tr><th>Modo</th><th>Cómo funciona</th><th>Cuándo usarlo</th></tr></thead>
+      <tbody>
+        <tr><td>🟢 <strong>Automático</strong></td><td>Agente codea → commitea → pushea → te avisa. Revisás después.</td><td>Prototipos, features no críticas, confianza alta</td></tr>
+        <tr><td>🟡 <strong>Con PR</strong> (recomendado)</td><td>Agente codea → crea branch → pushea → abre PR. Vos mergeás.</td><td>Día a día. Todo se revisa antes de mergear.</td></tr>
+        <tr><td>🔴 <strong>Con review previa</strong></td><td>Agente codea → te muestra diff en Telegram → vos decís "dale" → commitea.</td><td>Cambios críticos, producción, seguridad</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code"><span class="c"># Ejemplo de cómo el agente commitea y pushea en la Mac Mini</span>
+<span class="c"># (esto lo hace el agente automáticamente, no el humano)</span>
+
+cd ~/proyectos/looped
+git checkout -b feature/auth-system
+<span class="c"># ... los agentes escriben código ...</span>
+git add .
+git commit -m <span class="v">"feat: sistema de autenticación JWT con refresh tokens"</span>
+git push origin feature/auth-system
+<span class="c"># Crea PR en GitHub y te manda el link por Telegram</span></div>
+
+    <div class="compare">
+      <div class="no"><strong>❌ SIN LUMBA CORE</strong><br>• Cada dev escribe código distinto<br>• Sin estándares compartidos<br>• Code review depende de quién esté libre<br>• Correcciones en producción<br>• El criterio senior vive en los socios</div>
+      <div class="si"><strong>✅ CON LUMBA CORE</strong><br>• Código estandarizado (mismas reglas)<br>• Code Reviewer automático en cada PR<br>• Security Agent escanea todo<br>• Auditoría antes de deploy<br>• El criterio está codificado en skills</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== SECTION 7 ========== -->
+<div class="step s1" id="s7" style="border-color:#00D9A555;">
+  <div class="step-header"><div class="step-num">7</div><div><div class="step-title">📋 Resumen Operativo</div><div class="step-sub">Tabla rápida de consulta</div></div></div>
+  <div class="step-body">
+
+    <table class="info-table">
+      <thead><tr><th>Pregunta</th><th>Respuesta</th></tr></thead>
+      <tbody>
+        <tr><td>¿Dónde corre?</td><td>En una Mac Mini dedicada, siempre prendida, conectada a internet</td></tr>
+        <tr><td>¿Cómo me conecto?</td><td>Desde Telegram, en tu PC o celular. Nada más.</td></tr>
+        <tr><td>¿Necesito instalar algo en mi PC?</td><td>No. Solo Telegram.</td></tr>
+        <tr><td>¿Cuántas personas pueden usar?</td><td>Ilimitado. Cada chat de Telegram es una sesión independiente.</td></tr>
+        <tr><td>¿Pueden trabajar varios al mismo tiempo?</td><td>Sí. El gateway procesa hasta 4 tareas en paralelo (configurable).</td></tr>
+        <tr><td>¿Se mezclan los proyectos?</td><td>No. Cada proyecto tiene su workspace aislado.</td></tr>
+        <tr><td>¿Los agentes deciden solos?</td><td>No. Preparan, auditan, documentan. Las decisiones finales son humanas.</td></tr>
+        <tr><td>¿Qué pasa si quiero customizar algo para mi proyecto?</td><td>Editás los archivos de tu workspace sin afectar a los demás.</td></tr>
+        <tr><td>¿Cómo veo el código que genera?</td><td>El agente lo commitea a GitHub. Lo revisás desde tu PC como cualquier PR.</td></tr>
+        <tr><td>¿Los datos de los clientes están seguros?</td><td>Sí. Datos sensibles no pasan por agentes. NDA se respeta. Workspaces privados.</td></tr>
+        <tr><td>¿Cuánto cuesta?</td><td>~$2-5 USD por proyecto simple. ~$10-25 mediano. ~$30-80 complejo. + API keys.</td></tr>
+        <tr><td>¿Qué pasa si se corta internet?</td><td>Los agentes no responden hasta que vuelva. El código ya commiteado está a salvo en GitHub.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-ok" style="margin-top:20px;">
+      <div class="callout-icon">⚡</div>
+      <div><strong>Lumba Core no reemplaza al equipo. Lo potencia.</strong> Cada persona sigue siendo dueña de sus decisiones. Los agentes son herramientas de criterio, no reemplazos. El objetivo no es hacer más rápido — es hacer mejor, con menos corrección posterior.</div>
+    </div>
+
+    <p style="text-align:center;margin-top:24px;color:#444;font-size:0.7rem;">Lumba Core v1.0 · Documento interno · Confidencial · Mayo 2026</p>
+
+  </div>
+</div>
+
+</div>
+</body>
+</html>
