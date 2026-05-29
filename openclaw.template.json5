@@ -1,0 +1,46 @@
+{
+  "channels": {
+    "telegram": {
+      "botToken": "TU_BOT_TOKEN_AQUI",
+      "allowFrom": ["ID_CHAT_GERO", "ID_CHAT_HERNAN", "ID_CHAT_MARTIN"]
+    }
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "/Users/lumba/lumba-core",
+      "model": "deepseek/deepseek-v4-pro",
+      "maxConcurrent": 4,
+      "models": {
+        "deepseek/deepseek-v4-flash": {},
+        "deepseek/deepseek-v4-pro": {},
+        "anthropic/claude-sonnet-4-6": {},
+        "anthropic/claude-opus-4-6": {}
+      }
+    },
+    "list": [
+      {
+        "id": "looped",
+        "workspace": "/Users/lumba/proyectos/looped"
+      },
+      {
+        "id": "multidiagnostico",
+        "workspace": "/Users/lumba/proyectos/multidiagnostico"
+      },
+      {
+        "id": "general",
+        "default": true,
+        "workspace": "/Users/lumba/lumba-core"
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "agentId": "looped",
+      "match": {"channel": "telegram", "peer": {"kind": "direct", "id": "ID_CHAT_GERO"}}
+    },
+    {
+      "agentId": "multidiagnostico",
+      "match": {"channel": "telegram", "peer": {"kind": "direct", "id": "ID_CHAT_HERNAN"}}
+    }
+  ]
+}
