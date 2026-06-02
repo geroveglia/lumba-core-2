@@ -70,9 +70,10 @@ Core-Product tiene **12 agentes especializados**:
 | `devops-engineer` | Deploy, CI/CD, monitoring | Haiku 4.5 |
 | `qa-engineer` | Testing, casos de uso, edge cases | Sonnet 4.6 |
 | `code-reviewer` | Review de código, deuda técnica | Sonnet 4.6 |
+| `documentation-agent` 🆕 | Documentación en paralelo durante BUILD | Flash |
 | `product-auditor` | Auditoría obligatoria | **Opus 4.7** |
 
-> ⚡ **Regla fundacional:** `data-architect` (Opus) es el primer agente invocado en todo proyecto. El modelo de datos se diseña antes de cualquier definición funcional, UX o arquitectura. Ver Workflow 0.
+> ⚡ **Regla fundacional:** `data-architect` (Opus) diseña el modelo basado en el discovery. La marca nace del discovery. Sin propuesta firmada no hay agentes.
 
 Plus agentes universales (Orchestrator, PM, Devil's Advocate, Research, Scope, Client Translator).
 
@@ -111,14 +112,16 @@ Core-Product tiene **10 skills**:
 
 ## 6. WORKFLOWS
 
-Core-Product tiene **6 workflows operativos**:
+Core-Product tiene **8 workflows operativos**:
 
-0. ⚡ **Diseño de base de datos** — PRIMER workflow. Modelado de datos antes que todo.
-1. **Discovery + definición funcional** — desde idea hasta especificación.
-2. **Diseño UX/UI completo** — desde wireframes hasta sistema de diseño.
-3. **Desarrollo de feature** — desde spec hasta deploy.
-4. **Bug crítico en producción** — fix + rollback si hace falta.
-5. **Soporte evolutivo** — mantenimiento + iteración mensual.
+1. **Discovery + definición funcional** — investigación profunda del negocio + spec.
+2. ⚡ **Diseño de base de datos** — modelado de datos basado en discovery (Opus).
+3. 🏗️ **Tech Stack Decision** — ADR de stack completo.
+4. **Diseño UX/UI completo** — desde wireframes hasta sistema de diseño.
+5. **Desarrollo de feature** — desde spec hasta deploy.
+6. **Bug crítico en producción** — fix + rollback si hace falta.
+7. **Post-Launch (Semana 1)** — monitoreo, métricas, hotfixes.
+8. **Soporte evolutivo** — mantenimiento + iteración mensual.
 
 Ver detalles en `equipos/core-product/workflows/`.
 
@@ -129,20 +132,22 @@ Ver detalles en `equipos/core-product/workflows/`.
 En Core-Product, los 8 pasos del proceso Lumba se ven así:
 
 ```
-1. INVESTIGAMOS    → discovery + relevamiento + research
-2. PENSAMOS        → ⚡ PRIMERO: diseño de base de datos (data-architect · Opus)
-                   → DESPUÉS: definición funcional + UX + arquitectura
+1. INVESTIGAMOS    → BRIEF → PROPUESTA COMERCIAL → DISCOVERY profundo
+2. PENSAMOS        → DB_DESIGN (Opus) → TECH_STACK → BRANDING → UX/UI → MARKETING
 3. PENSAMOS DE NUEVO → challenge de alcance + decisiones técnicas
 4. VALIDAMOS       → prototipos + cliente
-5. CONSTRUIMOS     → desarrollo
+5. CONSTRUIMOS     → BUILD (Documentation Agent en paralelo)
 6. TESTEAMOS       → QA + tests automáticos
 7. MEJORAMOS       → refactor + optimización
-8. LANZAMOS        → deploy a producción
+8. LANZAMOS        → DEPLOY → POST_LAUNCH (semana 1)
 ```
 
 **Reglas:**
 - Ningún proyecto salta del Paso 1 al Paso 5.
-- ⚡ **El modelo de datos se diseña ANTES de cualquier otra decisión técnica.** Es el cimiento del sistema.
+- ⚡ **La marca nace del discovery, no al revés.**
+- ⚡ **El modelo de datos se diseña basado en el discovery.**
+- 📚 **La documentación crece en paralelo al desarrollo.**
+- 🚀 **El deploy no es el final. Post-Launch es obligatorio.**
 
 ---
 

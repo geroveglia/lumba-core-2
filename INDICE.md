@@ -41,6 +41,7 @@
 |---|---|
 | `PROCESO-8-PASOS.md` | Pipeline inviolable: Investigar → Pensar → Cuestionar → Validar → Construir → Testear → Mejorar → Lanzar |
 | `ORQUESTACION.md` 🆕 | Cómo Jarvis orquesta agentes en OpenClaw: spawn, handoffs, TaskFlow, human-in-the-loop |
+| `WORKFLOW-PROPUESTA-COMERCIAL.md` 🆕 | Propuesta económica: pricing, fases, timeline. Cliente firma antes de arrancar |
 | `WORKFLOW-AUDITORIA.md` | Proceso de auditoría obligatoria pre-entrega |
 | `WORKFLOW-BRIEF-OBSESIVO.md` | Metodología de brief completo antes de producir |
 | `COMUNICACION-AGENTES.md` | Protocolo de handoff entre agentes (JSON Schema) |
@@ -199,10 +200,11 @@
 
 ## 📂 equipos/core-product/ — Red de Producto Digital
 
-### Agentes (18)
+### Agentes (19)
 
 | Archivo | Agente | Rol |
 |---|---|---|
+| `documentation-agent.md` 🆕 | 📚 Documentation Agent | Documentación en paralelo durante BUILD |
 | `product-owner.md` | 📋 Product Owner | Roadmap, backlog, priorización |
 | `analyst-functional.md` | 📝 Analyst Functional | Especificación funcional, criterios de aceptación |
 | `ux-designer.md` | 🎨 UX Designer | Flujos de usuario, wireframes, prototipos |
@@ -236,17 +238,18 @@
 | `user-story-format.md` | Formato de user stories |
 | `ux-flow-design.md` | Diseño de flujos UX |
 
-### Workflows (7)
+### Workflows (8)
 
 | Archivo | Workflow |
 |---|---|
-| ⚡ `00-diseno-base-datos.md` | **Diseño de base de datos (FUNDACIONAL)** — primer workflow de todo proyecto |
-| 🏗️ `00.5-tech-stack-decision.md` 🆕 | **Tech Stack Decision (ADR)** — stack completo antes de escribir código |
-| `01-discovery-y-funcional.md` | Discovery + definición funcional |
+| `01-discovery-y-funcional.md` | Discovery + definición funcional — investigación profunda del negocio |
+| ⚡ `00-diseno-base-datos.md` | **Diseño de base de datos (FUNDACIONAL)** — modelo basado en discovery |
+| 🏗️ `00.5-tech-stack-decision.md` | **Tech Stack Decision (ADR)** — stack completo antes de código |
 | `02-diseno-ux-ui.md` | Diseño UX/UI completo |
 | `03-desarrollo-feature.md` | Desarrollo de feature |
 | `04-bug-critico.md` | Bug crítico en producción |
 | `05-soporte-evolutivo.md` | Soporte evolutivo |
+| 🚀 `06-post-launch.md` 🆕 | **Post-Launch (Semana 1)** — monitoreo, métricas, hotfixes |
 
 ### Otros
 
@@ -289,16 +292,16 @@
 |---|---|
 | Documentos raíz | 13 |
 | Docs visuales | 1 (HTML con 5 pestañas) |
-| Docs de metodología | 10 |
-| Agentes definidos | 41 |
+| Docs de metodología | 11 |
+| Agentes definidos | 42 |
 | Skills | 33 |
-| Workflows | 21 |
+| Workflows | 22 |
 | Playbooks | 3 |
 | Templates | 11 |
 | Checklists | 2 |
 | Stack configs | 7 |
 | Schemas | 1 (con guía) |
-| **TOTAL archivos** | **154** |
+| **TOTAL archivos** | **158** |
 
 ---
 

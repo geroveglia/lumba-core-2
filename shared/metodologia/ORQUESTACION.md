@@ -142,39 +142,59 @@ Jarvis evalúa: ¿pasa el gate?
                        │ brief completo
                        ▼
                   ┌─────────┐
-                  │ DB_DESIGN│ ◄── Opus, Workflow 0
+                  │PROPOSAL │ ◄── Propuesta comercial. Cliente firma.
+                  └────┬────┘
+                       │ contrato firmado
+                       ▼
+                  ┌─────────┐
+                  │DISCOVERY │ ◄── Investigación profunda del negocio
+                  └────┬────┘
+                       │ spec funcional + entendimiento del negocio
+                       ▼
+                  ┌─────────┐
+                  │DB_DESIGN │ ◄── Opus, Workflow 0. Modelo basado en discovery.
                   └────┬────┘
                        │ modelo aprobado
                        ▼
                   ┌─────────┐
-                  │ BRANDING │ (si aplica)
+                  │TECH_STACK│ ◄── Workflow 0.5. Stack basado en discovery + DB.
                   └────┬────┘
-                       │
+                       │ ADR de stack aprobado
                        ▼
                   ┌─────────┐
-                  │DISCOVERY │
+                  │ BRANDING │ ◄── La marca nace del entendimiento del negocio.
                   └────┬────┘
-                       │ spec funcional aprobada
+                       │ identidad aprobada
                        ▼
                   ┌─────────┐
-                  │ UX_UI   │
+                  │ UX_UI    │
                   └────┬────┘
                        │ diseño aprobado
                        ▼
                   ┌─────────┐
-                  │  BUILD   │
+                  │MARKETING │ ◄── Estrategia basada en marca + discovery.
+                  └────┬────┘
+                       │ plan aprobado
+                       ▼
+                  ┌─────────┐
+                  │  BUILD   │ ◄── Documentation Agent corre en paralelo.
                   └────┬────┘
                        │ feature completa
                        ▼
                   ┌─────────┐
-                  │ QA      │
+                  │   QA     │
                   └────┬────┘
                        │ tests pasando
                        ▼
                   ┌─────────┐
-                  │ DEPLOY  │
+                  │ DEPLOY   │
                   └────┬────┘
                        │ en producción
+                       ▼
+                  ┌─────────┐
+                  │POST_LAUNCH│ ◄── Semana 1: monitoring, métricas, hotfixes.
+                  └────┬────┘
+                       │ estabilizado
                        ▼
                   ┌─────────┐
                   │  DONE   │
@@ -194,22 +214,44 @@ Cada proyecto tiene `/proyectos/{nombre}/state.json`:
       "status": "completed",
       "completed_at": "2026-06-01T15:00:00-03:00",
       "outputs": ["/proyectos/tiendax/outputs/brief.md"],
-      "approved_by": "esteban"
+      "approved_by": "esteban",
+      "rejection_count": 0,
+      "max_iterations": 3
+    },
+    "PROPOSAL": {
+      "status": "completed",
+      "completed_at": "2026-06-01T17:00:00-03:00",
+      "outputs": ["/proyectos/tiendax/outputs/propuesta-comercial.md"],
+      "approved_by": "cliente",
+      "rejection_count": 0,
+      "max_iterations": 2
+    },
+    "DISCOVERY": {
+      "status": "completed",
+      "completed_at": "2026-06-05T12:00:00-03:00",
+      "outputs": ["/proyectos/tiendax/outputs/01-discovery.md", "/proyectos/tiendax/outputs/01-spec-funcional.md"],
+      "approved_by": "esteban",
+      "rejection_count": 0,
+      "max_iterations": 2
     },
     "DB_DESIGN": {
       "status": "in_progress",
-      "started_at": "2026-06-02T10:00:00-03:00",
+      "started_at": "2026-06-05T14:00:00-03:00",
       "agent": "data-architect",
       "model": "opus",
       "session_id": "sess_abc123",
-      "attempts": 1
+      "attempts": 1,
+      "rejection_count": 0,
+      "max_iterations": 3
     },
-    "BRANDING": { "status": "pending" },
-    "DISCOVERY": { "status": "pending" },
-    "UX_UI": { "status": "pending" },
-    "BUILD": { "status": "pending" },
-    "QA": { "status": "pending" },
-    "DEPLOY": { "status": "pending" }
+    "TECH_STACK": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
+    "BRANDING": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
+    "UX_UI": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
+    "MARKETING": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
+    "BUILD": { "status": "pending", "rejection_count": 0, "max_iterations": 3 },
+    "QA": { "status": "pending", "rejection_count": 0, "max_iterations": 3 },
+    "DEPLOY": { "status": "pending", "rejection_count": 0, "max_iterations": 1 },
+    "POST_LAUNCH": { "status": "pending", "rejection_count": 0, "max_iterations": 1 }
   },
   "gates": {
     "DB_DESIGN": {

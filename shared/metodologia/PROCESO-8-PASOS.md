@@ -271,19 +271,26 @@ Lanzamos      → publicación
 ### En Core-Product
 
 ```
-Investigamos  → discovery + relevamiento + entidades de negocio
-Pensamos      → ⚡ PRIMERO: diseño de base de datos (Workflow 0)
-                → DESPUÉS: definición funcional + UX + arquitectura
+Investigamos  → BRIEF → PROPUESTA COMERCIAL (firma del cliente)
+              → DISCOVERY: investigación profunda del negocio + especificación funcional
+Pensamos      → ⚡ DB_DESIGN: diseño de base de datos (Opus, Workflow 0)
+              → TECH_STACK: ADR de arquitectura (Workflow 0.5)
+              → BRANDING: la marca nace del entendimiento del negocio
+              → UX/UI: diseño de experiencia
+              → MARKETING: estrategia basada en marca + discovery
 De nuevo      → challenge de alcance + decisiones técnicas
 Validamos     → con prototipos + cliente
-Construimos   → desarrollo
+Construimos   → BUILD: desarrollo (Documentation Agent en paralelo)
 Testeamos     → QA + tests automáticos
 Mejoramos     → refactor + optimización
-Lanzamos      → deploy a producción
+Lanzamos      → DEPLOY a producción
+              → POST_LAUNCH: monitoreo semana 1, métricas, hotfixes
 ```
 
 **Regla fundacional de Core-Product:**
-> El modelo de datos se diseña ANTES que cualquier definición funcional, pantalla, API o línea de código. Es el cimiento del sistema. Se diseña con Opus. Ver `equipos/core-product/workflows/00-diseno-base-datos.md`.
+> La marca nace del entendimiento del negocio, no al revés. Discovery va antes de Branding.
+> El modelo de datos se diseña basado en el discovery. Se diseña con Opus.
+> Sin propuesta comercial firmada, no corre un agente.
 
 ---
 
