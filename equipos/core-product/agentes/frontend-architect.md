@@ -1,7 +1,7 @@
 ---
 name: frontend-architect
 description: Diseña arquitectura frontend. Componentes, state management, performance, accesibilidad. Stack default: Vite + React + TypeScript + Tailwind.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write, Bash]
 write_paths: ["/proyectos/{proyecto}/src/", "/proyectos/{proyecto}/docs/architecture/"]
 team: core-product

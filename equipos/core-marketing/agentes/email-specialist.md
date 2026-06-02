@@ -1,7 +1,7 @@
 ---
 name: email-specialist
 description: Especialista en email marketing y automatizaciones. Diseña arquitectura de emails, segmentación, asuntos, preheaders y flows.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/email/"]
 team: core-marketing

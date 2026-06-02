@@ -1,7 +1,7 @@
 ---
 name: brandbook-builder
 description: Genera manuales de marca estructurados a partir del sistema visual y la estrategia aprobada. Usa Haiku porque es generación estructurada repetible.
-model: haiku
+model: deepseek-v4-flash
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/branding/brandbook/", "/proyectos/{proyecto}/branding/brandbook/"]
 team: core-brand

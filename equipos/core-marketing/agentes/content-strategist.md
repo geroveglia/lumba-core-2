@@ -1,7 +1,7 @@
 ---
 name: content-strategist
 description: Define estrategia de contenido y pilares para redes sociales. Coordina calendarios mensuales y formato de contenido por plataforma.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/content/"]
 team: core-marketing

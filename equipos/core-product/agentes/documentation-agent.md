@@ -1,7 +1,7 @@
 ---
 name: documentation-agent
 description: Documenta en paralelo durante el desarrollo: README, docs técnicas, guía de usuario, API docs. Corre en simultáneo con la fase BUILD.
-model: flash
+model: deepseek-v4-flash
 runtime: subagent
 tools:
   - read          # Leer código, specs, modelo de datos

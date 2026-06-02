@@ -1,7 +1,7 @@
 ---
 name: brand-differentiator
 description: Analiza y articula la diferenciación real de una marca frente a su competencia. Es el agente que evita que una marca termine pareciéndose a todos los demás. Crítico antes de cerrar posicionamiento.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/branding/", "/proyectos/{proyecto}/branding/"]
 team: core-brand

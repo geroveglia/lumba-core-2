@@ -1,7 +1,7 @@
 ---
 name: copywriter
 description: Escribe copys para redes, ads, email y claims. Aplica tono de voz de la marca. Es el ejecutor de copy operativo (no estratégico de marca - eso es brand-voice-writer).
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/copy/"]
 team: core-marketing

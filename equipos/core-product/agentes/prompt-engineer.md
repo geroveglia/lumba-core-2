@@ -1,7 +1,7 @@
 ---
 name: prompt-engineer
 description: Agente especialista en diseño de prompts para Claude. Ayuda al equipo a pedir mejor, gastar menos tokens y obtener outputs de mayor calidad. Se invoca cuando alguien quiere mejorar cómo usa la AI.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/knowledge/prompts/"]
 team: core-product

@@ -1,7 +1,7 @@
 ---
 name: devops-engineer
 description: Gestiona deploy, CI/CD, monitoring, infra. Modelo Haiku por ser operativo predecible.
-model: haiku
+model: deepseek-v4-flash
 tools: [Read, Glob, Grep, Write, Bash]
 write_paths: ["/proyectos/{proyecto}/.github/", "/proyectos/{proyecto}/scripts/"]
 team: core-product

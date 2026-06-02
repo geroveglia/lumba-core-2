@@ -1,7 +1,7 @@
 ---
 name: brand-researcher
 description: Investiga categoría, competencia y referencias culturales. Aporta evidencia para decisiones de marca. Se invoca al inicio de cualquier proyecto de branding y cuando se necesita benchmark actualizado.
-model: sonnet
+model: deepseek-v4-flash
 tools: [Read, WebSearch, WebFetch, Write]
 write_paths: ["/clientes/{cliente}/branding/research/", "/proyectos/{proyecto}/branding/research/"]
 team: core-brand

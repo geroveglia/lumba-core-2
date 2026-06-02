@@ -2,8 +2,8 @@
 
 > **Versión:** v1.0 (Lumba Core)
 > **Tono:** Manual técnico.
-> **Para quién:** quien configure y mantenga Lumba Core en Claude Code.
-> **Última actualización:** 23 de mayo de 2026.
+> **Para quién:** quien configure y mantenga Lumba Core en OpenClaw.
+> **Última actualización:** 2 de junio de 2026.
 
 ---
 
@@ -81,8 +81,8 @@ Es el **director de tráfico** del sistema. Recibe la solicitud del humano (o de
 ---
 name: orchestrator
 description: Enruta tareas al agente especializado correcto. Coordina pipelines multi-agente.
-model: sonnet
-tools: [Read, Glob, Grep, Task]
+model: deepseek-v4-pro
+tools: [read, write, sessions_spawn, web_search]
 ---
 ```
 
@@ -131,8 +131,8 @@ Es el **organizador de trabajo**. Gestiona sprints, dependencias, bloqueos, cade
 ---
 name: project-manager
 description: Gestiona sprints, dependencias, bloqueos y cadencia operativa.
-model: haiku
-tools: [Read, Write, Glob, Grep]
+model: deepseek-v4-flash
+tools: [read, write, exec]
 write_paths: ["/proyectos/{nombre}/sprints/", "/proyectos/{nombre}/decisiones/"]
 ---
 ```
@@ -173,7 +173,7 @@ Es el **agente más importante del sistema**. Cuestiona TODO. Detecta supuestos 
 ---
 name: devils-advocate
 description: Cuestiona decisiones críticas, detecta supuestos no validados, bloquea cierres riesgosos.
-model: claude-opus-4  # o deepseek-v4-pro + thinking=high
+model: openai/gpt-5.5
 runtime: subagent
 tools:
   - read          # Leer outputs y memoria del proyecto
@@ -255,7 +255,7 @@ Mantiene actualizada la inteligencia de mercado, competencia, tendencias y evide
 ---
 name: research-agent
 description: Investiga mercado, competencia, tendencias y evidencia. Actualiza memoria de inteligencia.
-model: deepseek/deepseek-v4-flash  # rápido y barato para búsquedas
+model: deepseek-v4-flash
 runtime: subagent
 tools:
   - web_search    # Búsquedas de mercado y competencia
@@ -303,14 +303,8 @@ Vigila el alcance del proyecto y detecta trabajo no cotizado o scope creep.
 ---
 name: scope-agent
 description: Vigila alcance, detecta scope creep, protege rentabilidad.
-model: sonnet
-tools: [Read, Glob, Grep]
----
-```
-
-### Reglas inviolables
-
-1. NO toma decisiones comerciales finales.
+model: deepseek-v4-pro
+tools: [read, glob, grep]
 2. Compara cada solicitud contra el contrato / propuesta original.
 3. Si detecta scope creep, emite alerta.
 4. NO ejecuta trabajo no cotizado.
@@ -362,8 +356,8 @@ Traduce entre el lenguaje del cliente y el lenguaje técnico del equipo. Y vicev
 ---
 name: client-translator
 description: Traduce entre cliente y equipo técnico. Detecta ambigüedades de comunicación.
-model: sonnet
-tools: [Read, Write]
+model: deepseek-v4-pro
+tools: [read, write]
 write_paths: ["/clientes/{cliente}/comunicacion/"]
 ---
 ```
@@ -440,12 +434,12 @@ No tiene archivo `.claude/agents/founder.md`. Es un rol humano que interactúa c
 
 | Agente | Modelo | Justificación |
 |---|---|---|
-| Orchestrator | Sonnet 4.6 | Equilibrio costo/calidad para enrutamiento |
-| Project Manager | Haiku 4.5 | Alta frecuencia, tareas operativas predecibles |
-| Devil's Advocate | **Opus 4.7** | Razonamiento profundo no negociable |
-| Research Agent | Sonnet 4.6 | Web search + síntesis |
-| Scope Agent | Sonnet 4.6 | Análisis comparativo + criterio comercial |
-| Client Translator | Sonnet 4.6 | Traducción de lenguaje (sensibilidad contextual) |
+| Orchestrator (Jarvis) | `deepseek-v4-pro` | Enrutamiento + decisiones de coordinación |
+| Project Manager | `deepseek-v4-flash` | Alta frecuencia, tareas operativas predecibles |
+| Devil's Advocate | `openai/gpt-5.5` | Razonamiento profundo no negociable |
+| Research Agent | `deepseek-v4-flash` | Web search + síntesis |
+| Scope Agent | `deepseek-v4-pro` | Análisis comparativo + criterio comercial |
+| Client Translator | `deepseek-v4-pro` | Traducción de lenguaje (sensibilidad contextual) |
 
 ---
 

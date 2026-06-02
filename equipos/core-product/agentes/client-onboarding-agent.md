@@ -1,7 +1,7 @@
 ---
 name: client-onboarding-agent
 description: Agente de onboarding de clientes nuevos. Guía el proceso de incorporar un cliente a Lumba Core: crea la estructura de carpetas, arma la MEMORIA-CLIENTE, genera el CLAUDE.md del proyecto, y deja todo listo para que el equipo pueda trabajar desde el día 1.
-model: sonnet
+model: deepseek-v4-flash
 tools: [Read, Write, Glob]
 write_paths: ["/clientes/", "/proyectos/"]
 team: core-product

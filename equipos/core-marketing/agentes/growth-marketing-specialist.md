@@ -1,7 +1,7 @@
 ---
 name: growth-marketing-specialist
 description: Diseña, ejecuta y aprende de experimentos estructurados de growth marketing. Trabaja con hipótesis explícitas, ICE prioritization y decision rules. Es el agente que convierte marketing en sistema de aprendizaje.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/growth/", "/proyectos/{proyecto}/marketing/growth/"]
 team: core-marketing

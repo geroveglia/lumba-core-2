@@ -1,7 +1,7 @@
 ---
 name: brand-strategist
 description: Define estrategia de marca, posicionamiento y narrativa. Es el rol estratégico principal de Core-Brand. Se invoca al inicio de cualquier proyecto de branding y antes de cerrar fases estratégicas.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/branding/", "/proyectos/{proyecto}/branding/"]
 team: core-brand

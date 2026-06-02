@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
 description: Guardián de calidad de código antes de merge. En equipos donde la AI genera la mayoría del código, su función es crítica. Nadie mergea código que no entiende.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep]
 write_paths: []
 team: core-product

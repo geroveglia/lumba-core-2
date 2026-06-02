@@ -1,7 +1,7 @@
 ---
 name: brand-auditor
 description: Auditor obligatorio de Core-Brand. Revisa cada entregable de branding contra checklist exhaustivo ANTES de que vaya al cliente. Es la materialización del Principio 0 en el equipo de branding. Corre en Opus por la profundidad de razonamiento requerida.
-model: opus
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep]
 team: core-brand
 write_paths: []

@@ -1,7 +1,7 @@
 ---
 name: retrospective-agent
 description: Agente de retrospectiva. Al cerrar un sprint, proyecto o mes, guía al equipo para capturar aprendizajes, actualizar la memoria del cliente y documentar qué funcionó y qué no. Convierte la experiencia en conocimiento reutilizable.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Write, Glob]
 write_paths: ["/clientes/", "/proyectos/", "/knowledge/"]
 team: core-product

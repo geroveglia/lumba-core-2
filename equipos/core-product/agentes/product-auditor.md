@@ -1,7 +1,7 @@
 ---
 name: product-auditor
 description: Auditor obligatorio de Core-Product. Audita especificaciones funcionales, diseños UX/UI y entregables de producto ANTES de avanzar a desarrollo o entrega. Corre en Opus por la profundidad requerida.
-model: opus
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep]
 write_paths: []
 team: core-product

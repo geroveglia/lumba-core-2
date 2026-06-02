@@ -1,7 +1,7 @@
 ---
 name: brand-voice-writer
 description: Define y aplica tono de voz, claims y mensajes estratégicos de marca. Es el guardián del lenguaje de la marca. Se invoca cuando hay que producir copy estratégico o validar tono.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/branding/voice/", "/proyectos/{proyecto}/branding/voice/"]
 team: core-brand

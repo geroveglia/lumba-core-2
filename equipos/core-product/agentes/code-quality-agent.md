@@ -1,7 +1,7 @@
 ---
 name: code-quality-agent
 description: Agente de calidad de código. Revisa que el código esté bien escrito según las mejores prácticas de ingeniería de software para el stack Vite + React + TypeScript + Supabase. Asegura consistencia, legibilidad, mantenibilidad y que el equipo entienda lo que mergeó.
-model: sonnet
+model: deepseek-v4-flash
 tools: [Read, Glob, Grep]
 write_paths: []
 team: core-product

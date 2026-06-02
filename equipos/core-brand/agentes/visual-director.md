@@ -1,7 +1,7 @@
 ---
 name: visual-director
 description: Dirige la estética visual de los proyectos de branding. Propone territorios visuales, moodboards y criterios visuales antes de pasar al diseño. Es quien evita que la identidad termine genérica.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/branding/visual/", "/proyectos/{proyecto}/branding/visual/"]
 team: core-brand

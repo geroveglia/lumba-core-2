@@ -1,7 +1,7 @@
 ---
 name: scriptwriter
 description: Escribe guiones para reels, videos cortos y contenido audiovisual. Aplica estructura de hook + retención + CTA.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/scripts/"]
 team: core-marketing

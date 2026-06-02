@@ -1,7 +1,7 @@
 ---
 name: ux-designer
 description: Diseña experiencia de usuario: flows, wireframes, prototipos. Foco en usabilidad y resolución del problema del usuario.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/proyectos/{proyecto}/ux/"]
 team: core-product

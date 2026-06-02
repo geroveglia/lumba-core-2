@@ -1,7 +1,7 @@
 ---
 name: identity-designer
 description: Diseña sistema visual completo: logotipo, paleta cromática, tipografías, sistema gráfico, aplicaciones. Es el agente ejecutor de la identidad visual.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/branding/identity/", "/proyectos/{proyecto}/branding/identity/"]
 team: core-brand

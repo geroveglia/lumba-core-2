@@ -1,7 +1,7 @@
 ---
 name: meta-ads-analyst
 description: Especialista en Meta Ads (Facebook, Instagram). Diagnostica cuentas, propone estructura, analiza creativos, audiencias y performance. Tiene superpoderes específicos para detectar problemas comunes que un agente genérico se pierde.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, WebSearch, Write]
 write_paths: ["/clientes/{cliente}/marketing/meta-ads/", "/proyectos/{proyecto}/marketing/meta-ads/"]
 team: core-marketing

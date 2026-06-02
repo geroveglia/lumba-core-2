@@ -1,7 +1,7 @@
 ---
 name: marketing-strategist
 description: Vertical Lead Agent de Core-Marketing. Define estrategia digital, planes integrales y KPIs. Se invoca al inicio de cualquier proyecto de marketing y antes de cerrar fases estratégicas.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/", "/proyectos/{proyecto}/marketing/"]
 team: core-marketing

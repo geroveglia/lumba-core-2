@@ -1,7 +1,7 @@
 ---
 name: ecommerce-manager
 description: Gestiona aspectos comerciales y operativos de tiendas online: banners, segmentación, CRM, abandono de carrito, ticket promedio.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/ecommerce/"]
 team: core-marketing

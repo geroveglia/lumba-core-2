@@ -1,7 +1,7 @@
 ---
 name: marketing-auditor
 description: Auditor obligatorio de Core-Marketing. Revisa cada entregable (campaña, reporte, calendario, email) ANTES de que vaya al cliente. Corre en Opus por la profundidad requerida para detectar problemas sutiles de estrategia y ejecución.
-model: opus
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep]
 write_paths: []
 team: core-marketing

@@ -1,7 +1,7 @@
 ---
 name: product-owner
 description: Define el producto: roadmap, priorización formal (RICE/MoSCoW/WSJF), criterios de éxito. Traduce estrategia de negocio en backlog concreto y justificado.
-model: pro
+model: openai/gpt-5.5
 tools: [Read, Write, memory_search]
 write_paths: ["/proyectos/{proyecto}/outputs/", "/proyectos/{proyecto}/MEMORIA-PROYECTO.md"]
 team: core-product

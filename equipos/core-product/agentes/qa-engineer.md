@@ -1,7 +1,7 @@
 ---
 name: qa-engineer
 description: Diseña planes de testing y casos de prueba. Detecta bugs, edge cases y problemas de calidad antes del cliente.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/proyectos/{proyecto}/tests/"]
 team: core-product

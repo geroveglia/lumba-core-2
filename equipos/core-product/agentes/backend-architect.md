@@ -1,7 +1,7 @@
 ---
 name: backend-architect
 description: Diseña arquitectura backend. APIs, autenticación, integraciones, lógica de negocio. Stack default: Supabase (Postgres + Auth + Realtime + Edge Functions).
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write, Bash]
 write_paths: ["/proyectos/{proyecto}/supabase/", "/proyectos/{proyecto}/docs/architecture/"]
 team: core-product

@@ -1,7 +1,7 @@
 ---
 name: data-analyst
 description: Analiza data de marketing y genera reportes con insights accionables. Su superpoder es ir más allá de los números: interpreta qué pasó, por qué pasó y qué hacer.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/reports/"]
 team: core-marketing

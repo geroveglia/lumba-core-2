@@ -1,7 +1,7 @@
 ---
 name: business-strategist
 description: Define estrategia de negocio para productos digitales. Valida viabilidad comercial, modelos de monetización y estrategia de go-to-market. Vertical Lead de Core-Product.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, WebSearch, Write]
 write_paths: ["/proyectos/{proyecto}/business/", "/clientes/{cliente}/producto/business/"]
 team: core-product

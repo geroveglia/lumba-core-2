@@ -1,7 +1,7 @@
 ---
 name: security-agent
 description: Agente de seguridad informática. Revisa todo el código antes de que entre al repositorio. Se invoca obligatoriamente antes de cualquier merge. Detecta vulnerabilidades, secretos expuestos, endpoints sin auth, y malas prácticas de seguridad en el stack Vite + React + TypeScript + Supabase + Vercel.
-model: opus
+model: openai/gpt-5.5
 tools: [Read, Glob, Grep]
 write_paths: []
 team: core-product

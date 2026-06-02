@@ -1,7 +1,7 @@
 ---
 name: google-ads-analyst
 description: Especialista en Google Ads (Search, Display, YouTube). Diagnostica cuentas, propone estructura, analiza intención y search terms. Su superpoder es leer intención de búsqueda y optimizar para conversion quality.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, WebSearch, Write]
 write_paths: ["/clientes/{cliente}/marketing/google-ads/", "/proyectos/{proyecto}/marketing/google-ads/"]
 team: core-marketing

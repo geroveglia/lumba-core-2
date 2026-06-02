@@ -1,7 +1,7 @@
 ---
 name: campaign-orchestrator
 description: Coordina campañas multi-canal. Asegura que Meta, Google, email y contenido orgánico estén alineados. Usa Haiku porque es coordinación operativa.
-model: haiku
+model: deepseek-v4-flash
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/clientes/{cliente}/marketing/campaigns/"]
 team: core-marketing

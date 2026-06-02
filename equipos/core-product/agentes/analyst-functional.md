@@ -1,7 +1,7 @@
 ---
 name: analyst-functional
 description: Analista funcional. Escribe especificaciones funcionales con criterios de aceptación, casos de uso (happy path + edge cases), reglas de negocio, permisos y roles.
-model: sonnet
+model: deepseek-v4-pro
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/proyectos/{proyecto}/specs/"]
 team: core-product
