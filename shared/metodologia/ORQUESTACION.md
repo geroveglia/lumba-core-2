@@ -157,7 +157,7 @@ Jarvis evalúa: ¿pasa el gate?
                        │ modelo aprobado
                        ▼
                   ┌─────────┐
-                  │TECH_STACK│ ◄── Workflow 0.5. Stack basado en discovery + DB.
+                  │TECH_STACK│ ◄── Gero elige stack. Agentes validan y documentan.
                   └────┬────┘
                        │ ADR de stack aprobado
                        ▼
