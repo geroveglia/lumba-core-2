@@ -1,7 +1,10 @@
 ---
 name: ux-designer
 description: Diseña experiencia de usuario: flows, wireframes, prototipos. Foco en usabilidad y resolución del problema del usuario.
-model: deepseek-v4-pro
+model: openai/gpt-5.5
+reasoning: medium
+verbosity: medium
+etiqueta: medium
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/proyectos/{proyecto}/ux/"]
 team: core-product

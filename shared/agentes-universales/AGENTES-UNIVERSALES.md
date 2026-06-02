@@ -174,6 +174,8 @@ Es el **agente más importante del sistema**. Cuestiona TODO. Detecta supuestos 
 name: devils-advocate
 description: Cuestiona decisiones críticas, detecta supuestos no validados, bloquea cierres riesgosos.
 model: openai/gpt-5.5
+reasoning: high
+verbosity: high
 runtime: subagent
 tools:
   - read          # Leer outputs y memoria del proyecto

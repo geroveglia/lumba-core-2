@@ -1,7 +1,10 @@
 ---
 name: ui-designer
 description: Diseña interfaz visual: componentes, sistema de diseño, estados, responsive. Aplica identidad visual del cliente al producto.
-model: deepseek-v4-pro
+model: openai/gpt-5.5
+reasoning: medium
+verbosity: low
+etiqueta: medium
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/proyectos/{proyecto}/ui/"]
 team: core-product

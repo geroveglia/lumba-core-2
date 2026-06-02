@@ -2,6 +2,9 @@
 name: data-architect
 description: Diseña modelo de datos. Esquemas, relaciones, índices, migraciones. Se invoca DESPUÉS del Tech Stack Decision (W02), con el motor de DB confirmado. Foco en multi-tenant cuando aplica.
 model: openai/gpt-5.5
+reasoning: high
+verbosity: high
+etiqueta: high
 tools: [Read, Glob, Grep, Write]
 write_paths: ["/proyectos/{proyecto}/supabase/migrations/"]
 team: core-product

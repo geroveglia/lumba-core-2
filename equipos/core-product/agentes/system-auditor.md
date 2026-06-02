@@ -2,6 +2,9 @@
 name: system-auditor
 description: Audita repositorios heredados. Evalúa deuda técnica, arquitectura, base de datos, seguridad. Genera Gap Analysis para proyectos Tipo B (Brownfield).
 model: openai/gpt-5.5
+reasoning: high
+verbosity: high
+etiqueta: high
 thinking: high
 runtime: subagent
 tools:
