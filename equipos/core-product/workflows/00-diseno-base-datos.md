@@ -1,15 +1,18 @@
-# Workflow 0: Diseño de Base de Datos ⚡ FUNDACIONAL
+# Workflow 02: Diseño de Base de Datos ⚡
 
-> **Este workflow es el punto de partida de TODO proyecto en Lumba Core.**
-> **No se inicia ningún otro workflow técnico sin completar este primero.**
+> **Se ejecuta DESPUÉS del Discovery (Workflow 01).**
+> **SOLO cuando Business Strategist, Product Owner y Analyst Functional cerraron y validaron las reglas de negocio.**
+> **Prohibido modelar sobre hipótesis. Se modela sobre certezas.**
 
 ---
 
 ## Principio fundacional
 
-> **La base de datos es el cimiento del sistema. Todo lo demás — frontend, backend, APIs, UX — se construye sobre ella.**
+> **La base de datos se diseña sobre reglas de negocio validadas, no sobre supuestos iniciales.**
 >
 > Una decisión equivocada en el modelo de datos se paga en cada capa del stack. Una decisión correcta ahorra semanas de retrabajo.
+> 
+> **Por eso el Data Architect no interviene hasta que Discovery cerró. Modelar antes es adivinar.**
 
 ---
 

@@ -136,65 +136,81 @@ Jarvis evalúa: ¿pasa el gate?
 ### 5.1 State Machine
 
 ```
-                  ┌─────────┐
-                  │  BRIEF  │
-                  └────┬────┘
-                       │ brief completo
+                            ┌─────────┐
+                            │  BRIEF  │
+                            └────┬────┘
+                                 │
+                                 ▼
+                            ┌─────────┐
+                            │PROPOSAL │ ◄── Cliente firma.
+                            └────┬────┘
+                                 │
+                                 ▼
+                     ┌──────────────────────┐
+                     │  PROJECT ASSESSMENT  │ ◄── Workflow 00
+                     │  Triaje: A / B / C   │     Templates instanciados
+                     └──┬───────┬───────┬──┘
+                        │       │       │
+              TIPO A   │  TIPO B│       │ TIPO C
+              (Nuevo)  │ (Exist)│       │ (Parcial)
+                        │       │       │
+                        ▼       ▼       ▼
+                  ┌─────────┐ ┌───────────┐ ┌──────────────┐
+                  │DISCOVERY │ │SYSTEM     │ │GAP ANALYSIS  │
+                  │W01      │ │AUDITOR    │ │+ completar   │
+                  └────┬────┘ └─────┬─────┘ │fases faltantes│
+                       │            │       └──────┬───────┘
+                       │            ▼              │
+                       │      ┌───────────┐        │
+                       │      │Gero decide│        │
+                       │      │camino     │        │
+                       │      └─────┬─────┘        │
+                       │            │              │
+                       ▼            ▼              ▼
+                  ┌─────────┐                  
+                  │DB_DESIGN│ ◄── Opus        
+                  │W02      │     SOLO después
+                  └────┬────┘     de Discovery
+                       │            cerrado.
                        ▼
                   ┌─────────┐
-                  │PROPOSAL │ ◄── Propuesta comercial. Cliente firma.
+                  │TECH_STACK│ ◄── Gero elige.
+                  │W03       │
                   └────┬────┘
-                       │ contrato firmado
+                       │ (Tipo A → Bootstrap W03.5)
                        ▼
                   ┌─────────┐
-                  │DISCOVERY │ ◄── Investigación profunda del negocio
+                  │BOOTSTRAP│ ◄── Solo Tipo A.
+                  │W03.5    │     Scaffolding auto.
                   └────┬────┘
-                       │ spec funcional + entendimiento del negocio
                        ▼
                   ┌─────────┐
-                  │DB_DESIGN │ ◄── Opus, Workflow 0. Modelo basado en discovery.
+                  │ BRANDING │ ◄── Nace del discovery.
                   └────┬────┘
-                       │ modelo aprobado
                        ▼
                   ┌─────────┐
-                  │TECH_STACK│ ◄── Gero elige stack. Agentes validan y documentan.
+                  │ UX_UI   │
                   └────┬────┘
-                       │ ADR de stack aprobado
                        ▼
                   ┌─────────┐
-                  │ BRANDING │ ◄── La marca nace del entendimiento del negocio.
+                  │MARKETING│
                   └────┬────┘
-                       │ identidad aprobada
                        ▼
                   ┌─────────┐
-                  │ UX_UI    │
+                  │  BUILD  │ ◄── Documentation Agent en paralelo.
                   └────┬────┘
-                       │ diseño aprobado
                        ▼
                   ┌─────────┐
-                  │MARKETING │ ◄── Estrategia basada en marca + discovery.
+                  │   QA    │
                   └────┬────┘
-                       │ plan aprobado
                        ▼
                   ┌─────────┐
-                  │  BUILD   │ ◄── Documentation Agent corre en paralelo.
+                  │ DEPLOY  │
                   └────┬────┘
-                       │ feature completa
                        ▼
-                  ┌─────────┐
-                  │   QA     │
-                  └────┬────┘
-                       │ tests pasando
-                       ▼
-                  ┌─────────┐
-                  │ DEPLOY   │
-                  └────┬────┘
-                       │ en producción
-                       ▼
-                  ┌─────────┐
-                  │POST_LAUNCH│ ◄── Semana 1: monitoring, métricas, hotfixes.
-                  └────┬────┘
-                       │ estabilizado
+                  ┌──────────┐
+                  │POST_LAUNCH│ ◄── Semana 1.
+                  └────┬─────┘
                        ▼
                   ┌─────────┐
                   │  DONE   │

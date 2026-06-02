@@ -13,7 +13,7 @@
 | `PRINCIPIOS.md` | 15 principios operativos del sistema + checklist de comportamiento (NUNCA/SIEMPRE) |
 | `AGENTS.md` | Reglas globales de los agentes, validación humana obligatoria, flujo universal |
 | `SOUL.md` | Personalidad del Orchestrator (Jarvis ⚡) — modelos, modo de operación, reglas |
-| `MODEL-STRATEGY.md` | Estrategia Flash 70% / Pro 25% / Opus 5% — qué modelo para qué tarea. Opus reservado para diseño de base de datos |
+| `MODEL-STRATEGY.md` | Estrategia Flash 70% / Pro 25% / Opus 5%. Opus para DB Design. Pro+thinking para System Auditor |
 | `METRICAS.md` | Cómo medimos el éxito — KPI north: % entregas sin corrección posterior |
 | `IDENTITY.md` | Identidad puntual: nombre, avatar, emoji, vibe |
 | `USER.md` | Perfil del humano (Founder) |
@@ -200,11 +200,12 @@
 
 ## 📂 equipos/core-product/ — Red de Producto Digital
 
-### Agentes (19)
+### Agentes (20)
 
 | Archivo | Agente | Rol |
 |---|---|---|
-| `documentation-agent.md` 🆕 | 📚 Documentation Agent | Documentación en paralelo durante BUILD |
+| `system-auditor.md` 🆕 | 🔍 System Auditor | Auditoría de repos heredados, deuda técnica, gap analysis (Tipo B) |
+| `documentation-agent.md` | 📚 Documentation Agent | Documentación en paralelo durante BUILD |
 | `product-owner.md` | 📋 Product Owner | Roadmap, backlog, priorización |
 | `analyst-functional.md` | 📝 Analyst Functional | Especificación funcional, criterios de aceptación |
 | `ux-designer.md` | 🎨 UX Designer | Flujos de usuario, wireframes, prototipos |
@@ -238,18 +239,20 @@
 | `user-story-format.md` | Formato de user stories |
 | `ux-flow-design.md` | Diseño de flujos UX |
 
-### Workflows (8)
+### Workflows (10)
 
 | Archivo | Workflow |
 |---|---|
-| `01-discovery-y-funcional.md` | Discovery + definición funcional — investigación profunda del negocio |
-| ⚡ `00-diseno-base-datos.md` | **Diseño de base de datos (FUNDACIONAL)** — modelo basado en discovery |
-| 🏗️ `00.5-tech-stack-decision.md` | **Tech Stack Decision (ADR)** — stack completo antes de código |
+| 🔍 `00-project-assessment.md` 🆕 | **Project Assessment & Triaje** — clasifica A/B/C, instancia templates, System Auditor |
+| `01-discovery-y-funcional.md` | Discovery + definición funcional — reglas de negocio cerradas antes de DB |
+| ⚡ `00-diseno-base-datos.md` | **Diseño de base de datos** — SOLO después de Discovery cerrado (Opus) |
+| 🏗️ `00.5-tech-stack-decision.md` | **Tech Stack Decision** — Gero elige, agentes validan |
+| 🚀 `03.5-bootstrap-scaffolding.md` 🆕 | **Bootstrap Scaffolding** — Tipo A: estructura y config automática |
 | `02-diseno-ux-ui.md` | Diseño UX/UI completo |
 | `03-desarrollo-feature.md` | Desarrollo de feature |
 | `04-bug-critico.md` | Bug crítico en producción |
 | `05-soporte-evolutivo.md` | Soporte evolutivo |
-| 🚀 `06-post-launch.md` 🆕 | **Post-Launch (Semana 1)** — monitoreo, métricas, hotfixes |
+| 🚀 `06-post-launch.md` | **Post-Launch (Semana 1)** — monitoreo, métricas, hotfixes |
 
 ### Otros
 
@@ -293,15 +296,15 @@
 | Documentos raíz | 13 |
 | Docs visuales | 1 (HTML con 5 pestañas) |
 | Docs de metodología | 11 |
-| Agentes definidos | 42 |
+| Agentes definidos | 43 |
 | Skills | 33 |
-| Workflows | 22 |
+| Workflows | 24 |
 | Playbooks | 3 |
 | Templates | 11 |
 | Checklists | 2 |
 | Stack configs | 7 |
 | Schemas | 1 (con guía) |
-| **TOTAL archivos** | **158** |
+| **TOTAL archivos** | **161** |
 
 ---
 

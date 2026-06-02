@@ -55,12 +55,13 @@ Basado en los servicios reales de Lumba:
 
 ## 3. AGENTES ESPECIALIZADOS
 
-Core-Product tiene **12 agentes especializados**:
+Core-Product tiene **13 agentes especializados**:
 
 | Agente | Función principal | Modelo |
 |---|---|---|
-| `business-strategist` | Estrategia de negocio + viabilidad | Sonnet 4.6 |
-| `product-owner` | Define producto, priorización, roadmap | Sonnet 4.6 |
+| `system-auditor` 🆕 | Auditoría de repositorios heredados (Tipo B) | Pro + thinking |
+| `business-strategist` | Estrategia de negocio + viabilidad | Pro |
+| `product-owner` | Define producto, priorización formal (RICE/MoSCoW/WSJF) | Pro |
 | `analyst-functional` | Definición funcional + criterios de aceptación | Sonnet 4.6 |
 | `ux-designer` | Diseño UX, wireframes, prototipos | Sonnet 4.6 |
 | `ui-designer` | Diseño UI, sistema de diseño, componentes | Sonnet 4.6 |
@@ -73,7 +74,12 @@ Core-Product tiene **12 agentes especializados**:
 | `documentation-agent` 🆕 | Documentación en paralelo durante BUILD | Flash |
 | `product-auditor` | Auditoría obligatoria | **Opus 4.7** |
 
-> ⚡ **Regla fundacional:** `data-architect` (Opus) diseña el modelo basado en el discovery. La marca nace del discovery. Sin propuesta firmada no hay agentes.
+> ⚡ **Reglas fundacionales v2:**
+> - Todo proyecto arranca con Project Assessment (Workflow 00). No se asume Greenfield.
+> - `data-architect` (Opus) SOLO modela después de Discovery cerrado.
+> - `product-owner` prioriza con RICE/MoSCoW/WSJF. Sin excepción.
+> - `system-auditor` audita repos heredados. Gero decide el camino.
+> - MEMORIA-PROYECTO.md y ADRs se instancian al inicio. Sin registros redundantes.
 
 Plus agentes universales (Orchestrator, PM, Devil's Advocate, Research, Scope, Client Translator).
 
@@ -112,11 +118,13 @@ Core-Product tiene **10 skills**:
 
 ## 6. WORKFLOWS
 
-Core-Product tiene **8 workflows operativos**:
+Core-Product tiene **10 workflows operativos**:
 
+0. 🔍 **Project Assessment** — Triaje A/B/C + System Auditor + templates instanciados.
 1. **Discovery + definición funcional** — investigación profunda del negocio + spec.
-2. ⚡ **Diseño de base de datos** — modelado de datos basado en discovery (Opus).
-3. 🏗️ **Tech Stack Decision** — ADR de stack completo.
+2. ⚡ **Diseño de base de datos** — SOLO después de reglas de negocio cerradas (Opus).
+3. 🏗️ **Tech Stack Decision** — Gero elige stack, agentes validan.
+  3.5. 🚀 **Bootstrap Scaffolding** 🆕 — Tipo A: estructura y config automática.
 4. **Diseño UX/UI completo** — desde wireframes hasta sistema de diseño.
 5. **Desarrollo de feature** — desde spec hasta deploy.
 6. **Bug crítico en producción** — fix + rollback si hace falta.

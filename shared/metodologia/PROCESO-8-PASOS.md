@@ -272,10 +272,15 @@ Lanzamos      → publicación
 
 ```
 Investigamos  → BRIEF → PROPUESTA COMERCIAL (firma del cliente)
-              → DISCOVERY: investigación profunda del negocio + especificación funcional
-Pensamos      → ⚡ DB_DESIGN: diseño de base de datos (Opus, Workflow 0)
-              → TECH_STACK: ADR de arquitectura (Workflow 0.5)
-              → BRANDING: la marca nace del entendimiento del negocio
+              → PROJECT ASSESSMENT (Workflow 00):
+                  ├── Tipo A (Nuevo): Discovery → DB Design → Tech Stack → Bootstrap
+                  ├── Tipo B (Existente): System Auditor → Gap Analysis → Decisión
+                  └── Tipo C (Parcial): Gap Analysis → Completar fases faltantes
+Pensamos      → DISCOVERY: Business + Product Owner (RICE/MoSCoW) + Functional
+              → ⚡ DB_DESIGN: SOLO después de reglas de negocio cerradas (Opus, W02)
+              → TECH_STACK: Gero elige, agentes validan (W03)
+              → BOOTSTRAP: Scaffolding automático post-ADR (W03.5, solo Tipo A)
+              → BRANDING: la marca nace del discovery
               → UX/UI: diseño de experiencia
               → MARKETING: estrategia basada en marca + discovery
 De nuevo      → challenge de alcance + decisiones técnicas
@@ -287,10 +292,12 @@ Lanzamos      → DEPLOY a producción
               → POST_LAUNCH: monitoreo semana 1, métricas, hotfixes
 ```
 
-**Regla fundacional de Core-Product:**
-> La marca nace del entendimiento del negocio, no al revés. Discovery va antes de Branding.
-> El modelo de datos se diseña basado en el discovery. Se diseña con Opus.
-> Sin propuesta comercial firmada, no corre un agente.
+**Reglas fundacionales de Core-Product v2:**
+> Todo proyecto arranca con Project Assessment. No se asume Greenfield.
+> Data Architect NO modela hasta que Discovery cerró las reglas de negocio.
+> Product Owner usa priorización formal (RICE/MoSCoW/WSJF). Sin excepción.
+> Tipo A recibe Bootstrap automático post-ADR.
+> MEMORIA-PROYECTO.md y ADRs se instancian en Project Assessment. No se crean registros redundantes.
 
 ---
 
