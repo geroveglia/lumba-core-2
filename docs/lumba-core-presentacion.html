@@ -557,11 +557,39 @@
             border: 1px solid var(--border-subtle);
             color: var(--text-secondary);
             transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .agent-chip:hover {
             background: rgba(255, 255, 255, 0.08);
             color: var(--text-primary);
+        }
+
+        .agent-chip .model-tag {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            font-weight: 600;
+            padding: 1px 5px;
+            border-radius: 3px;
+            letter-spacing: 0.02em;
+            line-height: 1.3;
+        }
+
+        .agent-chip .model-tag.tag-flash {
+            background: rgba(0, 230, 118, 0.12);
+            color: var(--accent-success);
+        }
+
+        .agent-chip .model-tag.tag-pro {
+            background: rgba(68, 138, 255, 0.12);
+            color: var(--accent-blue);
+        }
+
+        .agent-chip .model-tag.tag-gpt55 {
+            background: rgba(233, 30, 99, 0.12);
+            color: var(--accent-brand);
         }
 
         .team-meta {
@@ -736,6 +764,46 @@
             font-size: 0.68rem;
         }
 
+        .flow-examples-box {
+            background: var(--bg-card);
+            border: 1px dashed var(--border-accent);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            animation: fadeInDown 0.4s ease-out;
+        }
+
+        .flow-examples-box .icon {
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .flow-examples-box .title {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+
+        .flow-examples-box.type-a .title { color: var(--accent-success); }
+        .flow-examples-box.type-b .title { color: var(--accent-marketing); }
+        .flow-examples-box.type-c .title { color: var(--accent-blue); }
+
+        .flow-examples-box .list {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .flow-examples-box .list strong {
+            color: var(--text-primary);
+        }
+
         /* ═══════════════════════════════════════════════════════
            QUALITY GATES SECTION
            ═══════════════════════════════════════════════════════ */
@@ -905,7 +973,7 @@
 
         .model-badge.flash { background: rgba(0, 230, 118, 0.1); color: var(--accent-success); }
         .model-badge.pro { background: rgba(68, 138, 255, 0.1); color: var(--accent-blue); }
-        .model-badge.opus { background: rgba(233, 30, 99, 0.1); color: var(--accent-brand); }
+        .model-badge.gpt55 { background: rgba(233, 30, 99, 0.1); color: var(--accent-brand); }
 
         .percent-bar {
             height: 6px;
@@ -1022,7 +1090,7 @@
     </p>
     <div class="hero-stats">
         <div class="hero-stat">
-            <div class="hero-stat-number gradient-text">43</div>
+            <div class="hero-stat-number gradient-text">44</div>
             <div class="hero-stat-label">Agentes</div>
         </div>
         <div class="hero-stat">
@@ -1123,7 +1191,7 @@
 <section id="agents">
     <div class="section-inner">
         <div class="section-label">02 — Red de Agentes</div>
-        <h2 class="section-title">43 agentes, <span class="gradient-text-blue">3 redes</span>, mismo ADN</h2>
+        <h2 class="section-title">44 agentes, <span class="gradient-text-blue">3 redes</span>, mismo ADN</h2>
         <p class="section-subtitle">
             Cada agente tiene su rol, sus herramientas, su modelo asignado y sus reglas.
             No se solapan. No compiten. Se complementan.
@@ -1140,14 +1208,14 @@
                     Estrategia de marca, naming, identidad visual, brandbook y dirección de arte.
                 </div>
                 <div class="team-agents-list">
-                    <span class="agent-chip">🧠 Brand Strategist</span>
-                    <span class="agent-chip">🎯 Brand Auditor</span>
-                    <span class="agent-chip">📋 Brandbook Builder</span>
-                    <span class="agent-chip">🔍 Differentiator</span>
-                    <span class="agent-chip">🔬 Researcher</span>
-                    <span class="agent-chip">✍️ Voice Writer</span>
-                    <span class="agent-chip">🎨 Identity Designer</span>
-                    <span class="agent-chip">👁️ Visual Director</span>
+                    <span class="agent-chip">🧠 Brand Strategist <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🎯 Brand Auditor <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">📋 Brandbook Builder <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">🔍 Differentiator <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🔬 Researcher <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">✍️ Voice Writer <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🎨 Identity Designer <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">👁️ Visual Director <span class="model-tag tag-pro">PRO</span></span>
                 </div>
                 <div class="team-meta">
                     <div class="team-meta-item">Agentes: <span>8</span></div>
@@ -1166,18 +1234,18 @@
                     Estrategia de marketing, campañas, Google/Meta Ads, email marketing y growth.
                 </div>
                 <div class="team-agents-list">
-                    <span class="agent-chip">📊 Strategist</span>
-                    <span class="agent-chip">🎯 Auditor</span>
-                    <span class="agent-chip">📈 Campaign</span>
-                    <span class="agent-chip">📝 Content</span>
-                    <span class="agent-chip">✍️ Copywriter</span>
-                    <span class="agent-chip">📊 Data Analyst</span>
-                    <span class="agent-chip">🛒 Ecommerce</span>
-                    <span class="agent-chip">📧 Email</span>
-                    <span class="agent-chip">🔍 Google Ads</span>
-                    <span class="agent-chip">📈 Growth</span>
-                    <span class="agent-chip">🔍 Meta Ads</span>
-                    <span class="agent-chip">🎬 Scriptwriter</span>
+                    <span class="agent-chip">📊 Strategist <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🎯 Auditor <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">📈 Campaign <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">📝 Content <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">✍️ Copywriter <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">📊 Data Analyst <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🛒 Ecommerce <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">📧 Email <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🔍 Google Ads <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">📈 Growth <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🔍 Meta Ads <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🎬 Scriptwriter <span class="model-tag tag-pro">PRO</span></span>
                 </div>
                 <div class="team-meta">
                     <div class="team-meta-item">Agentes: <span>12</span></div>
@@ -1196,24 +1264,24 @@
                     Producto digital end-to-end: specs, UX/UI, arquitectura, código, QA y deploy.
                 </div>
                 <div class="team-agents-list">
-                    <span class="agent-chip">🔍 System Auditor</span>
-                    <span class="agent-chip">📚 Documentation</span>
-                    <span class="agent-chip">📋 Product Owner</span>
-                    <span class="agent-chip">📝 Analyst</span>
-                    <span class="agent-chip">🎨 UX Designer</span>
-                    <span class="agent-chip">🖌️ UI Designer</span>
-                    <span class="agent-chip">🏗️ Frontend Arch</span>
-                    <span class="agent-chip">⚙️ Backend Arch</span>
-                    <span class="agent-chip">⚡ Data Architect</span>
-                    <span class="agent-chip">🔍 Code Reviewer</span>
-                    <span class="agent-chip">✅ Code Quality</span>
-                    <span class="agent-chip">🧪 QA Engineer</span>
-                    <span class="agent-chip">🚀 DevOps</span>
-                    <span class="agent-chip">🔒 Security</span>
-                    <span class="agent-chip">🎯 Product Auditor</span>
-                    <span class="agent-chip">💼 Business</span>
-                    <span class="agent-chip">🗣️ Onboarding</span>
-                    <span class="agent-chip">🔧 Prompt Eng</span>
+                    <span class="agent-chip">🔍 System Auditor <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">📚 Documentation <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">📋 Product Owner <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">📝 Analyst <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🎨 UX Designer <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">🖌️ UI Designer <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">🏗️ Frontend Arch <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">⚙️ Backend Arch <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">⚡ Data Architect <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">🔍 Code Reviewer <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">✅ Code Quality <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">🧪 QA Engineer <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🚀 DevOps <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">🔒 Security <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">🎯 Product Auditor <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">💼 Business <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🗣️ Onboarding <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">🔧 Prompt Eng <span class="model-tag tag-pro">PRO</span></span>
                 </div>
                 <div class="team-meta">
                     <div class="team-meta-item">Agentes: <span>18</span></div>
@@ -1232,14 +1300,15 @@
                     Agentes transversales que trabajan con cualquier red: auditoría, gestión, research y traducción al cliente.
                 </div>
                 <div class="team-agents-list">
-                    <span class="agent-chip">⚡ Orchestrator (Jarvis)</span>
-                    <span class="agent-chip">😈 Devil's Advocate</span>
-                    <span class="agent-chip">📋 Project Manager</span>
-                    <span class="agent-chip">🔬 Research Agent</span>
-                    <span class="agent-chip">📐 Scope Agent</span>
+                    <span class="agent-chip">⚡ Orchestrator (Jarvis) <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">😈 Devil's Advocate <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">📋 Project Manager <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">🔬 Research Agent <span class="model-tag tag-flash">FLASH</span></span>
+                    <span class="agent-chip">📐 Scope Agent <span class="model-tag tag-pro">PRO</span></span>
+                    <span class="agent-chip">🗣️ Client Translator <span class="model-tag tag-pro">PRO</span></span>
                 </div>
                 <div class="team-meta">
-                    <div class="team-meta-item">Agentes: <span>5</span></div>
+                    <div class="team-meta-item">Agentes: <span>6</span></div>
                     <div class="team-meta-item">Transversales a <span>3 redes</span></div>
                 </div>
             </div>
@@ -1266,6 +1335,17 @@
 
         <!-- TIPO A -->
         <div class="flow-content active" id="flow-a">
+            <div class="flow-examples-box type-a" data-animate>
+                <div class="icon">💡</div>
+                <div>
+                    <div class="title">Ejemplos Comunes:</div>
+                    <div class="list">
+                        • Un nuevo <strong>e-commerce headless</strong> con pasarela de pago para una marca de indumentaria.<br>
+                        • Un <strong>SaaS o CRM a medida</strong> para automatizar la gestión y analíticas de una empresa.<br>
+                        • Una <strong>aplicación móvil interactiva</strong> que requiere diseñar la base de datos, UX/UI e infraestructura desde cero.
+                    </div>
+                </div>
+            </div>
             <div class="flow-timeline">
                 <div class="flow-step completed">
                     <div class="flow-step-header">
@@ -1372,6 +1452,17 @@
 
         <!-- TIPO B -->
         <div class="flow-content" id="flow-b">
+            <div class="flow-examples-box type-b" data-animate>
+                <div class="icon">💡</div>
+                <div>
+                    <div class="title">Ejemplos Comunes:</div>
+                    <div class="list">
+                        • Una tienda online en producción que sufre de <strong>lentitud extrema</strong> o caídas y requiere auditoría de arquitectura.<br>
+                        • Un <strong>sistema heredado (legacy)</strong> escrito en Node.js al que se le quiere agregar un módulo de suscripciones.<br>
+                        • Una plataforma web que requiere un <strong>rediseño visual</strong> completo manteniendo intacta la lógica de base de datos actual.
+                    </div>
+                </div>
+            </div>
             <div class="flow-timeline">
                 <div class="flow-step completed">
                     <div class="flow-step-header">
@@ -1434,6 +1525,17 @@
 
         <!-- TIPO C -->
         <div class="flow-content" id="flow-c">
+            <div class="flow-examples-box type-c" data-animate>
+                <div class="icon">💡</div>
+                <div>
+                    <div class="title">Ejemplos Comunes:</div>
+                    <div class="list">
+                        • Un proyecto donde el cliente ya entrega los <strong>diseños en Figma validados</strong>, pero no se ha escrito código.<br>
+                        • Un <strong>MVP a medio desarrollar</strong> por otro equipo que requiere auditoría de completitud y finalización de features.<br>
+                        • Una <strong>especificación funcional detallada (Specs)</strong> que necesita ser traducida a arquitectura de base de datos y desarrollo.
+                    </div>
+                </div>
+            </div>
             <div class="flow-timeline">
                 <div class="flow-step completed">
                     <div class="flow-step-header">
@@ -1641,7 +1743,7 @@
         <div class="section-label">06 — Modelos & Costos</div>
         <h2 class="section-title">Modelo correcto, <span class="gradient-text">costo justo</span></h2>
         <p class="section-subtitle">
-            Usamos el modelo más barato que pueda resolver cada tarea correctamente. Sin desperdicios.
+            3 tiers: <strong>deepseek-v4-flash</strong> (económico), <strong>deepseek-v4-pro</strong> (razonamiento), <strong>openai/gpt-5.5</strong> (élite vía ChatGPT Plus). Sin desperdicios.
         </p>
 
         <div class="cost-table-wrapper">
@@ -1649,37 +1751,37 @@
                 <thead>
                     <tr>
                         <th>Modelo</th>
-                        <th>Uso</th>
-                        <th>Tareas típicas</th>
+                        <th>Tier</th>
+                        <th>Agentes / Tareas típicas</th>
                         <th>% del total</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="model-badge flash">Flash</span></td>
+                        <td><span class="model-badge flash">deepseek-v4-flash</span></td>
                         <td>Rápido y económico</td>
-                        <td>Enrutamiento, file ops, clasificación, copias, bootstrap</td>
+                        <td>Enrutamiento, file ops, clasificación, copias, bootstrap, docs</td>
                         <td>
-                            70%
-                            <div class="percent-bar"><div class="percent-bar-fill" style="width: 70%; background: var(--accent-success);"></div></div>
+                            60%
+                            <div class="percent-bar"><div class="percent-bar-fill" style="width: 60%; background: var(--accent-success);"></div></div>
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="model-badge pro">Pro</span></td>
+                        <td><span class="model-badge pro">deepseek-v4-pro</span></td>
                         <td>Razonamiento profundo</td>
-                        <td>Arquitectura, debugging, specs, auditorías, Devil's Advocate</td>
+                        <td>Arquitectura, debugging, specs, auditorías, estrategia, ads</td>
                         <td>
                             25%
                             <div class="percent-bar"><div class="percent-bar-fill" style="width: 25%; background: var(--accent-blue);"></div></div>
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="model-badge opus">Opus</span></td>
+                        <td><span class="model-badge gpt55">openai/gpt-5.5</span></td>
                         <td>Máxima capacidad</td>
-                        <td>Diseño de base de datos fundacional, auditorías finales complejas</td>
+                        <td>Data Architect, Devil's Advocate, Security, System Auditor, Product Owner, UX/UI</td>
                         <td>
-                            5%
-                            <div class="percent-bar"><div class="percent-bar-fill" style="width: 5%; background: var(--accent-brand);"></div></div>
+                            15%
+                            <div class="percent-bar"><div class="percent-bar-fill" style="width: 15%; background: var(--accent-brand);"></div></div>
                         </td>
                     </tr>
                 </tbody>
