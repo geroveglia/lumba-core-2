@@ -66,11 +66,13 @@ Core-Product tiene **12 agentes especializados**:
 | `ui-designer` | Diseño UI, sistema de diseño, componentes | Sonnet 4.6 |
 | `frontend-architect` | Arquitectura frontend | Sonnet 4.6 |
 | `backend-architect` | Arquitectura backend | Sonnet 4.6 |
-| `data-architect` | Diseño de base de datos + APIs | Sonnet 4.6 |
+| `data-architect` | Diseño de base de datos ⚡ PRIMER AGENTE | **Opus 4.7** |
 | `devops-engineer` | Deploy, CI/CD, monitoring | Haiku 4.5 |
 | `qa-engineer` | Testing, casos de uso, edge cases | Sonnet 4.6 |
 | `code-reviewer` | Review de código, deuda técnica | Sonnet 4.6 |
 | `product-auditor` | Auditoría obligatoria | **Opus 4.7** |
+
+> ⚡ **Regla fundacional:** `data-architect` (Opus) es el primer agente invocado en todo proyecto. El modelo de datos se diseña antes de cualquier definición funcional, UX o arquitectura. Ver Workflow 0.
 
 Plus agentes universales (Orchestrator, PM, Devil's Advocate, Research, Scope, Client Translator).
 
@@ -109,8 +111,9 @@ Core-Product tiene **10 skills**:
 
 ## 6. WORKFLOWS
 
-Core-Product tiene **5 workflows operativos**:
+Core-Product tiene **6 workflows operativos**:
 
+0. ⚡ **Diseño de base de datos** — PRIMER workflow. Modelado de datos antes que todo.
 1. **Discovery + definición funcional** — desde idea hasta especificación.
 2. **Diseño UX/UI completo** — desde wireframes hasta sistema de diseño.
 3. **Desarrollo de feature** — desde spec hasta deploy.
@@ -127,7 +130,8 @@ En Core-Product, los 8 pasos del proceso Lumba se ven así:
 
 ```
 1. INVESTIGAMOS    → discovery + relevamiento + research
-2. PENSAMOS        → definición funcional + UX + arquitectura
+2. PENSAMOS        → ⚡ PRIMERO: diseño de base de datos (data-architect · Opus)
+                   → DESPUÉS: definición funcional + UX + arquitectura
 3. PENSAMOS DE NUEVO → challenge de alcance + decisiones técnicas
 4. VALIDAMOS       → prototipos + cliente
 5. CONSTRUIMOS     → desarrollo
@@ -136,7 +140,9 @@ En Core-Product, los 8 pasos del proceso Lumba se ven así:
 8. LANZAMOS        → deploy a producción
 ```
 
-**Regla:** ningún proyecto salta del Paso 1 al Paso 5.
+**Reglas:**
+- Ningún proyecto salta del Paso 1 al Paso 5.
+- ⚡ **El modelo de datos se diseña ANTES de cualquier otra decisión técnica.** Es el cimiento del sistema.
 
 ---
 

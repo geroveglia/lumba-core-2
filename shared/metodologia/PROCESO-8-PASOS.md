@@ -75,6 +75,7 @@ Y la corrección posterior es el dolor #1 de Lumba que Lumba Core resuelve.
 ### Paso 2 — Pensamos
 
 **Qué hacemos:**
+- ⚡ **En proyectos digitales: diseñar el modelo de datos PRIMERO** (ver Workflow 0).
 - Armar estructura del problema.
 - Proponer modelo conceptual o estratégico.
 - Definir decisiones core.
@@ -82,12 +83,15 @@ Y la corrección posterior es el dolor #1 de Lumba que Lumba Core resuelve.
 
 **Entregable:**
 - Documento de estructura / hipótesis / modelo.
+- **En proyectos digitales: modelo de datos completo (obligatorio antes de seguir).**
 
 **Quién opera:**
 - Vertical Leads (brand-strategist, marketing-strategist, business-strategist).
+- **data-architect (Opus)** — primer agente técnico en proyectos digitales.
 
 **No avanzamos hasta:**
 - Tener una propuesta clara de cómo abordamos el problema.
+- **En proyectos digitales: modelo de datos diseñado y aprobado.**
 
 ---
 
@@ -267,15 +271,19 @@ Lanzamos      → publicación
 ### En Core-Product
 
 ```
-Investigamos  → discovery + relevamiento
-Pensamos      → definición funcional + UX
-De nuevo      → challenge de alcance + arquitectura
+Investigamos  → discovery + relevamiento + entidades de negocio
+Pensamos      → ⚡ PRIMERO: diseño de base de datos (Workflow 0)
+                → DESPUÉS: definición funcional + UX + arquitectura
+De nuevo      → challenge de alcance + decisiones técnicas
 Validamos     → con prototipos + cliente
 Construimos   → desarrollo
 Testeamos     → QA + tests automáticos
 Mejoramos     → refactor + optimización
 Lanzamos      → deploy a producción
 ```
+
+**Regla fundacional de Core-Product:**
+> El modelo de datos se diseña ANTES que cualquier definición funcional, pantalla, API o línea de código. Es el cimiento del sistema. Se diseña con Opus. Ver `equipos/core-product/workflows/00-diseno-base-datos.md`.
 
 ---
 

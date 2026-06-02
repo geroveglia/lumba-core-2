@@ -13,7 +13,7 @@
 | `PRINCIPIOS.md` | 15 principios operativos del sistema + checklist de comportamiento (NUNCA/SIEMPRE) |
 | `AGENTS.md` | Reglas globales de los agentes, validación humana obligatoria, flujo universal |
 | `SOUL.md` | Personalidad del Orchestrator (Jarvis ⚡) — modelos, modo de operación, reglas |
-| `MODEL-STRATEGY.md` | Estrategia Flash 70% / Pro 25% / Opus 5% — qué modelo para qué tarea |
+| `MODEL-STRATEGY.md` | Estrategia Flash 70% / Pro 25% / Opus 5% — qué modelo para qué tarea. Opus reservado para diseño de base de datos |
 | `METRICAS.md` | Cómo medimos el éxito — KPI north: % entregas sin corrección posterior |
 | `IDENTITY.md` | Identidad puntual: nombre, avatar, emoji, vibe |
 | `USER.md` | Perfil del humano (Founder) |
@@ -207,7 +207,7 @@
 | `ui-designer.md` | 🖌️ UI Designer | Sistema de diseño, componentes, responsive |
 | `frontend-architect.md` | 🏗️ Frontend Architect | Arquitectura frontend (Vite + React + TS + Tailwind) |
 | `backend-architect.md` | ⚙️ Backend Architect | APIs REST, auth, integraciones |
-| `data-architect.md` | 🗄️ Data Architect | Modelo de datos, esquemas, migraciones |
+| `data-architect.md` | ⚡🗄️ Data Architect (Opus) | PRIMER agente. Modelo de datos fundacional antes que todo |
 | `code-reviewer.md` | 🔍 Code Reviewer | Guardián de calidad pre-merge |
 | `code-quality-agent.md` | ✅ Code Quality Agent | Métricas de calidad de código |
 | `qa-engineer.md` | 🧪 QA Engineer | Planes de testing, edge cases |
@@ -234,10 +234,11 @@
 | `user-story-format.md` | Formato de user stories |
 | `ux-flow-design.md` | Diseño de flujos UX |
 
-### Workflows (5)
+### Workflows (6)
 
 | Archivo | Workflow |
 |---|---|
+| ⚡ `00-diseno-base-datos.md` | **Diseño de base de datos (FUNDACIONAL)** — primer workflow de todo proyecto |
 | `01-discovery-y-funcional.md` | Discovery + definición funcional |
 | `02-diseno-ux-ui.md` | Diseño UX/UI completo |
 | `03-desarrollo-feature.md` | Desarrollo de feature |
@@ -288,13 +289,13 @@
 | Docs de metodología | 10 |
 | Agentes definidos | 41 |
 | Skills | 33 |
-| Workflows | 19 |
+| Workflows | 20 |
 | Playbooks | 3 |
 | Templates | 11 |
 | Checklists | 2 |
 | Stack configs | 7 |
 | Schemas | 1 (con guía) |
-| **TOTAL archivos** | **150** |
+| **TOTAL archivos** | **151** |
 
 ---
 
@@ -312,6 +313,7 @@
 | **Briefing** | `WORKFLOW-BRIEF-OBSESIVO.md`, `brief-*.md` (4 templates) |
 | **Validación humana** | `VALIDACION-HUMANA.md`, `AGENTS.md` (sección específica) |
 | **Memoria** | `MEMORIA-COMPARTIDA.md`, `client-memory-template.md`, `project-memory-template.md` |
+| ⚡ **Diseño de base de datos** | `00-diseno-base-datos.md`, `data-architect.md`, `data-modeling.md` |
 | **Stack técnico** | `STACKS.md`, `CODING-STANDARDS.md`, `stack-a-config/` |
 | **Comunicación agentes** | `COMUNICACION-AGENTES.md`, `schemas/README.md` |
 | **Setup** | `README.md`, `setup.bat`, `setup.sh` |
