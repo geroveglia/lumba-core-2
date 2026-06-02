@@ -167,18 +167,22 @@ Es el **agente más importante del sistema**. Cuestiona TODO. Detecta supuestos 
 - Cuando un agente declara una decisión técnica importante (genera ADR).
 - A demanda explícita del Founder con `/challenge [tema]`.
 
-### Configuración técnica
+### Configuración técnica (OpenClaw)
 
 ```yaml
 ---
 name: devils-advocate
 description: Cuestiona decisiones críticas, detecta supuestos no validados, bloquea cierres riesgosos.
-model: opus
-tools: [Read, Glob, Grep]
+model: claude-opus-4  # o deepseek-v4-pro + thinking=high
+runtime: subagent
+tools:
+  - read          # Leer outputs y memoria del proyecto
+  - write         # Escribir reporte de auditoría
+  - memory_search # Verificar coherencia con memoria de cliente/proyecto
 ---
 ```
 
-**Modelo Opus 4.7** porque requiere razonamiento profundo de élite.
+**Modelo Opus o Pro + thinking=high** porque requiere razonamiento profundo de élite. Read-only en archivos fuente, write solo para reportes de auditoría.
 
 ### Reglas inviolables
 
@@ -245,15 +249,22 @@ Mantiene actualizada la inteligencia de mercado, competencia, tendencias y evide
 - Para buscar evidencia académica que respalde una decisión.
 - A demanda del Founder con `/research [tema]`.
 
-### Configuración técnica
+### Configuración técnica (OpenClaw)
 
 ```yaml
 ---
 name: research-agent
 description: Investiga mercado, competencia, tendencias y evidencia. Actualiza memoria de inteligencia.
-model: sonnet
-tools: [Read, WebSearch, WebFetch, Write]
-write_paths: ["/lumba-core/shared/intelligence/", "/proyectos/{nombre}/research/"]
+model: deepseek/deepseek-v4-flash  # rápido y barato para búsquedas
+runtime: subagent
+tools:
+  - web_search    # Búsquedas de mercado y competencia
+  - web_fetch     # Extraer contenido de páginas relevantes
+  - read          # Leer briefs y memoria existente
+  - write         # Escribir reports de investigación
+write_paths:
+  - /proyectos/{nombre}/outputs/
+  - /knowledge/aprendizajes/
 ---
 ```
 

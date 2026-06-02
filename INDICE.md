@@ -40,6 +40,7 @@
 | Archivo | Contenido |
 |---|---|
 | `PROCESO-8-PASOS.md` | Pipeline inviolable: Investigar → Pensar → Cuestionar → Validar → Construir → Testear → Mejorar → Lanzar |
+| `ORQUESTACION.md` 🆕 | Cómo Jarvis orquesta agentes en OpenClaw: spawn, handoffs, TaskFlow, human-in-the-loop |
 | `WORKFLOW-AUDITORIA.md` | Proceso de auditoría obligatoria pre-entrega |
 | `WORKFLOW-BRIEF-OBSESIVO.md` | Metodología de brief completo antes de producir |
 | `COMUNICACION-AGENTES.md` | Protocolo de handoff entre agentes (JSON Schema) |
@@ -69,6 +70,7 @@
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Documentación de JSON Schemas para handoff entre agentes |
+| `project-state-schema.json` 🆕 | Schema del state.json del proyecto: fases, gates, approvals, budget |
 
 ### shared/ — Otros
 
@@ -234,11 +236,12 @@
 | `user-story-format.md` | Formato de user stories |
 | `ux-flow-design.md` | Diseño de flujos UX |
 
-### Workflows (6)
+### Workflows (7)
 
 | Archivo | Workflow |
 |---|---|
 | ⚡ `00-diseno-base-datos.md` | **Diseño de base de datos (FUNDACIONAL)** — primer workflow de todo proyecto |
+| 🏗️ `00.5-tech-stack-decision.md` 🆕 | **Tech Stack Decision (ADR)** — stack completo antes de escribir código |
 | `01-discovery-y-funcional.md` | Discovery + definición funcional |
 | `02-diseno-ux-ui.md` | Diseño UX/UI completo |
 | `03-desarrollo-feature.md` | Desarrollo de feature |
@@ -289,13 +292,13 @@
 | Docs de metodología | 10 |
 | Agentes definidos | 41 |
 | Skills | 33 |
-| Workflows | 20 |
+| Workflows | 21 |
 | Playbooks | 3 |
 | Templates | 11 |
 | Checklists | 2 |
 | Stack configs | 7 |
 | Schemas | 1 (con guía) |
-| **TOTAL archivos** | **151** |
+| **TOTAL archivos** | **154** |
 
 ---
 
@@ -317,6 +320,7 @@
 | **Stack técnico** | `STACKS.md`, `CODING-STANDARDS.md`, `stack-a-config/` |
 | **Comunicación agentes** | `COMUNICACION-AGENTES.md`, `schemas/README.md` |
 | **Setup** | `README.md`, `setup.bat`, `setup.sh` |
+| **Orquestación OpenClaw** | `ORQUESTACION.md`, `project-state-schema.json` |
 | **Doc visual** | `docs/lumba-agentes-skills.html` |
 
 ---
