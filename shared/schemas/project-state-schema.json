@@ -12,6 +12,9 @@
   "project": "string",           // slug del proyecto
   "project_name": "string",      // nombre legible
   "client": "string",            // slug del cliente
+  "project_type": "A | B | C",   // Greenfield | Brownfield | Parcial
+  "complexity": "S | M | L | XL",// según checklist MATRIZ-SQUADS.md
+  "complexity_score": 0,          // puntaje 0-18 del checklist de 6 preguntas
   "created_at": "ISO-8601",
   "updated_at": "ISO-8601",
   

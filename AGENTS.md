@@ -134,10 +134,16 @@ workspace-lumba/
 ## Flujo universal
 
 ```
-PEDIDO → Orchestrator → Workflow → Squad → Vertical Lead → Especialistas
-  → Handoff (JSON Schema) → QA/Review/Scope/Risk → Consolidación
-  → Validación Humana → Entrega → Aprendizaje
+PEDIDO → Orchestrator → Workflow 00 (Project Assessment) →
+  Tipo (A/B/C) + Complejidad (S/M/L/XL) →
+  Consulta MATRIZ-SQUADS.md → Squad →
+  Vertical Lead → Especialistas →
+  Handoff (JSON Schema) → QA/Review/Scope/Risk → Consolidación →
+  Validación Humana → Entrega → Aprendizaje
 ```
+
+> ⚡ **El squad NO se elige subjetivamente.** Jarvis consulta `shared/metodologia/MATRIZ-SQUADS.md`.
+> Tipo × Complejidad → Squad fijo. Si no matchea → escala a Gero.
 
 ---
 

@@ -21,7 +21,7 @@
 
 ---
 
-## Clasificación: Tipo A, B o C
+## Clasificación: Tipo A, B o C + Complejidad S, M, L, XL
 
 | Tipo | Descripción | Pipeline |
 |---|---|---|
@@ -29,12 +29,15 @@
 | **B — Brownfield** | Proyecto existente con código heredado. Hay repo, hay stack, hay decisiones previas. | System Auditor → Gap Analysis → Refactor/Extender |
 | **C — Parcial** | Hay algo (diseños, specs, un MVP a medio hacer) pero no está completo. | Evaluar estado actual → Completar Discovery faltante → Reestructurar |
 
+> ⚡ **La complejidad (S/M/L/XL) se determina con el checklist de 6 preguntas en `shared/metodologia/MATRIZ-SQUADS.md`.**
+> **El squad de agentes NO se elige subjetivamente. Jarvis consulta la matriz: Tipo × Complejidad → Squad fijo.**
+
 ---
 
 ## Pasos
 
 ```
-PASO 0 — JARVIS CLASIFICA
+PASO 0 — JARVIS CLASIFICA (Tipo + Complejidad)
 
 Jarvis pregunta a Gero por Telegram:
   "⚡ Proyecto [nombre]: ¿qué tenemos?
@@ -45,7 +48,27 @@ Jarvis pregunta a Gero por Telegram:
    
    Si es B o C → pasame el link al repo o los archivos."
 
-Gero responde → Jarvis registra project_type en state.json
+Gero responde → Jarvis determina Tipo.
+
+Luego Jarvis ejecuta el checklist de complejidad (6 preguntas, ver MATRIZ-SQUADS.md):
+  1. ¿Cuántas entidades de negocio?
+  2. ¿Cuántos roles de usuario?
+  3. ¿Qué nivel de autenticación?
+  4. ¿Cuántas integraciones externas?
+  5. ¿Escala esperada de usuarios?
+  6. ¿Requiere IA o features no estándar?
+
+→ Resultado: S (0-2 pts) / M (3-5 pts) / L (6-9 pts) / XL (10-18 pts)
+
+Jarvis consulta MATRIZ-SQUADS.md y presenta a Gero:
+  "📊 Clasificación: Tipo X, Complejidad Y (Z pts)
+   Squad asignado: [lista de agentes]
+   ¿Confirmás?"
+
+Gero confirma o ajusta → Jarvis registra en state.json:
+  - project_type: "A" | "B" | "C"
+  - complexity: "S" | "M" | "L" | "XL"
+  - squad: [lista de agentes]
 
 
 PASO 1 — INSTANCIAR MEMORIA DEL PROYECTO
@@ -146,17 +169,18 @@ Al ejecutar este workflow, Jarvis DEBE crear:
 
 2. **`/proyectos/{nombre}/docs/decisions/ADR-000.md`**
    - Basado en `knowledge/templates/adr-template.md`
-   - Primera entrada del Decision Log: la decisión de clasificación del proyecto.
+   - Primera entrada del Decision Log: clasificación de Tipo + Complejidad + Squad asignado.
+   - Incluye puntaje del checklist de complejidad (6 preguntas).
    - Los arquitectos agregan ADRs subsiguientes. ES el Decision Log único — no se crean archivos de registro redundantes.
 
 ---
 
 ## Outputs
 
-- `state.json` actualizado con `project_type: "A" | "B" | "C"`
+- `state.json` actualizado con `project_type: "A" | "B" | "C"` y `complexity: "S" | "M" | "L" | "XL"`
 - `MEMORIA-PROYECTO.md` — instanciada del template
-- `docs/decisions/ADR-000.md` — decisión de clasificación
-- `outputs/00-project-assessment.md` — resumen del triaje
+- `docs/decisions/ADR-000.md` — decisión de clasificación (Tipo + Complejidad + Squad)
+- `outputs/00-project-assessment.md` — resumen del triaje + puntaje de complejidad
 
 **Para Tipo B adicionalmente:**
 - `outputs/00-audit-report.md` — reporte completo del System Auditor
@@ -168,7 +192,8 @@ Al ejecutar este workflow, Jarvis DEBE crear:
 
 ## Quality Gate
 
-- **Classification Gate** — el tipo de proyecto debe estar justificado y aprobado por Gero antes de avanzar.
+- **Classification Gate** — Tipo + Complejidad deben estar justificados (checklist de 6 preguntas) y aprobados por Gero antes de avanzar.
+- **Squad Gate** — El squad asignado debe coincidir con MATRIZ-SQUADS.md. Si Gero ajusta el squad manualmente, se registra en ADR-000 como excepción.
 - Para Tipo B: el audit report debe pasar Devil's Advocate antes de decidir el camino.
 
 ---
