@@ -167,17 +167,18 @@ Jarvis evalúa: ¿pasa el gate?
                        │      └─────┬─────┘        │
                        │            │              │
                        ▼            ▼              ▼
-                  ┌─────────┐                  
-                  │DB_DESIGN│ ◄── Opus        
-                  │W02      │     SOLO después
-                  └────┬────┘     de Discovery
-                       │            cerrado.
+                  ┌──────────┐
+                  │TECH_STACK│ ◄── Gero elige.
+                  │W02       │
+                  └────┬─────┘
+                       │
                        ▼
                   ┌─────────┐
-                  │TECH_STACK│ ◄── Gero elige.
-                  │W03       │
-                  └────┬────┘
-                       │ (Tipo A → Bootstrap W03.5)
+                  │DB_DESIGN│ ◄── Opus
+                  │W03      │     SOLO después de
+                  └────┬────┘     Discovery cerrado
+                       │            Y Tech Stack
+                       │            definido.
                        ▼
                   ┌─────────┐
                   │BOOTSTRAP│ ◄── Solo Tipo A.
@@ -224,7 +225,7 @@ Cada proyecto tiene `/proyectos/{nombre}/state.json`:
 ```json
 {
   "project": "tiendax",
-  "current_phase": "DB_DESIGN",
+  "current_phase": "TECH_STACK",
   "phases": {
     "BRIEF": {
       "status": "completed",
@@ -250,17 +251,13 @@ Cada proyecto tiene `/proyectos/{nombre}/state.json`:
       "rejection_count": 0,
       "max_iterations": 2
     },
-    "DB_DESIGN": {
+    "TECH_STACK": {
       "status": "in_progress",
       "started_at": "2026-06-05T14:00:00-03:00",
-      "agent": "data-architect",
-      "model": "opus",
-      "session_id": "sess_abc123",
-      "attempts": 1,
       "rejection_count": 0,
-      "max_iterations": 3
+      "max_iterations": 2
     },
-    "TECH_STACK": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
+    "DB_DESIGN": { "status": "pending", "rejection_count": 0, "max_iterations": 3 },
     "BRANDING": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
     "UX_UI": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
     "MARKETING": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
@@ -517,25 +514,33 @@ Jarvis ⚡:
   2. Escribe state.json (fase: BRIEF)
   3. Spawn PM Agent → brief.md
   4. Spawn Research Agent → investigación de mercado
-  5. Actualiza state.json (fase: DB_DESIGN)
   
-  6. Spawn data-architect (Opus) → modelo de datos
-  7. Spawn devils-advocate (Pro+thinking) → auditoría
-  8. Spawn backend-architect (Pro) → validación APIs
-  9. Spawn product-auditor (Opus) → auditoría final
+  5. Fase DISCOVERY:
+     → Spawn business-strategist, product-owner, analyst-functional
+     → Reglas de negocio cerradas y validadas
   
-  10. Gate: ¿modelo aprobado?
-      → Notifica a Gero por Telegram
-      → Gero: "sí, agregá índice en orders.user_id"
-      → Jarvis registra aprobación, actualiza state.json
+  6. Actualiza state.json (fase: TECH_STACK)
+     → Jarvis pregunta a Gero: "¿qué stack usamos?"
+     → Gero: "Stack A (Supabase + Vercel)"
+     → Spawn frontend-architect + backend-architect + devops → validación
+     → Spawn devils-advocate → challenge al stack
+     → Jarvis registra aprobación del ADR de stack
   
-  11. Fase BRANDING (si aplica):
-      → Spawn brand-strategist, identity-designer, etc.
+  7. Actualiza state.json (fase: DB_DESIGN)
+     → Spawn data-architect (Opus) → modelo de datos CON stack confirmado
+     → Spawn devils-advocate (Pro+thinking) → auditoría del modelo
+     → Spawn backend-architect (Pro) → validación APIs
+     → Spawn product-auditor (Opus) → auditoría final
   
-  12. Fase DISCOVERY:
-      → Spawn business-strategist, product-owner, analyst-functional
+  8. Gate: ¿modelo aprobado?
+     → Notifica a Gero por Telegram
+     → Gero: "sí, agregá índice en orders.user_id"
+     → Jarvis registra aprobación, actualiza state.json
   
-  13. ... (continúa por las fases restantes)
+  9. Fase BRANDING (si aplica):
+     → Spawn brand-strategist, identity-designer, etc.
+  
+  10. ... (continúa por las fases restantes)
 ```
 
 ### 11.2 Trazabilidad completa

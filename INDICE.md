@@ -244,15 +244,15 @@
 | Archivo | Workflow |
 |---|---|
 | 🔍 `00-project-assessment.md` 🆕 | **Project Assessment & Triaje** — clasifica A/B/C, instancia templates, System Auditor |
-| `01-discovery-y-funcional.md` | Discovery + definición funcional — reglas de negocio cerradas antes de DB |
-| ⚡ `00-diseno-base-datos.md` | **Diseño de base de datos** — SOLO después de Discovery cerrado (Opus) |
-| 🏗️ `00.5-tech-stack-decision.md` | **Tech Stack Decision** — Gero elige, agentes validan |
+| `01-discovery-y-funcional.md` | Discovery + definición funcional — reglas de negocio cerradas antes de todo |
+| 🏗️ `02-tech-stack-decision.md` | **Tech Stack Decision** — Gero elige, agentes validan. ANTES de DB Design |
+| ⚡ `03-diseno-base-datos.md` | **Diseño de base de datos** — SOLO después de Discovery cerrado Y Tech Stack definido (Opus) |
 | 🚀 `03.5-bootstrap-scaffolding.md` 🆕 | **Bootstrap Scaffolding** — Tipo A: estructura y config automática |
-| `02-diseno-ux-ui.md` | Diseño UX/UI completo |
-| `03-desarrollo-feature.md` | Desarrollo de feature |
-| `04-bug-critico.md` | Bug crítico en producción |
-| `05-soporte-evolutivo.md` | Soporte evolutivo |
-| 🚀 `06-post-launch.md` | **Post-Launch (Semana 1)** — monitoreo, métricas, hotfixes |
+| `04-diseno-ux-ui.md` | Diseño UX/UI completo |
+| `05-desarrollo-feature.md` | Desarrollo de feature |
+| `06-bug-critico.md` | Bug crítico en producción |
+| `07-soporte-evolutivo.md` | Soporte evolutivo |
+| 🚀 `08-post-launch.md` | **Post-Launch (Semana 1)** — monitoreo, métricas, hotfixes |
 
 ### Otros
 
@@ -322,7 +322,7 @@
 | **Briefing** | `WORKFLOW-BRIEF-OBSESIVO.md`, `brief-*.md` (4 templates) |
 | **Validación humana** | `VALIDACION-HUMANA.md`, `AGENTS.md` (sección específica) |
 | **Memoria** | `MEMORIA-COMPARTIDA.md`, `client-memory-template.md`, `project-memory-template.md` |
-| ⚡ **Diseño de base de datos** | `00-diseno-base-datos.md`, `data-architect.md`, `data-modeling.md` |
+| ⚡ **Diseño de base de datos** | `03-diseno-base-datos.md`, `data-architect.md`, `data-modeling.md` |
 | **Stack técnico** | `STACKS.md`, `CODING-STANDARDS.md`, `stack-a-config/` |
 | **Comunicación agentes** | `COMUNICACION-AGENTES.md`, `schemas/README.md` |
 | **Setup** | `README.md`, `setup.bat`, `setup.sh` |

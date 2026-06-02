@@ -67,7 +67,7 @@ Core-Product tiene **13 agentes especializados**:
 | `ui-designer` | Diseño UI, sistema de diseño, componentes | Sonnet 4.6 |
 | `frontend-architect` | Arquitectura frontend | Sonnet 4.6 |
 | `backend-architect` | Arquitectura backend | Sonnet 4.6 |
-| `data-architect` | Diseño de base de datos ⚡ PRIMER AGENTE | **Opus 4.7** |
+| `data-architect` | Diseño de base de datos ⚡ DESPUÉS de Tech Stack | **Opus 4.7** |
 | `devops-engineer` | Deploy, CI/CD, monitoring | Haiku 4.5 |
 | `qa-engineer` | Testing, casos de uso, edge cases | Sonnet 4.6 |
 | `code-reviewer` | Review de código, deuda técnica | Sonnet 4.6 |
@@ -76,7 +76,8 @@ Core-Product tiene **13 agentes especializados**:
 
 > ⚡ **Reglas fundacionales v2:**
 > - Todo proyecto arranca con Project Assessment (Workflow 00). No se asume Greenfield.
-> - `data-architect` (Opus) SOLO modela después de Discovery cerrado.
+> - Tech Stack Decision (W02) va ANTES de DB Design (W03). El Data Architect modela sabiendo el motor.
+> - `data-architect` (Opus) SOLO modela después de Discovery cerrado Y Tech Stack definido.
 > - `product-owner` prioriza con RICE/MoSCoW/WSJF. Sin excepción.
 > - `system-auditor` audita repos heredados. Gero decide el camino.
 > - MEMORIA-PROYECTO.md y ADRs se instancian al inicio. Sin registros redundantes.
@@ -122,8 +123,8 @@ Core-Product tiene **10 workflows operativos**:
 
 0. 🔍 **Project Assessment** — Triaje A/B/C + System Auditor + templates instanciados.
 1. **Discovery + definición funcional** — investigación profunda del negocio + spec.
-2. ⚡ **Diseño de base de datos** — SOLO después de reglas de negocio cerradas (Opus).
-3. 🏗️ **Tech Stack Decision** — Gero elige stack, agentes validan.
+2. 🏗️ **Tech Stack Decision** — Gero elige stack, agentes validan. ANTES de DB.
+3. ⚡ **Diseño de base de datos** — SOLO después de reglas de negocio cerradas Y stack definido (Opus).
   3.5. 🚀 **Bootstrap Scaffolding** 🆕 — Tipo A: estructura y config automática.
 4. **Diseño UX/UI completo** — desde wireframes hasta sistema de diseño.
 5. **Desarrollo de feature** — desde spec hasta deploy.
@@ -141,7 +142,7 @@ En Core-Product, los 8 pasos del proceso Lumba se ven así:
 
 ```
 1. INVESTIGAMOS    → BRIEF → PROPUESTA COMERCIAL → DISCOVERY profundo
-2. PENSAMOS        → DB_DESIGN (Opus) → TECH_STACK → BRANDING → UX/UI → MARKETING
+2. PENSAMOS        → TECH_STACK (Gero elige) → DB_DESIGN (Opus, con stack confirmado) → BRANDING → UX/UI → MARKETING
 3. PENSAMOS DE NUEVO → challenge de alcance + decisiones técnicas
 4. VALIDAMOS       → prototipos + cliente
 5. CONSTRUIMOS     → BUILD (Documentation Agent en paralelo)
@@ -153,7 +154,8 @@ En Core-Product, los 8 pasos del proceso Lumba se ven así:
 **Reglas:**
 - Ningún proyecto salta del Paso 1 al Paso 5.
 - ⚡ **La marca nace del discovery, no al revés.**
-- ⚡ **El modelo de datos se diseña basado en el discovery.**
+- ⚡ **El stack se define antes del modelo de datos.**
+- ⚡ **El modelo de datos se diseña basado en el discovery Y el stack confirmado.**
 - 📚 **La documentación crece en paralelo al desarrollo.**
 - 🚀 **El deploy no es el final. Post-Launch es obligatorio.**
 

@@ -16,7 +16,7 @@
   "updated_at": "ISO-8601",
   
   // ─── FASE ACTUAL ───
-  "current_phase": "BRIEF | PROPOSAL | DISCOVERY | DB_DESIGN | TECH_STACK | BRANDING | UX_UI | MARKETING | BUILD | QA | DEPLOY | POST_LAUNCH | DONE",
+  "current_phase": "BRIEF | PROPOSAL | DISCOVERY | TECH_STACK | DB_DESIGN | BRANDING | UX_UI | MARKETING | BUILD | QA | DEPLOY | POST_LAUNCH | DONE",
   "current_phase_started_at": "ISO-8601",
   "current_phase_agent": "string | null",  // session_id del agente activo
   
