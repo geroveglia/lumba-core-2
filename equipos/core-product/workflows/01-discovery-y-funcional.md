@@ -10,8 +10,8 @@ El proyecto debe estar clasificado (Tipo A/B/C) y `MEMORIA-PROYECTO.md` instanci
 
 ## 🚫 Data Architect NO interviene en este workflow
 
-**El diseño de base de datos ocurre en Workflow 02, DESPUÉS de este workflow.**
-Queda estrictamente prohibido modelar datos antes de que las reglas de negocio estén cerradas y validadas.
+**El diseño de base de datos ocurre en Workflow 03, DESPUÉS de este workflow y del Tech Stack Decision (W02).**
+Queda estrictamente prohibido modelar datos antes de que las reglas de negocio estén cerradas y validadas, y el stack técnico esté definido.
 
 ---
 
@@ -55,7 +55,8 @@ Queda estrictamente prohibido modelar datos antes de que las reglas de negocio e
 9. PM o socio + cliente → aprobación
 
    ⬇ SPEC FUNCIONAL + REGLAS DE NEGOCIO CERRADAS Y VALIDADAS
-   ⬇ PASA A WORKFLOW 02: DATA ARCHITECT DISEÑA EL MODELO
+   ⬇ PASA A WORKFLOW 02: TECH STACK DECISION (Gero elige stack)
+   ⬇ LUEGO A WORKFLOW 03: DATA ARCHITECT DISEÑA EL MODELO CON STACK CONFIRMADO
 ```
 
 ## Skills involucradas
