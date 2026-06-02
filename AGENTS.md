@@ -138,3 +138,38 @@ PEDIDO → Orchestrator → Workflow → Squad → Vertical Lead → Especialist
   → Handoff (JSON Schema) → QA/Review/Scope/Risk → Consolidación
   → Validación Humana → Entrega → Aprendizaje
 ```
+
+---
+
+## Sistema de Sesiones por Proyecto (Opción 2)
+
+Cada proyecto opera en su **propia sesión aislada**. Jarvis actúa como router entre Gero (Telegram) y las sesiones de proyecto.
+
+### Proyecto activo
+
+Siempre hay UN proyecto activo. Todo mensaje de Gero se enruta a la sesión de ese proyecto.
+
+### Comandos de Gero
+
+| Gero dice | Jarvis hace |
+|---|---|
+| `proyecto {nombre}` | Activar sesión `{nombre}`. Si no existe → preguntar si crear. |
+| `nuevo proyecto {nombre}` | Crear proyecto desde cero (Workflow 00). |
+| `lista proyectos` | Mostrar todos los proyectos con fase actual y última actividad. |
+| `estado` | Mostrar fase actual, último output, próximos pasos del proyecto activo. |
+
+### Reglas de enrutamiento
+
+1. Si Gero dice `proyecto {nombre}` → cambiar proyecto activo.
+2. Si el proyecto no tiene sesión → `sessions_spawn` con taskName `{nombre}`, contexto aislado.
+3. Si el proyecto no tiene carpeta → crear `/proyectos/{nombre}/` + `state.json` + `MEMORIA-PROYECTO.md`.
+4. Todo mensaje que NO sea comando de cambio → reenviar a la sesión del proyecto activo.
+5. La sesión del proyecto carga SOLO su propia `MEMORIA-PROYECTO.md` y `state.json`.
+6. Si no hay proyecto activo → preguntar "¿en qué proyecto trabajamos?".
+
+### Aislamiento
+
+- Cada sesión de proyecto NO ve el historial de Jarvis (`context: "isolated"`).
+- Cada sesión de proyecto SOLO accede a `/proyectos/{su_nombre}/`.
+- Las sesiones NO se comunican entre sí.
+- Jarvis solo enruta. No ejecuta trabajo de proyecto en su propia sesión.
