@@ -151,13 +151,14 @@ Para hacer override de esa decisión:
 
 ---
 
-### Regla 11 — Antes de modificar `.claude/agents/` o skills
+### Regla 11 — Antes de modificar agentes o skills
 
 Cualquier modificación a:
-- Definiciones de agentes.
-- Skills oficiales.
+- Definiciones de agentes (`equipos/*/agentes/` o `shared/agentes-universales/`).
+- Skills oficiales (`equipos/*/skills/`).
 - System prompts.
 - Quality gates.
+- `openclaw.template.json5`.
 
 requiere aprobación del Founder.
 
@@ -167,7 +168,7 @@ requiere aprobación del Founder.
 
 ### Regla 12 — Antes de gastar >USD 10 en una sola sesión
 
-Si una sesión de Claude Code está consumiendo más de USD 10 en tokens, se detiene automáticamente.
+Si una sesión de agente está consumiendo más de USD 10 en tokens, se detiene automáticamente.
 
 Para continuar:
 
@@ -216,7 +217,7 @@ Si es externo, irreversible o de alto riesgo, humano valida.
 8. Si rechaza → archivar con motivo.
 ```
 
-### Plan Mode de Claude Code
+### Plan Mode de OpenClaw
 
 Para acciones críticas, los agentes operan en **Plan Mode**:
 
@@ -284,7 +285,7 @@ Esto permite:
 | Entrega rutinaria al cliente | PM del proyecto | Vertical Lead |
 | Cambio de scope | Socio comercial (Martín) | Esteban |
 | Deploy a producción | Tech lead | Esteban |
-| Cambio en `.claude/` | Esteban | Devil's Advocate + Esteban remoto |
+| Cambio en agentes/skills/config | Esteban | Devil's Advocate + Esteban remoto |
 | Lanzamiento de campaña con presupuesto >USD 1000 | Cliente + Martín | Esteban + Martín |
 | Decisión estratégica mayor | Los 3 socios | — |
 

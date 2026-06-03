@@ -108,15 +108,19 @@ Trimestral o ante cambios estratégicos. **No es memoria operativa**, es constit
 
 ### Estructura por proyecto
 
+> **Nota:** Esta es la estructura canónica. Es la misma que inicializa Workflow 00 (Project Assessment).
+> Ver `shared/metodologia/workflows/00-project-assessment.md` §7.
+
 ```
 /proyectos/{nombre-proyecto}/
-  MEMORIA-PROYECTO.md         ← Memoria del proyecto específico
-  /decisiones/                ← ADRs del proyecto
-    ADR-001.md
-    ADR-002.md
-  /sprints/                   ← Sprints del proyecto
-  /handoffs/                  ← JSON entre agentes
-  /audits/                    ← Reportes del Devil's Advocate
+  state.json                    ← Estado del proyecto (máquina de estados)
+  MEMORIA-PROYECTO.md           ← Memoria del proyecto específico
+  outputs/                      ← Outputs de cada fase/workflow
+  approvals/                    ← Registros de aprobación humana
+  handoffs/                     ← JSON entre agentes
+  overrides/                    ← Overrides del Devil's Advocate
+  drafts/                       ← Propuestas de cambio a memoria
+  migrations/                   ← SQL migrations (si aplica)
 ```
 
 ### MEMORIA-CLIENTE.md mínimo

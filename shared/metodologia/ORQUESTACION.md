@@ -353,30 +353,41 @@ TaskFlow se usa para workflows que tienen **múltiples pasos con dependencias** 
 
 | Workflow | ¿TaskFlow? | Razón |
 |---|---|---|
-| 00 - Diseño de DB | **Sí** | 5 pasos (research → architect → DA → backend → auditor) |
-| 01 - Discovery + Funcional | **Sí** | 9 pasos encadenados |
-| 02 - Diseño UX/UI | **Sí** | Múltiples handoffs designer → reviewer |
-| 04 - Bug crítico | No | Sub-agent único, respuesta inmediata |
+| W00 - Project Assessment | No | Jarvis inline, clasificación rápida |
+| W01 - Brief Obsesivo | No | Sub-agent único (PM) |
+| W02 - Propuesta Comercial | No | Sub-agent único |
+| W03 - Discovery + Funcional | **Sí** | 9 pasos encadenados |
+| W04 - Tech Stack | No | Decisión de Gero + validación |
+| W05 - Diseño de DB | **Sí** | 5 pasos (research → architect → DA → backend → auditor) |
+| W05.5 - Bootstrap | No | Scaffolding automático (solo Tipo A) |
+| W06 - Branding | **Sí** | Múltiples handoffs strategist → designer → auditor |
+| W07 - Diseño UX/UI | **Sí** | Múltiples handoffs designer → reviewer |
+| W08 - Marketing | **Sí** | Múltiples canales y aprobaciones |
+| W09 - Build | **Sí** | Sprints con code review |
+| W10 - QA | **Sí** | Testing multi-paso |
+| W11 - Deploy | No | Checklist + aprobación humana |
+| W12 - Post-Launch | No | Monitoring semana 1 |
+| WXX - Bug crítico | No | Sub-agent único, respuesta inmediata |
 
 ### 7.2 Estructura de un TaskFlow Job
 
 ```yaml
 taskflow:
   name: "tiendax-db-design"
-  workflow: "00-diseno-base-datos"
+  workflow: "W05-diseno-base-datos"
   steps:
     - id: research
       agent: research-agent
       model: flash
       action: "Investigar entidades de negocio para ecommerce TiendaX"
-      output: "/proyectos/tiendax/outputs/00-research-entidades.md"
+      output: "/proyectos/tiendax/outputs/W05-research-entidades.md"
       
     - id: data_model
       agent: data-architect
       model: opus
       action: "Diseñar modelo de datos completo"
       depends_on: [research]
-      output: "/proyectos/tiendax/outputs/00-modelo-datos.md"
+      output: "/proyectos/tiendax/outputs/W05-modelo-datos.md"
       
     - id: audit
       agent: devils-advocate
@@ -384,21 +395,21 @@ taskflow:
       thinking: high
       action: "Auditar modelo de datos"
       depends_on: [data_model]
-      output: "/proyectos/tiendax/outputs/00-audit-modelo.md"
+      output: "/proyectos/tiendax/outputs/W05-audit-modelo.md"
       
     - id: backend_validation
       agent: backend-architect
       model: pro
       action: "Validar modelo contra APIs necesarias"
       depends_on: [data_model]
-      output: "/proyectos/tiendax/outputs/00-backend-validation.md"
+      output: "/proyectos/tiendax/outputs/W05-backend-validation.md"
       
     - id: final_audit
       agent: product-auditor
       model: opus
       action: "Auditoría final del modelo de datos"
       depends_on: [audit, backend_validation]
-      output: "/proyectos/tiendax/outputs/00-final-audit.md"
+      output: "/proyectos/tiendax/outputs/W05-final-audit.md"
       
   gates:
     - after: final_audit
@@ -415,33 +426,41 @@ taskflow:
 
 ```
 proyectos/{nombre}/
-├── state.json              ← Estado actual del proyecto (máquina de estados)
-├── brief.md                ← Brief original
-├── outputs/
-│   ├── 00-modelo-datos.md           ← Workflow 0
-│   ├── 00-audit-modelo.md
-│   ├── 00-adr-stack.md              ← Architecture Decision Record
-│   ├── 01-discovery.md              ← Workflow 1
-│   ├── 01-spec-funcional.md
-│   ├── 02-ux-flows.md               ← Workflow 2
-│   ├── 02-ui-system.md
-│   ├── 03-feature-xxx.md            ← Workflow 3
+├── state.json                  ← Estado actual del proyecto (máquina de estados)
+├── MEMORIA-PROYECTO.md         ← Memoria del proyecto (decisiones, restricciones, aprendizajes)
+├── outputs/                    ← Outputs de cada fase/workflow
+│   ├── W01-brief.md                    ← Workflow 01 (Brief)
+│   ├── W02-propuesta-comercial.md      ← Workflow 02 (Proposal)
+│   ├── W03-discovery.md                ← Workflow 03 (Discovery)
+│   ├── W03-spec-funcional.md
+│   ├── W04-adr-stack.md                ← Workflow 04 (Tech Stack ADR)
+│   ├── W05-modelo-datos.md             ← Workflow 05 (DB Design)
+│   ├── W05-audit-modelo.md
+│   ├── W07-ux-flows.md                 ← Workflow 07 (UX/UI)
+│   ├── W07-ui-system.md
+│   ├── W09-feature-xxx.md              ← Workflow 09 (Build)
 │   └── ...
-├── approvals/              ← Registro de aprobaciones humanas
-│   └── {fecha}-{fase}.json
-├── handoffs/               ← JSON de comunicación entre agentes
-│   └── {fecha}-{from}-{to}.json
-├── migrations/             ← SQL migrations (Stack A)
-│   └── {timestamp}_{desc}.sql
-└── overrides/              ← Overrides de Devil's Advocate
-    └── {fecha}-{motivo}.md
+├── approvals/                  ← Registro de aprobaciones humanas
+│   └── {YYYY-MM-DD}-{fase}.json
+├── handoffs/                   ← JSON de comunicación entre agentes
+│   └── {YYYY-MM-DD}-{from_agent}-{to_agent}.json
+├── overrides/                  ← Overrides de Devil's Advocate
+│   └── {YYYY-MM-DD}-{motivo}.md
+├── drafts/                     ← Propuestas de cambio a memoria (pendientes de aprobación)
+│   └── {YYYY-MM-DD}-{tema}.md
+└── migrations/                 ← SQL migrations (solo si aplica, Stack A)
+    └── {timestamp}_{desc}.sql
 ```
+
+> **Nota:** Esta es la estructura canónica. Es la misma que inicializa Workflow 00 (Project Assessment).
+> Ver `shared/metodologia/workflows/00-project-assessment.md` §7.
 
 ### 8.2 Convención de nombres
 
-- Outputs: `{fase}-{descripcion}.md` donde fase es 00-05
+- Outputs: `{W##}-{descripcion}.md` donde W## es el número de workflow (W01-W12)
 - Approvals: `{YYYY-MM-DD}-{fase}.json`
 - Handoffs: `{YYYY-MM-DD}-{from_agent}-{to_agent}.json`
+- Overrides: `{YYYY-MM-DD}-{motivo}.md`
 - Migrations: timestamp de Supabase
 
 ---

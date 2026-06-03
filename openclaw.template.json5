@@ -1,4 +1,24 @@
 {
+  // ─── OPENCLAW TEMPLATE — LUMBA CORE v2.1 ───
+  // 
+  // Configuración de OpenClaw para Lumba Core.
+  // Este es un TEMPLATE. Copiar como openclaw.json5 y llenar con valores reales.
+  //
+  // ROUTING DE PROYECTOS:
+  //   El agente "general" es Jarvis (Orchestrator). Recibe TODOS los mensajes
+  //   que no tengan un binding específico. Jarvis usa sessions_spawn para crear
+  //   sub-agentes por proyecto de forma dinámica.
+  //
+  //   El sistema de sesiones por proyecto (AGENTS.md §Sesiones) funciona así:
+  //   1. Gero dice "nuevo proyecto X" → llega al agente "general" (Jarvis)
+  //   2. Jarvis ejecuta Workflow 00 (ver shared/metodologia/workflows/00-project-assessment.md)
+  //   3. Jarvis crea /proyectos/X/ con state.json + MEMORIA-PROYECTO.md
+  //   4. Jarvis usa sessions_spawn para crear sub-agentes aislados por proyecto
+  //   5. Jarvis rutea mensajes al proyecto activo vía sessions_send
+  //
+  //   NO es necesario agregar un bloque manual en agents.list por cada proyecto.
+  //   Solo se agregan agentes hardcodeados para proyectos con workspace propio.
+
   "channels": {
     "telegram": {
       "botToken": "TU_BOT_TOKEN_AQUI",
@@ -8,39 +28,48 @@
   "agents": {
     "defaults": {
       "workspace": "/Users/lumba/lumba-core",
-      "model": "deepseek/deepseek-v4-pro",
+      "model": "deepseek/deepseek-v4-flash",  // Default = flash (barato, rápido). Jarvis escala a pro/opus cuando necesita.
       "maxConcurrent": 4,
       "models": {
-        "deepseek/deepseek-v4-flash": {},
-        "deepseek/deepseek-v4-pro": {},
-        "anthropic/claude-sonnet-4-6": {},
-        "anthropic/claude-opus-4-6": {}
+        "deepseek/deepseek-v4-flash": {},     // Tier LOW: routing, research, PM, documentation
+        "deepseek/deepseek-v4-pro": {},        // Tier MEDIUM: arquitectura, debugging, DA
+        "anthropic/claude-sonnet-4-6": {},     // Tier HIGH: UX, UI, Product Owner, Security
+        "anthropic/claude-opus-4-6": {}        // Tier CRITICAL: DB Design, auditoría final
       }
     },
     "list": [
       {
-        "id": "looped",
-        "workspace": "/Users/lumba/proyectos/looped"
-      },
-      {
-        "id": "multidiagnostico",
-        "workspace": "/Users/lumba/proyectos/multidiagnostico"
-      },
-      {
+        // Jarvis — Orchestrator central
+        // Recibe todos los mensajes por default. NO produce contenido final.
+        // Clasifica, rutea, spawnea sub-agentes, evalúa gates.
+        // Lee AGENTS.md + SOUL.md al iniciar.
         "id": "general",
         "default": true,
         "workspace": "/Users/lumba/lumba-core"
       }
+      // ─── AGENTES CON WORKSPACE PROPIO ───
+      // Solo agregar acá proyectos que necesiten su propio workspace
+      // (ej: repos de código separados del workspace de Lumba Core).
+      // Los proyectos gestionados dentro de /proyectos/ NO necesitan
+      // entrada acá — Jarvis los maneja con sessions_spawn.
+      //
+      // Ejemplo:
+      // {
+      //   "id": "tiendax",
+      //   "workspace": "/Users/lumba/proyectos/tiendax-code"
+      // }
     ]
   },
   "bindings": [
-    {
-      "agentId": "looped",
-      "match": {"channel": "telegram", "peer": {"kind": "direct", "id": "ID_CHAT_GERO"}}
-    },
-    {
-      "agentId": "multidiagnostico",
-      "match": {"channel": "telegram", "peer": {"kind": "direct", "id": "ID_CHAT_HERNAN"}}
-    }
+    // ─── BINDINGS DE CANAL ───
+    // Por default, todo llega al agente "general" (Jarvis).
+    // Solo agregar bindings si querés que un chat específico vaya
+    // directo a un agente sin pasar por Jarvis.
+    //
+    // Ejemplo: Hernán chatea directo con agente de multidiagnostico:
+    // {
+    //   "agentId": "multidiagnostico",
+    //   "match": {"channel": "telegram", "peer": {"kind": "direct", "id": "ID_CHAT_HERNAN"}}
+    // }
   ]
 }

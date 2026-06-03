@@ -147,7 +147,11 @@ PEDIDO → Orchestrator → Workflow 00 (Project Assessment) →
 
 ---
 
-## Sistema de Sesiones por Proyecto (Opción 2)
+## Sistema de Sesiones por Proyecto
+
+> **Implementación:** Jarvis es el agente `general` en `openclaw.template.json5`.
+> Recibe TODOS los mensajes por default. Usa `sessions_spawn` para crear sub-agentes por proyecto.
+> NO se agregan agentes hardcodeados por proyecto (salvo que tengan workspace propio).
 
 Cada proyecto opera en su **propia sesión aislada**. Jarvis actúa como router entre Gero (Telegram) y las sesiones de proyecto.
 
@@ -160,15 +164,26 @@ Siempre hay UN proyecto activo. Todo mensaje de Gero se enruta a la sesión de e
 | Gero dice | Jarvis hace |
 |---|---|
 | `proyecto {nombre}` | Activar sesión `{nombre}`. Si no existe → preguntar si crear. |
-| `nuevo proyecto {nombre}` | Crear proyecto desde cero (Workflow 00). |
-| `lista proyectos` | Mostrar todos los proyectos con fase actual y última actividad. |
+| `nuevo proyecto {nombre}` | Ejecutar **Workflow 00** (ver `shared/metodologia/workflows/00-project-assessment.md`). |
+| `lista proyectos` | Leer `state.json` de cada carpeta en `/proyectos/`, mostrar fase actual y última actividad. |
 | `estado` | Mostrar fase actual, último output, próximos pasos del proyecto activo. |
 
 ### Reglas de enrutamiento
 
 1. Si Gero dice `proyecto {nombre}` → cambiar proyecto activo.
 2. Si el proyecto no tiene sesión → `sessions_spawn` con taskName `{nombre}`, contexto aislado.
-3. Si el proyecto no tiene carpeta → crear `/proyectos/{nombre}/` + `state.json` + `MEMORIA-PROYECTO.md`.
+3. Si el proyecto no tiene carpeta → ejecutar **Workflow 00** para crear la estructura canónica:
+   ```
+   /proyectos/{nombre}/
+   ├── state.json
+   ├── MEMORIA-PROYECTO.md
+   ├── outputs/
+   ├── approvals/
+   ├── handoffs/
+   ├── overrides/
+   ├── drafts/
+   └── migrations/
+   ```
 4. Todo mensaje que NO sea comando de cambio → reenviar a la sesión del proyecto activo.
 5. La sesión del proyecto carga SOLO su propia `MEMORIA-PROYECTO.md` y `state.json`.
 6. Si no hay proyecto activo → preguntar "¿en qué proyecto trabajamos?".
@@ -179,3 +194,4 @@ Siempre hay UN proyecto activo. Todo mensaje de Gero se enruta a la sesión de e
 - Cada sesión de proyecto SOLO accede a `/proyectos/{su_nombre}/`.
 - Las sesiones NO se comunican entre sí.
 - Jarvis solo enruta. No ejecuta trabajo de proyecto en su propia sesión.
+

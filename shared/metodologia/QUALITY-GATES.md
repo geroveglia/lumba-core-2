@@ -365,7 +365,34 @@ Corren solos antes de cualquier revisión humana o de agente. Si fallan, el PR n
 
 ---
 
-## 15. ESCALADA — QUÉ PASA SI UN GATE FALLA
+## 15. MAPPING GATES → FASES DEL PROYECTO (state.json)
+
+> **Propósito:** Conectar los 11 gates con las fases de `project-state-schema.json`.
+> Jarvis consulta esta tabla para saber qué gates evaluar al cerrar cada fase.
+
+| Fase (state.json) | Gates obligatorios | Gates opcionales | Notas |
+|---|---|---|---|
+| `PROJECT_ASSESSMENT` | — | — | Sin gate. Es clasificación. |
+| `BRIEF` | Strategy Gate | — | Validar que brief conecte con problema de negocio. |
+| `PROPOSAL` | Client Gate, Scope/Risk Gate | — | Cliente debe firmar propuesta. |
+| `DISCOVERY` | Strategy Gate | — | Validar supuestos, alternativas, KPIs. |
+| `TECH_STACK` | Strategy Gate | — | Validar que stack sea coherente con requerimientos. |
+| `DB_DESIGN` | Software Gate, UX/Product Gate | — | Modelo de datos + validación APIs. |
+| `BOOTSTRAP` | — | — | Sin gate. Es scaffolding automático (solo Tipo A). |
+| `BRANDING` | Brand Gate, Strategy Gate | — | Posicionamiento + sistema visual. |
+| `UX_UI` | Design Gate, UX/Product Gate | — | UI consistency + specs funcionales. |
+| `MARKETING` | Marketing Gate | Growth Gate, Paid Media Gate | Opcionales según si hay growth/ads. |
+| `BUILD` | Software Gate | — | Code review + tests. |
+| `QA` | Software Gate | — | Tests passing, coverage. |
+| `DEPLOY` | Software Gate, Client Gate | — | Rollback plan + aprobación. |
+| `POST_LAUNCH` | Reporting Gate | — | Métricas semana 1. |
+
+> ⚡ **Regla:** Si una fase tiene gate obligatorio, no se puede avanzar a la siguiente sin que pase.
+> Los gates opcionales se evalúan solo si aplican al proyecto (ej: Growth Gate solo si hay experimentos de growth).
+
+---
+
+## 16. ESCALADA — QUÉ PASA SI UN GATE FALLA
 
 ```
 1. Entregable rechazado en gate.

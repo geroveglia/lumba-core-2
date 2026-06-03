@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumba Core v2.0 — Sistema de Agentes AI</title>
+    <title>Lumba Core v2.1 — Sistema de Agentes AI</title>
     <meta name="description" content="Presentación visual interactiva del sistema de agentes AI de Lumba.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -649,6 +649,7 @@
         .flow-tab.active.tab-a { box-shadow: inset 0 -2px 0 var(--accent-success); }
         .flow-tab.active.tab-b { box-shadow: inset 0 -2px 0 var(--accent-marketing); }
         .flow-tab.active.tab-c { box-shadow: inset 0 -2px 0 var(--accent-blue); }
+        .flow-tab.active.tab-matrix { box-shadow: inset 0 -2px 0 var(--accent-jarvis); }
 
         .flow-content {
             display: none;
@@ -1070,7 +1071,7 @@
         <li><a href="#principles">Principios</a></li>
         <li><a href="#costs">Costos</a></li>
     </ul>
-    <span class="nav-version">v2.0</span>
+    <span class="nav-version">v2.1</span>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -1120,7 +1121,7 @@
         <div class="section-label">01 — Arquitectura</div>
         <h2 class="section-title">Cómo funciona <span class="gradient-text">por dentro</span></h2>
         <p class="section-subtitle">
-            Un pedido entra por Telegram, Jarvis lo clasifica, arma el squad de agentes,
+            Un pedido entra por Telegram, Jarvis clasifica por Tipo/Complejidad, consulta la matriz de squads,
             ejecuta el workflow y escala al humano para aprobar.
         </p>
 
@@ -1137,7 +1138,7 @@
                 <div class="arch-node-icon">⚡</div>
                 <div class="arch-node-title">Jarvis — Orchestrator</div>
                 <div class="arch-node-desc">
-                    Clasifica la tarea → Carga memoria del cliente → Selecciona workflow → Arma squad de agentes.
+                    Determina Tipo (A/B/C) + Complejidad (S/M/L/XL) → Consulta MATRIZ-SQUADS.md → Crea Memoria y ADR-000 → Instancia el squad determinístico.
                     <br><strong>No produce contenido. Solo coordina.</strong>
                 </div>
             </div>
@@ -1264,20 +1265,20 @@
                     Producto digital end-to-end: specs, UX/UI, arquitectura, código, QA y deploy.
                 </div>
                 <div class="team-agents-list">
-                    <span class="agent-chip">🔍 System Auditor <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">🔍 System Auditor <span class="model-tag tag-gpt55">OPUS</span></span>
                     <span class="agent-chip">📚 Documentation <span class="model-tag tag-flash">FLASH</span></span>
-                    <span class="agent-chip">📋 Product Owner <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">📋 Product Owner <span class="model-tag tag-gpt55">OPUS</span></span>
                     <span class="agent-chip">📝 Analyst <span class="model-tag tag-pro">PRO</span></span>
-                    <span class="agent-chip">🎨 UX Designer <span class="model-tag tag-gpt55">GPT-5.5</span></span>
-                    <span class="agent-chip">🖌️ UI Designer <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">🎨 UX Designer <span class="model-tag tag-gpt55">OPUS</span></span>
+                    <span class="agent-chip">🖌️ UI Designer <span class="model-tag tag-gpt55">OPUS</span></span>
                     <span class="agent-chip">🏗️ Frontend Arch <span class="model-tag tag-pro">PRO</span></span>
                     <span class="agent-chip">⚙️ Backend Arch <span class="model-tag tag-pro">PRO</span></span>
-                    <span class="agent-chip">⚡ Data Architect <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">⚡ Data Architect <span class="model-tag tag-gpt55">OPUS</span></span>
                     <span class="agent-chip">🔍 Code Reviewer <span class="model-tag tag-pro">PRO</span></span>
                     <span class="agent-chip">✅ Code Quality <span class="model-tag tag-flash">FLASH</span></span>
                     <span class="agent-chip">🧪 QA Engineer <span class="model-tag tag-pro">PRO</span></span>
                     <span class="agent-chip">🚀 DevOps <span class="model-tag tag-flash">FLASH</span></span>
-                    <span class="agent-chip">🔒 Security <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">🔒 Security <span class="model-tag tag-gpt55">OPUS</span></span>
                     <span class="agent-chip">🎯 Product Auditor <span class="model-tag tag-pro">PRO</span></span>
                     <span class="agent-chip">💼 Business <span class="model-tag tag-pro">PRO</span></span>
                     <span class="agent-chip">🗣️ Onboarding <span class="model-tag tag-flash">FLASH</span></span>
@@ -1301,7 +1302,7 @@
                 </div>
                 <div class="team-agents-list">
                     <span class="agent-chip">⚡ Orchestrator (Jarvis) <span class="model-tag tag-pro">PRO</span></span>
-                    <span class="agent-chip">😈 Devil's Advocate <span class="model-tag tag-gpt55">GPT-5.5</span></span>
+                    <span class="agent-chip">😈 Devil's Advocate <span class="model-tag tag-gpt55">OPUS</span></span>
                     <span class="agent-chip">📋 Project Manager <span class="model-tag tag-flash">FLASH</span></span>
                     <span class="agent-chip">🔬 Research Agent <span class="model-tag tag-flash">FLASH</span></span>
                     <span class="agent-chip">📐 Scope Agent <span class="model-tag tag-pro">PRO</span></span>
@@ -1331,6 +1332,7 @@
             <button class="flow-tab tab-a active" onclick="showFlow('a')">🟢 Tipo A — Desde Cero</button>
             <button class="flow-tab tab-b" onclick="showFlow('b')">🟠 Tipo B — Código Existente</button>
             <button class="flow-tab tab-c" onclick="showFlow('c')">🔵 Tipo C — Parcial</button>
+            <button class="flow-tab tab-matrix" onclick="showFlow('matrix')">📊 Matriz de Squads</button>
         </div>
 
         <!-- TIPO A -->
@@ -1353,12 +1355,33 @@
                         <span class="flow-step-title">Project Assessment & Triaje</span>
                         <span class="flow-step-model">flash</span>
                     </div>
-                    <div class="flow-step-desc">Jarvis clasifica como Tipo A (Greenfield). Instancia MEMORIA-PROYECTO.md y ADR-000.</div>
+                    <div class="flow-step-desc">Jarvis clasifica como Tipo A (Greenfield), ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con state.json y MEMORIA-PROYECTO.md.</div>
                 </div>
 
                 <div class="flow-step completed">
                     <div class="flow-step-header">
                         <span class="flow-step-number">W01</span>
+                        <span class="flow-step-title">Brief Obsesivo</span>
+                        <span class="flow-step-model">flash / pro</span>
+                    </div>
+                    <div class="flow-step-desc">PM Agent construye el brief completo: objetivo, audiencia, restricciones, criterios de éxito, ejemplos y decisor final. Sin brief completo no se arranca.</div>
+                    <div class="flow-step-agents">
+                        <span class="agent-chip">📋 PM Agent</span>
+                    </div>
+                </div>
+
+                <div class="flow-step completed">
+                    <div class="flow-step-header">
+                        <span class="flow-step-number">W02</span>
+                        <span class="flow-step-title">Propuesta Comercial</span>
+                        <span class="flow-step-model">pro</span>
+                    </div>
+                    <div class="flow-step-desc">Se genera la propuesta para el cliente con alcance, timeline y presupuesto. Requiere aprobación del cliente antes de continuar.</div>
+                </div>
+
+                <div class="flow-step completed">
+                    <div class="flow-step-header">
+                        <span class="flow-step-number">W03</span>
                         <span class="flow-step-title">Discovery & Definición Funcional</span>
                         <span class="flow-step-model">pro</span>
                     </div>
@@ -1372,7 +1395,7 @@
 
                 <div class="flow-step active-step">
                     <div class="flow-step-header">
-                        <span class="flow-step-number">W02</span>
+                        <span class="flow-step-number">W04</span>
                         <span class="flow-step-title">Tech Stack Decision</span>
                         <span class="flow-step-model">pro</span>
                     </div>
@@ -1387,7 +1410,7 @@
 
                 <div class="flow-step">
                     <div class="flow-step-header">
-                        <span class="flow-step-number">W03</span>
+                        <span class="flow-step-number">W05</span>
                         <span class="flow-step-title">Diseño de Base de Datos</span>
                         <span class="flow-step-model">opus</span>
                     </div>
@@ -1401,7 +1424,7 @@
 
                 <div class="flow-step">
                     <div class="flow-step-header">
-                        <span class="flow-step-number">W03.5</span>
+                        <span class="flow-step-number">W05.5</span>
                         <span class="flow-step-title">Bootstrap & Scaffolding</span>
                         <span class="flow-step-model">flash</span>
                     </div>
@@ -1410,9 +1433,9 @@
 
                 <div class="flow-step">
                     <div class="flow-step-header">
-                        <span class="flow-step-number">W04</span>
+                        <span class="flow-step-number">W06–W07</span>
                         <span class="flow-step-title">Branding + UX/UI</span>
-                        <span class="flow-step-model">pro</span>
+                        <span class="flow-step-model">pro / opus</span>
                     </div>
                     <div class="flow-step-desc">Brand Strategist + Identity Designer + UX/UI Designers. Identidad visual, flujos de usuario, wireframes y sistema de diseño.</div>
                     <div class="flow-step-agents">
@@ -1424,7 +1447,16 @@
 
                 <div class="flow-step">
                     <div class="flow-step-header">
-                        <span class="flow-step-number">W05</span>
+                        <span class="flow-step-number">W08</span>
+                        <span class="flow-step-title">Marketing</span>
+                        <span class="flow-step-model">pro</span>
+                    </div>
+                    <div class="flow-step-desc">Estrategia de marketing, campañas, contenido y ads. Growth Gate y Paid Media Gate opcionales según el proyecto.</div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step-header">
+                        <span class="flow-step-number">W09–W11</span>
                         <span class="flow-step-title">Build + QA + Deploy</span>
                         <span class="flow-step-model">pro</span>
                     </div>
@@ -1441,7 +1473,7 @@
 
                 <div class="flow-step">
                     <div class="flow-step-header">
-                        <span class="flow-step-number">W06</span>
+                        <span class="flow-step-number">W12</span>
                         <span class="flow-step-title">Post-Launch (Semana 1)</span>
                         <span class="flow-step-model">flash</span>
                     </div>
@@ -1470,7 +1502,7 @@
                         <span class="flow-step-title">Project Assessment — Tipo B (Brownfield)</span>
                         <span class="flow-step-model">flash</span>
                     </div>
-                    <div class="flow-step-desc">Jarvis clasifica como Tipo B. El cliente trae un repositorio existente.</div>
+                    <div class="flow-step-desc">Jarvis clasifica como Tipo B, ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con state.json y MEMORIA-PROYECTO.md.</div>
                 </div>
 
                 <div class="flow-step active-step">
@@ -1543,7 +1575,7 @@
                         <span class="flow-step-title">Project Assessment — Tipo C (Parcial)</span>
                         <span class="flow-step-model">flash</span>
                     </div>
-                    <div class="flow-step-desc">Hay algo: diseños, specs, un MVP a medio hacer. Pero no está completo.</div>
+                    <div class="flow-step-desc">Jarvis clasifica como Tipo C, ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con state.json y MEMORIA-PROYECTO.md.</div>
                 </div>
 
                 <div class="flow-step active-step">
@@ -1577,6 +1609,190 @@
                         <span class="flow-step-model">según fase</span>
                     </div>
                     <div class="flow-step-desc">Se ejecutan SOLO las fases faltantes del pipeline estándar. No se rehace lo que ya funciona.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATRIZ DE SQUADS -->
+        <div class="flow-content" id="flow-matrix">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 1rem;">
+                <!-- Columna Izquierda: Checklist & Puntuación -->
+                <div>
+                    <div class="flow-examples-box type-a" style="margin-bottom: 20px;">
+                        <div class="icon">📋</div>
+                        <div>
+                            <div class="title" style="color: var(--accent-jarvis);">Cálculo de Complejidad</div>
+                            <div class="list">
+                                La complejidad se determina sumando puntos (0-18) según 6 criterios de negocio en <code>MATRIZ-SQUADS.md</code>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px;">
+                        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            <span>🔍</span> Criterios de Puntuación
+                        </h4>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-subtle); color: var(--text-muted); font-weight: 600;">
+                                    <th style="padding: 6px 0;">Criterio</th>
+                                    <th style="padding: 6px 4px; text-align: center;">S (0p)</th>
+                                    <th style="padding: 6px 4px; text-align: center;">M (1p)</th>
+                                    <th style="padding: 6px 4px; text-align: center;">L (2p)</th>
+                                    <th style="padding: 6px 4px; text-align: center;">XL (3p)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                    <td style="padding: 8px 0; font-weight: 500;">Entidades de negocio</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">1</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">2-3</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">4-8</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">9+</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                    <td style="padding: 8px 0; font-weight: 500;">Roles de usuario</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">1</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">2-3</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">4-6</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Multi-tenant</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                    <td style="padding: 8px 0; font-weight: 500;">Autenticación / Auth</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Sin/Simple</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Standard</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Compleja</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">SaaS compliance</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                    <td style="padding: 8px 0; font-weight: 500;">Integraciones externas</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">0</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">1-2</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">3-5</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">6+ / ERPs</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                    <td style="padding: 8px 0; font-weight: 500;">Escala / Concurrencia</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">&lt;100</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">100-1K</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">1K-100K</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">100K+</td>
+                                </tr>
+                                <tr style="border-bottom: none;">
+                                    <td style="padding: 8px 0; font-weight: 500;">IA / Features no std</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Sin IA</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Simple</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Integrada</td>
+                                    <td style="padding: 8px 4px; text-align: center; color: var(--text-secondary);">Múltiples models</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px;">
+                        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px;">📊 Tiers de Complejidad</h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                            <div style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: rgba(0,230,118,0.03);">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-success); font-weight: 700;">S (Small) — 0-2 pts</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">Landing pages, WordPress, ecommerce simple.</div>
+                            </div>
+                            <div style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: rgba(255,152,0,0.03);">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-marketing); font-weight: 700;">M (Medium) — 3-5 pts</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">MVPs, SaaS pequeños, portal de clientes.</div>
+                            </div>
+                            <div style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: rgba(68,138,255,0.03);">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-blue); font-weight: 700;">L (Large) — 6-9 pts</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">ERPs, marketplaces, fintechs, sistemas internos.</div>
+                            </div>
+                            <div style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: rgba(233,30,99,0.03);">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-brand); font-weight: 700;">XL (Extra Large) — 10-18 pts</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">Multi-tenant, pipelines de IA, compliance HIPAA/SOC2.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Matriz de Squads Determinísticos -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; display: flex; flex-direction: column;">
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--accent-jarvis);">⚡ Matriz Tipo × Complejidad</h3>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary);">El squad es determinístico y no subjetivo. Jarvis consulta el cruce para convocar agentes.</p>
+                    </div>
+
+                    <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 16px;">
+                        <!-- Tipo A -->
+                        <div style="border-left: 3px solid var(--accent-success); padding-left: 12px;">
+                            <h4 style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">TIPO A — Greenfield (Desde Cero)</h4>
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>A + S</strong> (5 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">PM, Research, Analyst, Backend, QA</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>A + M</strong> (9 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ PO, UX, UI, Frontend</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>A + L</strong> (13 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ Data Arch, Security, DevOps, Devil's Advocate</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>A + XL</strong> (16 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ Business, System Auditor, Documentation</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tipo B -->
+                        <div style="border-left: 3px solid var(--accent-marketing); padding-left: 12px;">
+                            <h4 style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">TIPO B — Brownfield (Código Existente)</h4>
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>B + S</strong> (4 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">PM, System Auditor, Backend, QA</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>B + M</strong> (7 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ PO, Frontend, Security</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>B + L</strong> (12 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ Data Arch, UX, UI, DevOps, Devil's Advocate</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>B + XL</strong> (15 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ Business, Analyst, Documentation</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tipo C -->
+                        <div style="border-left: 3px solid var(--accent-blue); padding-left: 12px;">
+                            <h4 style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">TIPO C — Parcial (Specs / MVP a medias)</h4>
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>C + S</strong> (5 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">PM, Research, Analyst, Backend, QA</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>C + M</strong> (9 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ PO, UX, UI, Frontend</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>C + L</strong> (14 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ System Auditor, Data Arch, Security, DevOps, Devil's Advocate</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
+                                    <span style="color: var(--text-secondary);"><strong>C + XL</strong> (16 agentes)</span>
+                                    <span style="color: var(--text-muted); font-size: 0.7rem;">+ Business, Documentation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 12px; line-height: 1.4;">
+                        💡 <strong>Escape Hatch:</strong> Jarvis escala a Gero si el proyecto no encaja, involucra múltiples tipos o si Gero solicita un squad personalizado.
+                    </div>
                 </div>
             </div>
         </div>
@@ -1743,7 +1959,7 @@
         <div class="section-label">06 — Modelos & Costos</div>
         <h2 class="section-title">Modelo correcto, <span class="gradient-text">costo justo</span></h2>
         <p class="section-subtitle">
-            3 tiers: <strong>deepseek-v4-flash</strong> (económico), <strong>deepseek-v4-pro</strong> (razonamiento), <strong>openai/gpt-5.5</strong> (élite vía ChatGPT Plus). Sin desperdicios.
+            4 tiers: <strong>deepseek-v4-flash</strong> (económico), <strong>deepseek-v4-pro</strong> (razonamiento), <strong>claude-sonnet-4-6</strong> (alto) y <strong>claude-opus-4-6</strong> (élite). Sin desperdicios.
         </p>
 
         <div class="cost-table-wrapper">
@@ -1776,7 +1992,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="model-badge gpt55">openai/gpt-5.5</span></td>
+                        <td><span class="model-badge gpt55">claude-sonnet/opus</span></td>
                         <td>Máxima capacidad</td>
                         <td>Data Architect, Devil's Advocate, Security, System Auditor, Product Owner, UX/UI</td>
                         <td>
@@ -1795,7 +2011,7 @@
                 <div class="gate-card-desc">Límites automáticos que protegen el presupuesto.</div>
                 <div class="gate-card-rule"><span class="icon">🔴</span> USD 10/sesión → requiere aprobación</div>
                 <div class="gate-card-rule"><span class="icon">🟡</span> USD 50/día → alerta automática</div>
-                <div class="gate-card-rule"><span class="icon">📊</span> Budget trackeado en state.json por fase</div>
+                <div class="gate-card-rule"><span class="icon">📊</span> Budget trackeado en state.json por fase, modelo y agente</div>
             </div>
 
             <div class="gate-card" data-animate>
@@ -1824,7 +2040,7 @@
      ═══════════════════════════════════════════════════════ -->
 <footer class="footer">
     <p class="footer-text">
-        <span class="bolt">⚡</span> Lumba Core v2.0 — Sistema Operativo Interno — Confidencial
+        <span class="bolt">⚡</span> Lumba Core v2.1 — Sistema Operativo Interno — Confidencial
     </p>
 </footer>
 

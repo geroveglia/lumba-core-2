@@ -1,64 +1,266 @@
-// PROJECT STATE SCHEMA — LUMBA CORE v2.0
+// PROJECT STATE SCHEMA — LUMBA CORE v2.1
 // 
 // Este archivo define la estructura del state.json que vive en cada proyecto.
 // Jarvis lee y escribe este archivo para trackear el progreso.
 //
-// Schema version: 2.0
+// Schema version: 2.1
 // Última actualización: 2026-06-02
+// Changelog v2.1:
+//   - Agregadas fases PROJECT_ASSESSMENT y BOOTSTRAP
+//   - Todas las fases definidas explícitamente (no más "// ...")
+//   - Agregado estado "reopened" para fases
+//   - Budget tracking por modelo y agente
+//   - Gates definidos para todas las fases que lo requieren
 
 {
   // ─── META ───
-  "schema_version": "2.0",
-  "project": "string",           // slug del proyecto
+  "schema_version": "2.1",
+  "project": "string",           // slug del proyecto (kebab-case)
   "project_name": "string",      // nombre legible
-  "client": "string",            // slug del cliente
+  "client": "string | null",     // slug del cliente (debe matchear carpeta en /clientes/). null si es proyecto interno.
   "project_type": "A | B | C",   // Greenfield | Brownfield | Parcial
   "complexity": "S | M | L | XL",// según checklist MATRIZ-SQUADS.md
   "complexity_score": 0,          // puntaje 0-18 del checklist de 6 preguntas
+  "squad": ["string"],            // agentes asignados según MATRIZ-SQUADS.md
   "created_at": "ISO-8601",
   "updated_at": "ISO-8601",
   
   // ─── FASE ACTUAL ───
-  "current_phase": "BRIEF | PROPOSAL | DISCOVERY | TECH_STACK | DB_DESIGN | BRANDING | UX_UI | MARKETING | BUILD | QA | DEPLOY | POST_LAUNCH | DONE",
+  "current_phase": "PROJECT_ASSESSMENT | BRIEF | PROPOSAL | DISCOVERY | TECH_STACK | DB_DESIGN | BOOTSTRAP | BRANDING | UX_UI | MARKETING | BUILD | QA | DEPLOY | POST_LAUNCH | DONE",
   "current_phase_started_at": "ISO-8601",
   "current_phase_agent": "string | null",  // session_id del agente activo
   
   // ─── FASES ───
+  // Estados posibles: pending | in_progress | completed | skipped | reopened
+  //   - reopened: la fase se completó pero se reabrió por error detectado post-cierre.
+  //     Al reabrir, se resetea completed_at, se incrementa attempts, y se registra motivo en notes.
   "phases": {
-    "BRIEF": {
-      "status": "pending | in_progress | completed | skipped",
+    "PROJECT_ASSESSMENT": {
+      "status": "pending | in_progress | completed | skipped | reopened",
       "started_at": "ISO-8601 | null",
       "completed_at": "ISO-8601 | null",
       "outputs": ["string"],
       "agent_sessions": ["string"],
-      "model_used": "flash | pro | opus",
+      "model_used": "flash",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": ["string"],
+      "classification": {
+        "type": "A | B | C | null",
+        "complexity": "S | M | L | XL | null",
+        "complexity_score": 0,
+        "confirmed_by_human": false
+      },
+      "notes": "string | null"
+    },
+    "BRIEF": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "flash | pro",
       "attempts": 0,
       "rejection_count": 0,
       "max_iterations": 3,
       "rejection_reasons": ["string"],
       "notes": "string | null"
     },
-    "DB_DESIGN": {
-      "status": "pending | in_progress | completed | skipped",
+    "PROPOSAL": {
+      "status": "pending | in_progress | completed | skipped | reopened",
       "started_at": "ISO-8601 | null",
       "completed_at": "ISO-8601 | null",
       "outputs": ["string"],
-      "decision": "relational | non_relational | null",  // qué tipo de DB se eligió
       "agent_sessions": ["string"],
-      "model_used": "opus",      // SIEMPRE opus
+      "model_used": "flash | pro",
       "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": ["string"],
+      "approved_by_client": false,
       "notes": "string | null"
     },
-    // ... (misma estructura para BRANDING, MARKETING, DISCOVERY, UX_UI, BUILD, QA, DEPLOY)
+    "DISCOVERY": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    },
+    "TECH_STACK": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": ["string"],
+      "decision": {
+        "stack_type": "A | B | C | legacy | null",
+        "frontend": "string | null",
+        "backend": "string | null",
+        "database": "string | null",
+        "hosting": "string | null",
+        "confirmed_by_human": false
+      },
+      "notes": "string | null"
+    },
+    "DB_DESIGN": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "opus",       // SIEMPRE opus para diseño de datos
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 3,
+      "rejection_reasons": ["string"],
+      "decision": "relational | non_relational | null",
+      "notes": "string | null"
+    },
+    "BOOTSTRAP": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 1,
+      "rejection_reasons": ["string"],
+      "applies_only_to": "A",     // Solo para proyectos Tipo A (Greenfield)
+      "notes": "string | null"
+    },
+    "BRANDING": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro | opus",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    },
+    "UX_UI": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro | opus",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    },
+    "MARKETING": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    },
+    "BUILD": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro | opus",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 3,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    },
+    "QA": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 3,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    },
+    "DEPLOY": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "pro",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 1,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    },
+    "POST_LAUNCH": {
+      "status": "pending | in_progress | completed | skipped | reopened",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "outputs": ["string"],
+      "agent_sessions": ["string"],
+      "model_used": "flash | pro",
+      "attempts": 0,
+      "rejection_count": 0,
+      "max_iterations": 1,
+      "rejection_reasons": ["string"],
+      "notes": "string | null"
+    }
   },
   
   // ─── GATES ───
-  // Cada fase tiene un gate. Si no pasa, no se avanza.
+  // Cada fase con gate tiene su entrada. Si no pasa, no se avanza.
+  // Mapping: Fase → Gates aplicables (de QUALITY-GATES.md)
+  //
+  //   PROJECT_ASSESSMENT → (sin gate, es clasificación)
+  //   BRIEF              → Strategy Gate
+  //   PROPOSAL           → Client Gate, Scope/Risk Gate
+  //   DISCOVERY          → Strategy Gate
+  //   TECH_STACK         → Strategy Gate
+  //   DB_DESIGN          → Software Gate, UX/Product Gate
+  //   BOOTSTRAP          → (sin gate, es scaffolding automático)
+  //   BRANDING           → Brand Gate, Strategy Gate
+  //   UX_UI              → Design Gate, UX/Product Gate
+  //   MARKETING          → Marketing Gate, Growth Gate (si aplica), Paid Media Gate (si aplica)
+  //   BUILD              → Software Gate
+  //   QA                 → Software Gate
+  //   DEPLOY             → Software Gate, Client Gate
+  //   POST_LAUNCH        → Reporting Gate
+  //
   "gates": {
-    "DB_DESIGN": {
+    "BRIEF": {
       "passed": false,
       "audited_at": "ISO-8601 | null",
-      "audited_by": "string | null",  // session_id del auditor
+      "audited_by": "string | null",
+      "gates_applied": ["Strategy Gate"],
       "blocking_issues": [
         {
           "issue": "string",
@@ -68,8 +270,96 @@
         }
       ],
       "devils_advocate_result": "proceed | resolve_before_proceed | reject | null"
+    },
+    "PROPOSAL": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Client Gate", "Scope/Risk Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "DISCOVERY": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Strategy Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "TECH_STACK": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Strategy Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "DB_DESIGN": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Software Gate", "UX/Product Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "BRANDING": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Brand Gate", "Strategy Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "UX_UI": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Design Gate", "UX/Product Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "MARKETING": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Marketing Gate"],
+      "optional_gates": ["Growth Gate", "Paid Media Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "BUILD": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Software Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "QA": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Software Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "DEPLOY": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Software Gate", "Client Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
+    },
+    "POST_LAUNCH": {
+      "passed": false,
+      "audited_at": "ISO-8601 | null",
+      "audited_by": "string | null",
+      "gates_applied": ["Reporting Gate"],
+      "blocking_issues": [],
+      "devils_advocate_result": "null"
     }
-    // ... (misma estructura para cada fase que tenga gate)
   },
   
   // ─── APROBACIONES HUMANAS ───
@@ -105,11 +395,28 @@
     "limit_usd": 50,             // límite diario en USD
     "spent_usd": 0,
     "spent_by_phase": {
+      "PROJECT_ASSESSMENT": 0,
+      "BRIEF": 0,
+      "PROPOSAL": 0,
+      "DISCOVERY": 0,
+      "TECH_STACK": 0,
       "DB_DESIGN": 0,
+      "BOOTSTRAP": 0,
       "BRANDING": 0,
-      "DISCOVERY": 0
-      // ...
+      "UX_UI": 0,
+      "MARKETING": 0,
+      "BUILD": 0,
+      "QA": 0,
+      "DEPLOY": 0,
+      "POST_LAUNCH": 0
     },
+    "spent_by_model": {
+      "flash": 0,
+      "pro": 0,
+      "opus": 0,
+      "sonnet": 0
+    },
+    "spent_by_agent": {},        // ej: {"data-architect": 2.5, "devils-advocate": 1.2}
     "last_check": "ISO-8601 | null",
     "alerts_sent": 0
   },
@@ -132,6 +439,7 @@
     "total_approvals": 0,
     "total_audits_passed_first_try": 0,
     "total_audits_failed": 0,
+    "total_phases_reopened": 0,
     "time_from_brief_to_db_design_hours": 0,
     "time_from_brief_to_deploy_hours": 0,
     "corrections_post_entrega": 0

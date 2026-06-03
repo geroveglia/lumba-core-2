@@ -11,42 +11,15 @@
 ```
 lumba-core/
 │
-├── CLAUDE.md                          ← Reglas globales (Claude Code lee al iniciar)
+├── AGENTS.md                          ← Reglas globales (OpenClaw lee al iniciar)
 ├── README.md                          ← Entrada principal del workspace
+├── SOUL.md                            ← Personalidad del Orchestrator
+├── MODEL-STRATEGY.md                  ← Estrategia de modelos flash vs pro
 ├── MANIFIESTO.md                      ← Identidad de Lumba
 ├── PRINCIPIOS.md                      ← 15 principios + Principio 0
 ├── METRICAS.md                        ← Cómo medimos éxito
+├── openclaw.template.json5             ← Template de configuración OpenClaw
 ├── .gitignore                         ← Configuración git
-│
-├── .claude/                           ← Configuración técnica de Claude Code
-│   ├── agents/                        ← Definiciones YAML de agentes implementables
-│   │   ├── orchestrator.md
-│   │   ├── project-manager.md
-│   │   ├── devils-advocate.md
-│   │   ├── research-agent.md
-│   │   ├── scope-agent.md
-│   │   ├── client-translator.md
-│   │   └── ... (agentes específicos por equipo)
-│   ├── skills/                        ← Skills reusables
-│   │   └── ... (subcarpetas por skill)
-│   ├── workflows/                     ← Workflows operativos
-│   ├── commands/                      ← Slash commands
-│   │   ├── challenge.md
-│   │   ├── brief.md
-│   │   ├── research.md
-│   │   ├── audit-meta-ads.md
-│   │   ├── audit-google-ads.md
-│   │   ├── audit-marketing-report.md
-│   │   ├── audit-brand.md
-│   │   ├── audit-product.md
-│   │   ├── review-scope.md
-│   │   └── new-project.md
-│   ├── hooks/                         ← Hooks de seguridad
-│   │   ├── pre-commit.json
-│   │   ├── pre-deploy.json
-│   │   ├── post-handoff.json
-│   │   └── README.md
-│   └── rules/                         ← Reglas adicionales
 │
 ├── shared/                            ← Compartido entre equipos
 │   ├── agentes-universales/
@@ -61,7 +34,15 @@ lumba-core/
 │   │   ├── VALIDACION-HUMANA.md
 │   │   ├── WORKFLOW-AUDITORIA.md
 │   │   ├── WORKFLOW-BRIEF-OBSESIVO.md
-│   │   └── ROADMAP-IMPLEMENTACION.md
+│   │   ├── WORKFLOW-PROPUESTA-COMERCIAL.md
+│   │   ├── ORQUESTACION.md
+│   │   ├── MATRIZ-SQUADS.md
+│   │   ├── ROADMAP-IMPLEMENTACION.md
+│   │   └── workflows/                 ← Workflows operativos paso a paso
+│   │       └── 00-project-assessment.md
+│   ├── schemas/
+│   │   ├── project-state-schema.json
+│   │   └── README.md
 │   ├── infra/
 │   │   ├── STACKS.md
 │   │   └── DEVOPS-PROTOCOL.md
@@ -73,15 +54,15 @@ lumba-core/
 │   │
 │   ├── core-brand/
 │   │   ├── METODO.md
-│   │   ├── agentes/                   ← 8 agentes especializados
+│   │   ├── agentes/                   ← Definiciones de agentes especializados
 │   │   ├── skills/                    ← Skills propias
-│   │   └── workflows/                 ← 6 workflows
+│   │   └── workflows/                 ← Workflows del equipo
 │   │
 │   ├── core-marketing/
 │   │   ├── METODO.md
-│   │   ├── agentes/                   ← 12 agentes especializados
+│   │   ├── agentes/                   ← Definiciones de agentes especializados
 │   │   ├── skills/                    ← Skills propias
-│   │   ├── workflows/                 ← 8 workflows
+│   │   ├── workflows/                 ← Workflows del equipo
 │   │   └── playbooks/                 ← Playbooks operativos
 │   │       ├── meta-ads-playbook.md
 │   │       ├── google-ads-playbook.md
@@ -89,13 +70,13 @@ lumba-core/
 │   │
 │   └── core-product/
 │       ├── METODO.md
-│       ├── agentes/                   ← 12 agentes especializados
+│       ├── agentes/                   ← Definiciones de agentes especializados
 │       ├── skills/                    ← Skills propias
-│       └── workflows/                 ← 5 workflows
+│       └── workflows/                 ← Workflows del equipo
 │
 ├── knowledge/                         ← Base de conocimiento operativo
 │   ├── playbooks/                     ← Playbooks generales
-│   ├── templates/                     ← 11 templates reutilizables
+│   ├── templates/                     ← Templates reutilizables
 │   │   ├── brief-template.md
 │   │   ├── brief-branding.md
 │   │   ├── brief-marketing.md
@@ -113,21 +94,15 @@ lumba-core/
 │       └── marketing-metrics.md
 │
 ├── proyectos/                         ← Proyectos activos
-│   └── minuta/                        ← Primer caso de uso real
-│       ├── CLAUDE.md
-│       ├── README.md
-│       ├── docs/
-│       │   ├── MEMORIA-PROYECTO.md
-│       │   ├── BUSINESS-VALIDATION.md
-│       │   ├── biblia/
-│       │   ├── funcional/
-│       │   ├── sprints/
-│       │   ├── decisiones/
-│       │   ├── handoffs/
-│       │   └── audits/
-│       └── .claude/
-│           ├── agents/
-│           └── skills/
+│   └── {nombre}/                      ← Creado por Workflow 00 (Project Assessment)
+│       ├── state.json                 ← Estado del proyecto (máquina de estados)
+│       ├── MEMORIA-PROYECTO.md        ← Memoria del proyecto
+│       ├── outputs/                   ← Outputs de cada fase
+│       ├── approvals/                 ← Registros de aprobación humana
+│       ├── handoffs/                  ← JSON entre agentes
+│       ├── overrides/                 ← Overrides del Devil's Advocate
+│       ├── drafts/                    ← Propuestas de cambio a memoria
+│       └── migrations/                ← SQL migrations (si aplica)
 │
 ├── clientes/                          ← Memoria por cliente
 │   ├── rus/
@@ -142,25 +117,13 @@ lumba-core/
 │   ├── dicomere/
 │   └── jom/
 │
-├── outputs/                           ← Salidas generadas por agentes
+├── outputs/                           ← Salidas generadas por agentes (global)
 │   ├── reports/
 │   ├── briefs/
 │   ├── audits/
 │   └── ... (por tipo y fecha)
 │
-└── academia/                          ← Centro educativo (se completa en Sesión 3)
-    ├── README.md
-    ├── onboarding/
-    │   ├── 00-bienvenida.md
-    │   ├── 01-que-es-lumba-core.md
-    │   ├── 02-principios-basicos.md
-    │   ├── 03-mi-primer-dia.md
-    │   └── por-rol/
-    ├── tutoriales/
-    ├── workflows-paso-a-paso/
-    ├── troubleshooting/
-    ├── ejemplos/
-    └── certificacion/
+└── memory/                            ← Memoria del sistema
 ```
 
 ---
@@ -202,14 +165,17 @@ Las siguientes carpetas se crean cuando aparece su contenido, no antes:
 
 Estos archivos NO se pueden eliminar:
 
-- `CLAUDE.md`
+- `AGENTS.md`
 - `README.md`
 - `MANIFIESTO.md`
 - `PRINCIPIOS.md`
 - `METRICAS.md`
+- `SOUL.md`
+- `MODEL-STRATEGY.md`
 - `.gitignore`
 - Cualquier archivo en `shared/metodologia/`.
 - Cualquier archivo en `shared/agentes-universales/`.
+- Cualquier archivo en `shared/schemas/`.
 
 ---
 
@@ -217,11 +183,9 @@ Estos archivos NO se pueden eliminar:
 
 | Carpeta | Lectura | Escritura |
 |---|---|---|
-| Raíz (CLAUDE.md, etc.) | Todos | Solo Founder |
+| Raíz (AGENTS.md, etc.) | Todos | Solo Founder |
 | `shared/` | Todos | Solo Founder |
-| `.claude/agents/` | Todos | Solo Founder |
-| `.claude/skills/` | Todos | Solo Founder |
-| `.claude/commands/` | Todos | Solo Founder |
+| `shared/metodologia/workflows/` | Todos | Founder + Vertical Leads |
 | `equipos/*/METODO.md` | Todos | Vertical Lead + Founder |
 | `equipos/*/agentes/` | Todos | Solo Founder |
 | `equipos/*/skills/` | Todos | Vertical Lead + Founder |
@@ -231,7 +195,6 @@ Estos archivos NO se pueden eliminar:
 | `proyectos/{nombre}/` | Equipo del proyecto | Equipo del proyecto |
 | `clientes/{nombre}/` | Equipo del cliente | PM + Vertical Leads |
 | `outputs/` | Todos | Agentes (con scoped paths) |
-| `academia/` | Todos | Founder + delegados |
 
 ---
 

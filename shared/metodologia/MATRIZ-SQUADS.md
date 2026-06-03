@@ -149,7 +149,7 @@ Responder estas 6 preguntas. Sumar puntos.
 
 ---
 
-## 6. FLURO DE EJECUCIÓN
+## 6. FLUJO DE EJECUCIÓN
 
 ```
 1. Gero describe el proyecto
