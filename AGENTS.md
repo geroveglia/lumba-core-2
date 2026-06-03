@@ -155,9 +155,12 @@ PEDIDO → Orchestrator → Workflow 00 (Project Assessment) →
 
 Cada proyecto opera en su **propia sesión aislada**. Jarvis actúa como router entre Gero (Telegram) y las sesiones de proyecto.
 
-### Proyecto activo
+### Proyecto activo e Isolation Multiusuario
 
-Siempre hay UN proyecto activo. Todo mensaje de Gero se enruta a la sesión de ese proyecto.
+Para permitir el uso concurrente por múltiples miembros del equipo (Gero, Hernán, Martín) sin conflictos:
+1. El **proyecto activo se almacena y rastrea por ID de chat / ID de usuario** (per-user session), y NO como una variable global única.
+2. Cada usuario activa y trabaja en su proyecto independiente. Todo mensaje de ese usuario se enruta a la sesión de su respectivo proyecto activo.
+3. Si un usuario cambia de proyecto activo con el comando `proyecto {nombre}`, solo afecta a su sesión de chat personal.
 
 ### Comandos de Gero
 
