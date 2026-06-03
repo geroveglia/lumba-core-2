@@ -1183,6 +1183,39 @@
                 <div class="arch-node-desc">Gero aprueba, pide cambios o rechaza. Nada sale sin validación del humano.</div>
             </div>
         </div>
+
+        <!-- Concurrencia / Multi-usuario -->
+        <div style="margin-top: 5rem;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <span class="gradient-text-blue">👥 Soporte Multi-usuario & Simultaneidad</span>
+            </h3>
+            <div class="gates-grid" style="margin-top: 1.5rem;">
+                <div class="gate-card" data-animate>
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">👤</div>
+                    <div class="gate-card-title">Aislamiento por Usuario</div>
+                    <div class="gate-card-desc">
+                        El proyecto activo se almacena y rastrea por ID de chat o usuario en <code>user_sessions.json</code>.
+                        Gero, Hernán y Martín trabajan en proyectos independientes sin interferencias de contexto.
+                    </div>
+                </div>
+
+                <div class="gate-card" data-animate>
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">⚡</div>
+                    <div class="gate-card-title">Enrutamiento Jarvis</div>
+                    <div class="gate-card-desc">
+                        Jarvis actúa como router: recibe todo mensaje, consulta la sesión activa del usuario e instancia/deriva mediante <code>sessions_spawn</code> a un sub-agente en un hilo aislado.
+                    </div>
+                </div>
+
+                <div class="gate-card" data-animate>
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">🔄</div>
+                    <div class="gate-card-title">Sincronización Concurrente</div>
+                    <div class="gate-card-desc">
+                        Si dos personas trabajan en el mismo proyecto, sus agentes coordinan vía <code>state.json</code>, registrando notas y timestamps antes de editar código para evitar conflictos de sobreescritura.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
