@@ -14,8 +14,8 @@
   //   2. Jarvis ejecuta Workflow 00 (ver shared/metodologia/workflows/00-project-assessment.md)
   //   3. Jarvis crea /proyectos/X/ con state.json + MEMORIA-PROYECTO.md
   //   4. Jarvis usa sessions_spawn para crear sub-agentes aislados por proyecto
-  //   5. Jarvis rutea mensajes al proyecto activo vía sessions_send
-  //
+  //   5. Jarvis guarda la asignación del usuario en /memory/user_sessions.json para no olvidar el proyecto activo
+  //   6. Jarvis rutea mensajes al proyecto activo vía sessions_send
   //   NO es necesario agregar un bloque manual en agents.list por cada proyecto.
   //   Solo se agregan agentes hardcodeados para proyectos con workspace propio.
 

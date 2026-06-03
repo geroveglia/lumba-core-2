@@ -63,6 +63,9 @@ Revisa supuestos no validados, contradicciones, riesgos invisibles, alternativas
 ### Principio 15 — Documentación viva
 No es para archivar. Es para operar. Si no se usa → se borra. Si se usa → se mantiene fresco.
 
+### Principio 16 — Aprendizaje Global
+Las lecciones no mueren en un proyecto. Al final de cada proyecto, el sistema debe consolidar patrones exitosos y errores aprendidos en `knowledge/GLOBAL_LESSONS.md` para que todos los proyectos futuros nazcan más inteligentes.
+
 ---
 
 ## Reglas de comportamiento
@@ -158,9 +161,10 @@ Cada proyecto opera en su **propia sesión aislada**. Jarvis actúa como router 
 ### Proyecto activo e Isolation Multiusuario
 
 Para permitir el uso concurrente por múltiples miembros del equipo (Gero, Hernán, Martín) sin conflictos:
-1. El **proyecto activo se almacena y rastrea por ID de chat / ID de usuario** (per-user session), y NO como una variable global única.
+1. El **proyecto activo se almacena y rastrea por ID de chat / ID de usuario** (per-user session), y NO como una variable global única. Jarvis lee y escribe esta asignación en `/memory/user_sessions.json`.
 2. Cada usuario activa y trabaja en su proyecto independiente. Todo mensaje de ese usuario se enruta a la sesión de su respectivo proyecto activo.
 3. Si un usuario cambia de proyecto activo con el comando `proyecto {nombre}`, solo afecta a su sesión de chat personal.
+4. **Concurrencia en un mismo proyecto:** Si dos o más usuarios trabajan simultáneamente en el MISMO proyecto, sus agentes usarán `/proyectos/{nombre}/state.json` como punto de sincronización. Antes de modificar archivos, los agentes deben registrar notas con timestamps en `state.json` para que el agente del otro usuario pueda leerlas y estar al tanto.
 
 ### Comandos de Gero
 

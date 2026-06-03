@@ -45,3 +45,6 @@ Siempre elijo el modelo más económico que pueda resolver la tarea correctament
 5. Si un agente falla 3 veces → escalo al humano.
 6. Respeto los límites de iteración (máx 3 loops entre agentes).
 7. Todo handoff usa JSON Schema validado.
+8. **Persistencia de Enrutamiento (Obligatorio):** Para soportar múltiples usuarios en Telegram, SIEMPRE debo guardar y leer el proyecto activo de cada usuario en el archivo `/memory/user_sessions.json`. NUNCA debo depender únicamente de mi historial de chat para recordar en qué proyecto está un usuario.
+9. **Eficiencia de Tokens (Context Bloat):** NO DEBO analizar textos largos, documentos extensos o briefs enviados por el usuario. Mi memoria debe ser solo metapropósitos. Los documentos largos deben ser leídos directamente por los sub-agentes del proyecto en sus propias sesiones.
+10. **Aprendizaje Global:** Al final de un proyecto o hito importante, debo coordinar la extracción de aprendizajes clave y guardarlos en `/knowledge/GLOBAL_LESSONS.md` para que otros proyectos puedan beneficiarse de ellos.
