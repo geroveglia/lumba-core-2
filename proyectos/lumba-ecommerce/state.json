@@ -1,0 +1,265 @@
+{
+  "schema_version": "2.1",
+  "project": "lumba-ecommerce",
+  "project_name": "Lumba Ecommerce",
+  "client": null,
+  "project_type": "B",
+  "complexity": "L",
+  "complexity_score": 8,
+  "complexity_breakdown": {
+    "entidades_negocio": "9+ (productos, variantes, categorías, pedidos, clientes, cupones, envíos, pagos, marcas, propiedades, reseñas, encuestas, banners, sliders, carritos abandonados)",
+    "roles_usuario": "2-3 (cliente, admin, tipos con permisos)",
+    "autenticacion": "Login cliente + admin + recuperación + activación",
+    "integraciones": "4-5 (MercadoPago, Modo, PadPio, ZN, APIs de envío)",
+    "escala": "100-1K (múltiples clientes activos en branches)",
+    "ia": "No"
+  },
+  "squad": [
+    "PM",
+    "System Auditor",
+    "Product Owner",
+    "Backend Architect",
+    "Frontend Architect",
+    "Security Agent",
+    "QA Engineer",
+    "Data Architect",
+    "UX Designer",
+    "UI Designer",
+    "DevOps Engineer",
+    "Devil's Advocate"
+  ],
+  "tech_target": {
+    "backend": "NestJS",
+    "frontend": "Tailwind CSS",
+    "type": "full_rewrite",
+    "source_repo": "https://github.com/LumbaDev/lumba-ecommerce",
+    "source_branch": "refactoring",
+    "source_language": "PHP vanilla + MySQL"
+  },
+  "created_at": "2026-06-03T17:08:00-03:00",
+  "updated_at": "2026-06-08T14:00:00-03:00",
+
+  "current_phase": "DISCOVERY",
+  "current_phase_started_at": "2026-06-04T16:20:00-03:00",
+  "current_phase_agent": "agent:general:subagent:a5b207d7-28b4-42ba-b2b1-d28cc32bfbfc",
+  "current_phase_agent_model": "deepseek-v4-pro",
+
+  "phases": {
+    "PROJECT_ASSESSMENT": {
+      "status": "completed",
+      "started_at": "2026-06-03T16:31:00-03:00",
+      "completed_at": "2026-06-03T17:08:00-03:00",
+      "outputs": ["/proyectos/lumba-ecommerce/outputs/00-plan-general.md"],
+      "agent_sessions": [],
+      "model_used": "pro",
+      "attempts": 1,
+      "rejection_count": 0,
+      "max_iterations": 2,
+      "rejection_reasons": [],
+      "classification": {
+        "type": "B",
+        "complexity": "L",
+        "complexity_score": 8,
+        "confirmed_by_human": true
+      },
+      "notes": "Clasificación corregida tras analizar rama 'refactoring' en vez de 'main'"
+    },
+    "BRIEF": { "status": "skipped", "notes": "Proyecto interno Lumba, sin cliente externo" },
+    "PROPOSAL": { "status": "skipped", "notes": "Proyecto interno Lumba, sin cliente externo" },
+    "DISCOVERY": { "status": "in_progress", "started_at": "2026-06-04T16:20:00-03:00", "rejection_count": 0, "max_iterations": 2,
+    "sub_phases": {
+      "system_auditor": {
+        "status": "completed",
+        "agent": "agent:general:subagent:f6746beb-918f-4ab1-b5ef-7915891642eb",
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-04T18:45:00-03:00",
+        "confidence": "ALTA",
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-discovery-sistema-actual.md",
+          "/proyectos/lumba-ecommerce/outputs/01-modelo-datos-actual.md",
+          "/proyectos/lumba-ecommerce/outputs/01-flujos-negocio.md",
+          "/proyectos/lumba-ecommerce/outputs/01-integraciones.md",
+          "/proyectos/lumba-ecommerce/outputs/01-features-por-cliente.md"
+        ],
+        "critical_findings": [
+          "BUG: zn_webhook.php usa string literal 'estado' en vez de variable $estado — tracking Zipnova roto",
+          "BUG: modo_webhook.php usa hash en vez de pedido_id — inconsistencia con mp_ipn.php",
+          "SECURITY: Contraseñas de admin comparadas en texto plano (sin hash)",
+          "SECURITY: Contraseñas de clientes en MD5 sin salt",
+          "SECURITY: API Key de OpenAI hardcodeada en ajax/chat_handler.php",
+          "SECURITY: Webhooks de pago sin validación de firma/autenticidad",
+          "SECURITY: Credenciales de pago en tabla configuracion sin encriptación",
+          "TECH: Conexión PadPio requiere sqlsrv (Windows-only) — evaluar node-mssql",
+          "DATA: Nacimiento hardcodeado '1980-06-20' en pago Modo",
+          "ARCH: Sin migraciones de DB — schema inferido de queries",
+          "ARCH: Branches de Git como mecanismo multi-tenant — frágil"
+        ]
+      },
+      "product_owner": {
+        "status": "completed",
+        "agent": "agent:general:subagent:f726a77b-fc2f-46ec-804c-4f3c9509c10a",
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-08T13:22:00-03:00",
+        "confidence": "ALTA",
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-functional-spec.md",
+          "/proyectos/lumba-ecommerce/outputs/01-feature-prioritization.md",
+          "/proyectos/lumba-ecommerce/outputs/01-gaps-and-improvements.md"
+        ]
+      },
+      "security_agent": {
+        "status": "completed",
+        "agent": "agent:general:subagent:a5b207d7-28b4-42ba-b2b1-d28cc32bfbfc",
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-08T13:33:00-03:00",
+        "confidence": "ALTA",
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-security-remediation-plan.md",
+          "/proyectos/lumba-ecommerce/outputs/01-security-nestjs-config.md"
+        ]
+      },
+      "backend_architect": {
+        "status": "completed",
+        "agent": "agent:general:subagent:0c9df964-d36e-4d75-9757-0a55b4be3d1e",
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-08T14:10:00-03:00",
+        "confidence": "ALTA",
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-backend-architecture.md",
+          "/proyectos/lumba-ecommerce/outputs/01-backend-api-spec.md"
+        ]
+      },
+      "data_architect": {
+        "status": "completed",
+        "agent": "agent:general:subagent:3a66d14d-a825-4a42-9cd0-af1227caf8ee",
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-08T14:27:00-03:00",
+        "confidence": "ALTA",
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-database-schema.md",
+          "/proyectos/lumba-ecommerce/outputs/01-database-migration-plan.md"
+        ],
+        "key_decisions": [
+          "DB por tenant (hereda modelo actual de branches Git)",
+          "Mantener IDs originales MySQL (no migrar a UUID)",
+          "Big Bang por tenant (3-5 horas de ventana por tenant)",
+          "Contraseñas: columna legacy_md5_hash + bcrypt en primer login NestJS"
+        ]
+      },
+      "frontend_architect": {
+        "status": "completed",
+        "agent": ["agent:general:subagent:11c88170-7460-4228-a185-5225e511e5f4", "agent:general:subagent:2262dce6-2edf-4e18-a911-04d49176d866"],
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-08T15:55:00-03:00",
+        "confidence": "ALTA",
+        "attempts": 2,
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-frontend-architecture.md",
+          "/proyectos/lumba-ecommerce/outputs/01-frontend-component-tree.md"
+        ],
+        "key_decisions": [
+          "Stack: Vite + React + Tailwind CSS + Axios + SWR + React Hook Form + Zod + React Router DOM",
+          "50+ componentes React con TypeScript estricto y WCAG 2.1 AA",
+          "Multi-tenant vía CSS custom properties",
+          "Componentes headless de Radix UI como base para modales, dropdowns, tabs, accordions"
+        ]
+      },
+      "ux_designer": {
+        "status": "completed",
+        "agent": "agent:general:subagent:2012d66e-55bf-48b4-a1f9-f0018b2fcda0",
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-08T16:10:00-03:00",
+        "confidence": "ALTA",
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-ux-flows.md",
+          "/proyectos/lumba-ecommerce/outputs/01-ux-wireframes.md",
+          "/proyectos/lumba-ecommerce/outputs/01-ux-design-system.md"
+        ]
+      },
+      "security_agent": {
+        "status": "completed",
+        "agent": "agent:general:subagent:a5b207d7-28b4-42ba-b2b1-d28cc32bfbfc",
+        "model": "deepseek-v4-pro",
+        "completed_at": "2026-06-08T13:41:00-03:00",
+        "confidence": "ALTA",
+        "outputs": [
+          "/proyectos/lumba-ecommerce/outputs/01-security-remediation-plan.md",
+          "/proyectos/lumba-ecommerce/outputs/01-security-nestjs-config.md"
+        ]
+      }
+    }
+  },
+    "TECH_STACK": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
+    "DB_DESIGN": { "status": "pending", "rejection_count": 0, "max_iterations": 3 },
+    "BOOTSTRAP": { "status": "skipped", "notes": "Solo aplica a Tipo A (Greenfield)" },
+    "BRANDING": { "status": "skipped", "notes": "Proyecto interno — marca Lumba ya existe" },
+    "UX_UI": { "status": "pending", "rejection_count": 0, "max_iterations": 2 },
+    "MARKETING": { "status": "skipped", "notes": "Proyecto interno — no requiere plan de marketing" },
+    "BUILD": { "status": "pending", "rejection_count": 0, "max_iterations": 3 },
+    "QA": { "status": "pending", "rejection_count": 0, "max_iterations": 3 },
+    "DEPLOY": { "status": "pending", "rejection_count": 0, "max_iterations": 1 },
+    "POST_LAUNCH": { "status": "pending", "rejection_count": 0, "max_iterations": 1 }
+  },
+
+  "gates": {
+    "DISCOVERY": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Strategy Gate"], "blocking_issues": [], "devils_advocate_result": null },
+    "TECH_STACK": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Strategy Gate"], "blocking_issues": [], "devils_advocate_result": null },
+    "DB_DESIGN": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Software Gate", "UX/Product Gate"], "blocking_issues": [], "devils_advocate_result": null },
+    "UX_UI": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Design Gate", "UX/Product Gate"], "blocking_issues": [], "devils_advocate_result": null },
+    "BUILD": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Software Gate"], "blocking_issues": [], "devils_advocate_result": null },
+    "QA": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Software Gate"], "blocking_issues": [], "devils_advocate_result": null },
+    "DEPLOY": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Software Gate", "Client Gate"], "blocking_issues": [], "devils_advocate_result": null },
+    "POST_LAUNCH": { "passed": false, "audited_at": null, "audited_by": null, "gates_applied": ["Reporting Gate"], "blocking_issues": [], "devils_advocate_result": null }
+  },
+
+  "approvals": [],
+  "stack": {
+    "decided": false,
+    "type": null,
+    "frontend": "Tailwind CSS",
+    "backend": "NestJS",
+    "database": null,
+    "hosting": null,
+    "adr_path": null,
+    "decided_at": null
+  },
+  "budget": {
+    "limit_usd": 50,
+    "spent_usd": 3.15,
+    "spent_by_phase": {
+      "PROJECT_ASSESSMENT": 0.12,
+      "DISCOVERY.system_auditor": 0.38,
+      "DISCOVERY.product_owner": 0.22,
+      "DISCOVERY.security_agent": 0.25,
+      "DISCOVERY.backend_architect": 0.38,
+      "DISCOVERY.data_architect": 0.55,
+      "DISCOVERY.frontend_architect": 0.70,
+      "DISCOVERY.ux_designer": 0.52,
+      "DISCOVERY.orchestrator": 0.03
+    },
+    "spent_by_model": { "pro": 3.12 },
+    "spent_by_agent": {
+      "system_auditor": 0.38,
+      "product_owner": 0.22,
+      "security_agent": 0.25,
+      "backend_architect": 0.38,
+      "data_architect": 0.55,
+      "frontend_architect": 0.70,
+      "ux_designer": 0.52,
+      "jarvis": 0.03
+    },
+    "last_check": "2026-06-08T16:10:00-03:00",
+    "alerts_sent": 0
+  },
+  "incidents": [],
+  "metrics": {
+    "total_agent_sessions": 0,
+    "total_approvals": 0,
+    "total_audits_passed_first_try": 0,
+    "total_audits_failed": 0,
+    "total_phases_reopened": 0,
+    "time_from_brief_to_db_design_hours": 0,
+    "time_from_brief_to_deploy_hours": 0,
+    "corrections_post_entrega": 0
+  }
+}
