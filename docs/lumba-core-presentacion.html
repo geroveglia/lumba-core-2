@@ -1216,6 +1216,41 @@
                 </div>
             </div>
         </div>
+
+        <!-- GitHub & Proyectos -->
+        <div style="margin-top: 3rem;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <span class="gradient-text-blue">📦 Estructura Liviana & GitHub</span>
+            </h3>
+            <div class="gates-grid" style="margin-top: 1.5rem;">
+                <div class="gate-card" data-animate>
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">📄</div>
+                    <div class="gate-card-title">Registro Liviano</div>
+                    <div class="gate-card-desc">
+                        <code>/proyectos/{slug}/</code> solo contiene <code>repo.url</code>, <code>state.json</code> y <code>MEMORIA-PROYECTO.md</code>.
+                        Sin outputs, drafts ni código — eso vive en su propio repo de GitHub.
+                    </div>
+                </div>
+
+                <div class="gate-card" data-animate>
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">🐙</div>
+                    <div class="gate-card-title">Repo por Proyecto</div>
+                    <div class="gate-card-desc">
+                        Cada proyecto tiene su propio repo en <code>github.com/lumba-io/{slug}</code>.
+                        Workflow 00 pregunta: "¿Creo el repo en GitHub?" y lo crea automáticamente si está configurado.
+                    </div>
+                </div>
+
+                <div class="gate-card" data-animate>
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">🌍</div>
+                    <div class="gate-card-title">Aprendizaje Global</div>
+                    <div class="gate-card-desc">
+                        Al finalizar cada proyecto, las lecciones clave se consolidan en <code>knowledge/GLOBAL_LESSONS.md</code>
+                        para que todos los proyectos futuros arranquen con ventaja.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1388,7 +1423,7 @@
                         <span class="flow-step-title">Project Assessment & Triaje</span>
                         <span class="flow-step-model">flash</span>
                     </div>
-                    <div class="flow-step-desc">Jarvis clasifica como Tipo A (Greenfield), ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con state.json y MEMORIA-PROYECTO.md.</div>
+                    <div class="flow-step-desc">Jarvis clasifica como Tipo A (Greenfield), ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con <code>repo.url</code>, <code>state.json</code> y <code>MEMORIA-PROYECTO.md</code> (registro liviano). Si GitHub está configurado, pregunta si crear el repo.</div>
                 </div>
 
                 <div class="flow-step completed">
@@ -1535,7 +1570,7 @@
                         <span class="flow-step-title">Project Assessment — Tipo B (Brownfield)</span>
                         <span class="flow-step-model">flash</span>
                     </div>
-                    <div class="flow-step-desc">Jarvis clasifica como Tipo B, ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con state.json y MEMORIA-PROYECTO.md.</div>
+                    <div class="flow-step-desc">Jarvis clasifica como Tipo B, ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con <code>repo.url</code>, <code>state.json</code> y <code>MEMORIA-PROYECTO.md</code> (registro liviano). Si GitHub está configurado, pregunta si crear el repo.</div>
                 </div>
 
                 <div class="flow-step active-step">
@@ -1608,7 +1643,7 @@
                         <span class="flow-step-title">Project Assessment — Tipo C (Parcial)</span>
                         <span class="flow-step-model">flash</span>
                     </div>
-                    <div class="flow-step-desc">Jarvis clasifica como Tipo C, ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con state.json y MEMORIA-PROYECTO.md.</div>
+                    <div class="flow-step-desc">Jarvis clasifica como Tipo C, ejecuta el checklist de complejidad (6 preguntas) y consulta MATRIZ-SQUADS.md para convocar al squad. Crea <code>/proyectos/{nombre}/</code> con <code>repo.url</code>, <code>state.json</code> y <code>MEMORIA-PROYECTO.md</code> (registro liviano). Si GitHub está configurado, pregunta si crear el repo.</div>
                 </div>
 
                 <div class="flow-step active-step">
@@ -1906,7 +1941,7 @@
         <div class="section-label">05 — Principios Operativos</div>
         <h2 class="section-title">Las reglas que <span class="gradient-text-blue">no se negocian</span></h2>
         <p class="section-subtitle">
-            15 principios que gobiernan el comportamiento de todo agente.
+            17 principios que gobiernan el comportamiento de todo agente.
         </p>
 
         <div class="principles-list">
@@ -1939,6 +1974,13 @@
                 </div>
             </div>
             <div class="principle-item" data-animate>
+                <span class="principle-number">P4</span>
+                <div>
+                    <div class="principle-text">Auditoría obligatoria</div>
+                    <div class="principle-sub">Todo entregable se audita contra brief, estándares y criterios de marca antes de salir.</div>
+                </div>
+            </div>
+            <div class="principle-item" data-animate>
                 <span class="principle-number">P5</span>
                 <div>
                     <div class="principle-text">Criterio compartido</div>
@@ -1960,10 +2002,38 @@
                 </div>
             </div>
             <div class="principle-item" data-animate>
+                <span class="principle-number">P8</span>
+                <div>
+                    <div class="principle-text">AI no es confidencial por default</div>
+                    <div class="principle-sub">Datos sensibles no pasan por agentes. NDA se respeta. En duda → consultar.</div>
+                </div>
+            </div>
+            <div class="principle-item" data-animate>
+                <span class="principle-number">P9</span>
+                <div>
+                    <div class="principle-text">No se vende</div>
+                    <div class="principle-sub">Infraestructura interna. Ventaja competitiva privada.</div>
+                </div>
+            </div>
+            <div class="principle-item" data-animate>
+                <span class="principle-number">P10</span>
+                <div>
+                    <div class="principle-text">Escala sin sumar horas</div>
+                    <div class="principle-sub">El output por persona debe crecer. No crecimiento lineal.</div>
+                </div>
+            </div>
+            <div class="principle-item" data-animate>
                 <span class="principle-number">P11</span>
                 <div>
                     <div class="principle-text">Proceso de 8 pasos, inviolable</div>
                     <div class="principle-sub">Investigar → Pensar → Pensar de nuevo → Validar → Construir → Testear → Mejorar → Lanzar.</div>
+                </div>
+            </div>
+            <div class="principle-item" data-animate>
+                <span class="principle-number">P12</span>
+                <div>
+                    <div class="principle-text">3 redes, mismo ADN</div>
+                    <div class="principle-sub">Core-Brand, Core-Marketing, Core-Product comparten principios, proceso y memoria.</div>
                 </div>
             </div>
             <div class="principle-item" data-animate>
@@ -1978,6 +2048,20 @@
                 <div>
                     <div class="principle-text">Devil's Advocate obligatorio</div>
                     <div class="principle-sub">Puede bloquear entregas. Override requiere aprobación del Founder.</div>
+                </div>
+            </div>
+            <div class="principle-item" data-animate>
+                <span class="principle-number">P15</span>
+                <div>
+                    <div class="principle-text">Documentación viva</div>
+                    <div class="principle-sub">No es para archivar. Si no se usa → se borra. Si se usa → se mantiene fresca.</div>
+                </div>
+            </div>
+            <div class="principle-item" data-animate>
+                <span class="principle-number">P16</span>
+                <div>
+                    <div class="principle-text">Aprendizaje Global</div>
+                    <div class="principle-sub">Lecciones consolidadas en GLOBAL_LESSONS.md para que proyectos futuros nazcan más inteligentes.</div>
                 </div>
             </div>
         </div>
