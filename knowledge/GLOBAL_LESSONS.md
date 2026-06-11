@@ -1,14 +1,29 @@
-# Aprendizajes Globales de Lumba Core
+# 🌍 GLOBAL_LESSONS.md — Aprendizaje Global del Sistema
 
-Este documento es la memoria colectiva del sistema Lumba Core. Aquí se consolidan patrones exitosos, errores comunes, y aprendizajes extraídos de todos los proyectos gestionados.
+> **Propósito:** Consolidar patrones exitosos y errores aprendidos al final de cada proyecto o hito importante.
+> Todos los proyectos futuros nacen más inteligentes gracias a esta base.
 
-Los agentes (y el Orchestrator Jarvis) deben consultar este archivo al iniciar nuevos proyectos y actualizarlo al finalizar hitos importantes para que la red completa nazca más inteligente en cada iteración.
+---
 
-## Metodología y Patrones Exitosos
-_(Registrar aquí los flujos, estrategias de marketing, o decisiones de arquitectura que hayan funcionado muy bien en proyectos recientes)_
+## Estado
 
-## Errores Comunes y Gotchas
-_(Registrar aquí problemas recurrentes, integraciones que fallaron, o suposiciones que el cliente rechazó, para no repetirlas)_
+📌 **Inicializado** — 11 de junio de 2026
+Sin lecciones consolidadas aún. Se llena al completar proyectos.
 
-## Tono y Branding Cross-Project
-_(Registrar aquí lineamientos generales que Lumba aplica transversalmente a todos sus proyectos)_
+---
+
+## Estructura
+
+Cada lección registra:
+- **Proyecto:** slug del proyecto donde se aprendió
+- **Categoría:** proceso / técnica / comunicación / herramienta / equipo
+- **Tipo:** ✅ éxito (repetir) / ❌ error (evitar) / 💡 hallazgo (investigar más)
+- **Lección:** descripción concisa
+- **Contexto:** cuándo y por qué ocurrió
+- **Apply a:** qué tipo de proyectos aplica (Tipo A/B/C, complejidad S/M/L/XL)
+
+---
+
+## Lecciones
+
+*(Sin lecciones registradas aún)*

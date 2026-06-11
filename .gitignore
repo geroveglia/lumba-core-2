@@ -17,6 +17,10 @@ desktop.ini
 *.swp
 *.swo
 
+# Temp files
+temp-*
+query
+
 # Outputs
 outputs/*
 !outputs/.gitkeep

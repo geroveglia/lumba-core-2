@@ -189,14 +189,18 @@ Jarvis crea la estructura del proyecto:
 
 ```
 /proyectos/{slug}/
+├── repo.url                   ← github.com/lumba-io/{slug} (ver nota de GitHub abajo)
 ├── state.json                  ← Generado desde project-state-schema.json
-├── MEMORIA-PROYECTO.md         ← Generado desde /knowledge/templates/project-memory-template.md
-├── outputs/                    ← Vacío, aquí van los outputs de cada fase
-├── approvals/                  ← Vacío, aquí van los registros de aprobación humana
-├── handoffs/                   ← Vacío, aquí van los JSON de comunicación entre agentes
-├── overrides/                  ← Vacío, aquí van los overrides del Devil's Advocate
-└── drafts/                     ← Vacío, aquí van las propuestas de cambio a memoria
+└── MEMORIA-PROYECTO.md         ← Generado desde /knowledge/templates/project-memory-template.md
 ```
+
+> ⚡ **Estructura liviana.** El trabajo real y los entregables viven en su propio repo de GitHub.
+> `proyectos/` es solo el registro que el sistema usa para coordinar.
+
+**Nota — GitHub repo:** Si la configuración de GitHub está activa (ver `/knowledge/github-config.md`),
+Jarvis debe preguntar: "¿Creo el repo en `github.com/lumba-io/{slug}` también?"
+Si Gero confirma, se crea el repo remoto y se guarda la URL en `repo.url`.
+Si no está configurado, se omite este paso hasta que se active.
 
 **El `state.json` inicial debe tener:**
 - `schema_version`: "2.1"
@@ -256,9 +260,10 @@ Al completar Workflow 00, debe existir:
 
 | Output | Ubicación |
 |---|---|
-| Carpeta del proyecto | `/proyectos/{slug}/` |
+| Carpeta del proyecto (registro liviano) | `/proyectos/{slug}/` |
 | State.json inicializado | `/proyectos/{slug}/state.json` |
 | Memoria del proyecto | `/proyectos/{slug}/MEMORIA-PROYECTO.md` |
+| Repo URL (si aplica) | `/proyectos/{slug}/repo.url` |
 | Carpeta del cliente (si no existía) | `/clientes/{slug}/` |
 | Fase PROJECT_ASSESSMENT | `completed` en state.json |
 

@@ -126,8 +126,8 @@ workspace-lumba/
 │   ├── core-brand/
 │   ├── core-marketing/
 │   └── core-product/
-├── knowledge/             ← Templates, checklists, aprendizajes
-├── proyectos/             ← Proyectos activos
+├── knowledge/             ← Templates, checklists, aprendizajes (incluye github-config.md)
+├── proyectos/             ← Registro liviano de proyectos activos (repo.url + state)
 ├── clientes/              ← Memoria por cliente
 └── outputs/               ← Salidas generadas
 ```
@@ -182,15 +182,13 @@ Para permitir el uso concurrente por múltiples miembros del equipo (Gero, Hern�
 3. Si el proyecto no tiene carpeta → ejecutar **Workflow 00** para crear la estructura canónica:
    ```
    /proyectos/{nombre}/
-   ├── state.json
-   ├── MEMORIA-PROYECTO.md
-   ├── outputs/
-   ├── approvals/
-   ├── handoffs/
-   ├── overrides/
-   ├── drafts/
-   └── migrations/
+   ├── repo.url              ← github.com/lumba-io/{nombre} (cuando esté configurado)
+   ├── state.json            ← fase actual, última actividad
+   └── MEMORIA-PROYECTO.md   ← contexto, decisiones, aprendizajes
    ```
+
+   > ⚡ **Liviano.** El trabajo real y los entregables viven en su propio repo de GitHub.
+   > `proyectos/` es solo el registro que el sistema usa para saber qué proyectos existen y coordinar.
 4. Todo mensaje que NO sea comando de cambio → reenviar a la sesión del proyecto activo.
 5. La sesión del proyecto carga SOLO su propia `MEMORIA-PROYECTO.md` y `state.json`.
 6. Si no hay proyecto activo → preguntar "¿en qué proyecto trabajamos?".
